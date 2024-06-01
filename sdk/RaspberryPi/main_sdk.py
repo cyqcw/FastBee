@@ -23,28 +23,28 @@ wumei_iv = b"wumei-smart-open"
 #发布监测数据的最大次数
 monitorCount =5
 #  发布监测数据的间隔，默认5秒。 使用esp8266单片机时，服务器传来的间隔单位为毫秒，本程序由于定时运行需要的是秒，将转化为秒，如需毫秒运行，自行更改程序
-monitorInterval  =5
+monitorInterval=5
 # NTP地址（用于获取时间,可选的修改为自己部署项目的地址）
-ntpServer = "http://120.24.218.158:8080/iot/tool/ntp?deviceSendTime="
+ntpServer = "http://localhost:8080/iot/tool/ntp?deviceSendTime="
 # 连接成功标志位
 g_rc=-1 
 #全局变量，管理定时监测
 global t2 
 
 # 设备信息配置
-deviceNum = "DW43CI6RM8GMG23H"
+deviceNum = "D18B75Y99KS9"
 userId = "1"
-productId = "4"
+productId = "41"
 firmwareVersion = "1.0"
 # 经度和纬度可选，如果产品使用设备定位，则必须传
 latitude=0
 longitude=0
 
 # Mqtt配置
-mqttHost = "120.24.218.158"
-mqttPort = 1883
-mqttUserName = "wumei-smart"
-mqttPwd = "P261I5G3RY3MCIGG"
+mqttHost = "localhost"
+mqttPort = 1884
+mqttUserName = "FastBee"
+mqttPwd = "P47T6OD5IPFWHUM6"
 # 作为python的AES的key,应该为16位，字节型数据
 mqttSecret = b"K2IB784BM0O01GG6"
 # 产品启用授权码则authCode不能为空
@@ -69,8 +69,9 @@ pMonitorTopic = prefix + "/monitor/post"
 pEventTopic = prefix + "/event/post"
 
 # 初始化，连接 设备mqtt客户端Id格式为：认证类型(E=加密、S=简单) & 设备编号 & 产品ID & 用户ID
-clientId = "E&" + deviceNum + "&" + productId +"&" + userId
-client=mqtt.Client(clientId)
+# clientId = "E&" + deviceNum + "&" + productId +"&" + userId
+clientId = "S&D18B75Y99KS9&41&1"
+client=mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
 
 #加密 (AES-CBC-128-pkcs5padding)
 def encrypt(plain_data,wumei_key,wumei_iv):
@@ -290,9 +291,9 @@ def generationPwd():
     # 密码加密格式为：mqtt密码 & 过期时间 & 授权码（可选），如果产品启用了授权码就必须加上
     password=""
     if(authCode == ""):
-        password = mqttPwd + "&" + str(expireTime, 0)
+        password = mqttPwd + "&" + str(expireTime)
     else:
-        password = mqttPwd + "&" + str(expireTime, 0) + "&" + authCode
+        password = mqttPwd + "&" + str(expireTime) + "&" + authCode
     printMsg("密码(未加密):" + password)
     return password
 
@@ -340,10 +341,10 @@ if __name__ == '__main__':
         print("-",end=" ")
         time.sleep(1)
     t1=threading.Timer(60,timing_publishProperty)
-    t1.setDaemon(True) #当主线程被关闭后，子线程也关闭
+    t1.daemon=True #当主线程被关闭后，子线程也关闭
     t1.start()
     t2=threading.Timer(monitorInterval,timing_publishMonitor)
-    t2.setDaemon(True) #当主线程被关闭后，子线程也关闭
+    t2.daemon=True #当主线程被关闭后，子线程也关闭
     t2.start()
 
     while True:

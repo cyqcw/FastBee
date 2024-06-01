@@ -21,7 +21,7 @@ export function listMonitor(query) {
 // 查询设备监测数据
 export function listHistory(query) {
   return request({
-    url: '/iot/deviceLog/history',
+    url: '/iot/deviceLog/monitor',
     method: 'get',
     params: query
   })
