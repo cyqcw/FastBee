@@ -32,7 +32,7 @@ g_rc=-1
 global t2 
 
 # 设备信息配置
-deviceNum = "D1VK48K0Q334"
+deviceNum = "D138QFH77I509"
 userId = "1"
 productId = "41"
 firmwareVersion = "1.2"

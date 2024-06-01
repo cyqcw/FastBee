@@ -58,7 +58,13 @@
               <img :src="codeUrl" @click="getCode" />
             </div>
           </el-form-item>
+
           <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px; color: #000">记住密码</el-checkbox>
+
+          <router-link v-if="!bindAccount" :to="{ path: '/register', query: this.$route.query }"
+                       style="float: right; font-size: 14px"><div style="color: #2aabd2">注册账号</div></router-link>
+          <router-link v-else :to="{ path: '/register', query: this.$route.query }"
+                       style="float: right">注册绑定账号</router-link>
 
           <el-form-item style="width: 100%">
             <div style="margin-bottom: 10px">
@@ -72,23 +78,6 @@
                 <span v-else>绑 定 中...</span>
               </el-button>
             </div>
-            <el-row>
-              <div>
-                <el-button v-if="loginForm.bindId == null" type="text" :wxloading="loading"
-                  @click.native.prevent="weChatLogin">
-                  <svg-icon icon-class="wechat" style="color: #13ce66" />
-                  微信登录
-                </el-button>
-                <el-button type="text" disabled>
-                  <i class="el-icon-mobile-phone"></i>
-                  短信登录
-                </el-button>
-                <router-link v-if="!bindAccount" :to="{ path: '/register', query: this.$route.query }"
-                  style="float: right">注册账号</router-link>
-                <router-link v-else :to="{ path: '/register', query: this.$route.query }"
-                  style="float: right">注册绑定账号</router-link>
-              </div>
-            </el-row>
           </el-form-item>
         </el-form>
       </el-col>

@@ -59,11 +59,8 @@
             </el-button>
           </el-form-item>
           <el-form-item>
-            <el-link href="https://fastbee.cn/" :underline="false" target="_blank" style="float: left">返回官网</el-link>
-            <el-link href="https://fastbee.cn/doc" :underline="false" target="_blank"
-              style="float: left; margin-left: 20px">查看文档</el-link>
             <router-link :to="{ path: '/login', query: this.$route.query }"
-              style="float: left; margin-left: 20px">账号登录</router-link>
+              style="float: left;"><div style="color: #2aabd2">账号登录</div></router-link>
           </el-form-item>
         </el-form>
       </el-col>
