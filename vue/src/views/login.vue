@@ -4,12 +4,12 @@
       <el-col :xs="24">
         <div
           style="color: #fff; background-color: #0f73ee; width: 100%; height: 200px; text-align: center; padding: 15px; font-family: '微软雅黑'">
-          <div style="font-size: 42px; padding-top: 40px; width: 300px; margin: 0 auto">
+          <div style="font-size: 42px; padding-top: 40px; width: 400px; margin: 0 auto">
             <img :src="logo" alt="logo" style="width: 100px; height: 100px; float: left" />
-            <div style="float: left; margin-top: 13px; width: 200px; text-align: left">
+            <div style="float: left; margin-top: 30px; width: 250px; text-align: center; font-size: 30px;">
               <div>智能家居管理平台</div>
-              <div style="letter-spacing: 1.5px; font-size: 20px; font-weight: 600; margin-top: -8px; margin-left: 3px">
-                开源物联网平台</div>
+<!--              <div style="letter-spacing: 1.5px; font-size: 20px; font-weight: 600; margin-top: -8px; margin-left: 3px">-->
+<!--                开源物联网平台</div>-->
             </div>
           </div>
         </div>
@@ -36,6 +36,7 @@
             </div>
           </el-form-item>
           <div style="margin-bottom: 10px; font-size: 14px; font-family: '微软雅黑'; color: #f78e21">管理员账号：admin 123456</div>
+          <div style="margin-bottom: 10px; font-size: 14px; font-family: '微软雅黑'; color: #f78e21">演示账号：cyqcw 123456</div>
           <el-form-item prop="username">
             <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
               <svg-icon slot="prefix" icon-class="user" class="input-icon" />
