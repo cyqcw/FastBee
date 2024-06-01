@@ -72,6 +72,7 @@ public class MqttService {
             deviceReportMessageService.parseReportMsg(reportBo);
         }
         /**
+         * 发布设备信息
          * {
          *      "rssi": -43,
          *      "firmwareVersion": 1.2,
@@ -105,6 +106,12 @@ public class MqttService {
                 }
             }
             deviceService.updateDevice(device);
+        }
+        /**
+         * 发布事件（记录预警情况）
+         */
+        else if (name.startsWith("event") && topicsUtils.parseTopicName4(topic).equals("post")) {
+            log.info("设备{} 发生事件,描述{}", serialNumber, message);
         }
     }
 }

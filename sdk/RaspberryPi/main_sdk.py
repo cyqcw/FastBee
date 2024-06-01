@@ -32,10 +32,10 @@ g_rc=-1
 global t2 
 
 # 设备信息配置
-deviceNum = "D18B75Y99KS9"
+deviceNum = "D1VK48K0Q334"
 userId = "1"
 productId = "41"
-firmwareVersion = "1.0"
+firmwareVersion = "1.2"
 # 经度和纬度可选，如果产品使用设备定位，则必须传
 latitude=0
 longitude=0
@@ -69,8 +69,8 @@ pMonitorTopic = prefix + "/monitor/post"
 pEventTopic = prefix + "/event/post"
 
 # 初始化，连接 设备mqtt客户端Id格式为：认证类型(E=加密、S=简单) & 设备编号 & 产品ID & 用户ID
-# clientId = "E&" + deviceNum + "&" + productId +"&" + userId
-clientId = "S&D18B75Y99KS9&41&1"
+clientId = "S&" + deviceNum + "&" + productId +"&" + userId
+# clientId = "S&D18B75Y99KS9&41&1"
 client=mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
 
 #加密 (AES-CBC-128-pkcs5padding)
@@ -206,7 +206,21 @@ def publishInfo():
     # rssi值 树莓派中暂时不处理wifi信号问题
     #  信号强度（信号极好4格[-55— 0]，信号好3格[-70— -55]，信号一般2格[-85— -70]，信号差1格[-100— -85]）
     # status值 （1-未激活，2-禁用，3-在线，4-离线）
-    doc={"rssi":1,"firmwareVersion":firmwareVersion,"status":3,"userId":userId,"longitude":longitude,"latitude":latitude,"summary":{"name":"device","chip":"esp8266","author":"kerwincui","version":1.6,"create":"2022 - 06 - 06"}}
+    doc={
+        "rssi":1,
+        "firmwareVersion":firmwareVersion,
+        "status":3,
+        "userId":userId,
+        "longitude":longitude,
+        "latitude":latitude,
+        "summary":{
+            "name":"device",
+            "chip":"esp8266",
+            "author":"cyqcw",
+            "version":1.6,
+            "create":"2022 - 06 - 06"
+            }
+        }
     #     client.publish('raspberry/topic',payload=i,qos=0,retain=False) 
     jsonData=json.dumps(doc)
     printMsg("发布设备信息："+pInfoTopic+" "+jsonData)
@@ -232,10 +246,10 @@ def publishFunction( msg):
 
 # 5.发布事件
 def publishEvent():
-    objTmeperature={"id":"height_temperature","value":40,"remark":"温度过高警告"}
-    objException={"id":"exception","value":"异常消息，消息内容XXXXXXXX","remark":"设备发生错误"}
-    data=[objTmeperature,objException]
-    jsonData=json.dumps(data)
+    objTmeperature={"id":"height_temperature","value":40,"remark":"heigh temperature warning!"}
+    # objException={"id":"exception","value":"exception","remark":"device exception!"}
+    # data=[objTmeperature,objException]
+    jsonData=json.dumps(objTmeperature)
     printMsg("发布事件:"+jsonData)
     client.publish(pEventTopic,jsonData)
 
@@ -340,10 +354,10 @@ if __name__ == '__main__':
     while(g_rc!=0):
         print("-",end=" ")
         time.sleep(1)
-    t1=threading.Timer(60,timing_publishProperty)
+    t1=threading.Timer(60, timing_publishProperty)
     t1.daemon=True #当主线程被关闭后，子线程也关闭
     t1.start()
-    t2=threading.Timer(monitorInterval,timing_publishMonitor)
+    t2=threading.Timer(monitorInterval, timing_publishMonitor)
     t2.daemon=True #当主线程被关闭后，子线程也关闭
     t2.start()
 
