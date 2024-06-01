@@ -95,7 +95,7 @@ public class MqttService {
                     field.setAccessible(true);
                     Object newValue = field.get(newDeviceData);
                     if (newValue != null) {
-                        if (field.getName().equals("status") && field.get(device).equals(DeviceStatus.UNACTIVATED)){
+                        if (field.getName().equals("status") && field.get(device)==Integer.valueOf(DeviceStatus.UNACTIVATED.getType())){
                             device.setActiveTime(DateUtils.getNowDate());
                         }
                         field.set(device, newValue);
@@ -107,6 +107,4 @@ public class MqttService {
             deviceService.updateDevice(device);
         }
     }
-
-
 }
