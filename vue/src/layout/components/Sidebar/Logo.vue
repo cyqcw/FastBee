@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: 'FastBee',
+      title: 'cyqcw',
       logo: logoImg
     }
   }

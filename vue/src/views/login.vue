@@ -7,7 +7,7 @@
           <div style="font-size: 42px; padding-top: 40px; width: 300px; margin: 0 auto">
             <img :src="logo" alt="logo" style="width: 100px; height: 100px; float: left" />
             <div style="float: left; margin-top: 13px; width: 200px; text-align: left">
-              <div>FastBee</div>
+              <div>智能家居管理平台</div>
               <div style="letter-spacing: 1.5px; font-size: 20px; font-weight: 600; margin-top: -8px; margin-left: 3px">
                 开源物联网平台</div>
             </div>
@@ -35,7 +35,7 @@
               </el-row>
             </div>
           </el-form-item>
-          <div style="margin-bottom: 10px; font-size: 14px; font-family: '微软雅黑'; color: #f78e21">演示账号：fastbee 123456</div>
+          <div style="margin-bottom: 10px; font-size: 14px; font-family: '微软雅黑'; color: #f78e21">管理员账号：admin 123456</div>
           <el-form-item prop="username">
             <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
               <svg-icon slot="prefix" icon-class="user" class="input-icon" />
@@ -96,7 +96,7 @@
     <div class="el-login-footer">
       <span>
         Copyright © 2023
-        <a target="_blank" href="http://fastbee.cn">FastBee</a>
+        <a target="_blank" href="http://fastbee.cn">智能家居管理平台</a>
         All Rights Reserved.
       </span>
     </div>

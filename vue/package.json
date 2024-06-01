@@ -1,7 +1,7 @@
 {
   "name": "fastbee",
   "version": "3.8.5",
-  "description": "FastBee物联网平台",
+  "description": "智能家居管理平台",
   "author": "kerwincui",
   "license": "AGPL3.0",
   "scripts": {
