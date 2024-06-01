@@ -1,4 +1,9 @@
-![](https://oscimg.oschina.net/oscnet/up-09e0fd4e7966a3049aa39e7ab2a99dc5586.png)
+### TODO
+
+1. 发布数据应该记录下来到log表中
+2. 监控数据要用到历史数据log表，接口需要修改
+3. 异常数据要特殊处理，提醒或其他展示
+
 
 ### 一、项目介绍
 0. 物美智能(wumei-smart)更名为[蜂信物联(FastBee)](https://fastbee.cn)。
@@ -70,17 +75,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp; spring-boot ----------   后端<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; vue         -------------------- 前端<br />
 
-
-### 五、商用授权
-项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供商业版本源码、可视化平台和移动端源码。赞助过的用户请下载商业版本源码。
-- [授权详情>>](https://fastbee.cn/doc/pages/sponsor/) &nbsp; [商业版本源码>>](https://fastbee.cn/doc/pages/sponsor/)
-- [移动端源码>>](https://fastbee.cn/doc/pages/sponsor/) &nbsp; [可视化平台源码>>](https://fastbee.cn/doc/pages/sponsor/)
-
-### 六、贡献代码
-- [贡献者指南>>](./doc/贡献者指南.md)
-- [Git提交规范>>](./doc/Git提交规范.md)
-- [功能规划>>](./RoadMap.md)
-
 ### 七、其他
 1. QQ交流群：&#x1F680;946029159    &#x1F680;1073236354(已满)
 
@@ -93,14 +87,6 @@
 * [EMQX5.0消息服务器文档](https://www.emqx.io/docs/zh/v5.0/)
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
 
-3. 项目贡献者(如有遗漏请联系作者)：
-- [小驿物联](https://gitee.com/iot-xiaoyi)、[CrazyDull](https://gitee.com/crazyDull)、[YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)、[xxmfl](https://gitee.com/xxmfl)、[董晓龙-3715687@qq.com](https://fastbee.cn/)
-- [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、[KUN](https://gitee.com/L_KUN_KUN)
-
-4. 主要参与用户：
-    - [Guanshubiao](https://gitee.com/guanshubiao)：熟悉物联网开发，完善和优化系统的网关架构和部分功能等
-    - [帐篷](https://gitee.com/zhuangpengli)：熟悉物联网开发，完善视频监控模块和部分协议等
-    - [JaminDeng](https://gitee.com/jamin-deng)：熟悉物联网开发，完善平台前端设计可视化等
 
 ### 八、部分图片
 
@@ -129,5 +115,7 @@
         <td><img src="https://oscimg.oschina.net/oscnet/up-4e279e657c6f8b6af2d58fa215ab7fae02d.jpg"></td>
     </tr>
 </table>
+
+
 
 
