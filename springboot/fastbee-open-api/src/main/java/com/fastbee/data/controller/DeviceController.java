@@ -205,8 +205,7 @@ public class DeviceController extends BaseController
     @Log(title = "修改设备", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation("修改设备")
-    public AjaxResult edit(@RequestBody Device device)
-    {
+    public AjaxResult edit(@RequestBody Device device) {
         return deviceService.updateDevice(device);
     }
 
