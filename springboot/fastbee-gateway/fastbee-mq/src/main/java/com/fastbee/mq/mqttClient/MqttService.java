@@ -78,8 +78,6 @@ public class MqttService {
          *      "firmwareVersion": 1.2,
          *      "status": 3,
          *      "userId": "1",
-         *      "longitude": 0,
-         *      "latitude": 0,
          *      "summary": {}
          * }
          */
