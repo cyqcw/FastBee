@@ -126,9 +126,9 @@
                   <!-- <el-text v-if="item.protocolCode" type="info" size="mini" style="font-size: 14px; color: #ccc">{{ item.protocolCode }}</el-text> -->
                 </el-link>
               </el-col>
-              <el-col :span="1.5" style="font-size: 20px; padding-top: 5px; cursor: pointer">
-                <svg-icon icon-class="qrcode" @click="openSummaryDialog(item)" />
-              </el-col>
+<!--              <el-col :span="1.5" style="font-size: 20px; padding-top: 5px; cursor: pointer">-->
+<!--                <svg-icon icon-class="qrcode" @click="openSummaryDialog(item)" />-->
+<!--              </el-col>-->
               <el-col :span="3">
                 <div style="font-size: 28px; color: #ccc">
                   <svg-icon v-if="item.status == 3 && item.rssi >= '-55'" icon-class="wifi_4" />
@@ -198,13 +198,13 @@
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
         :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
     </el-card>
-    <!-- 二维码 -->
-    <el-dialog :visible.sync="openSummary" width="300px" append-to-body>
-      <div style="border: 1px solid #ccc; width: 220px; text-align: center; margin: 0 auto; margin-top: -15px">
-        <vue-qr :text="qrText" :size="200"></vue-qr>
-        <div style="padding-bottom: 10px">设备二维码</div>
-      </div>
-    </el-dialog>
+<!--    &lt;!&ndash; 二维码 &ndash;&gt;-->
+<!--    <el-dialog :visible.sync="openSummary" width="300px" append-to-body>-->
+<!--      <div style="border: 1px solid #ccc; width: 220px; text-align: center; margin: 0 auto; margin-top: -15px">-->
+<!--        <vue-qr :text="qrText" :size="200"></vue-qr>-->
+<!--        <div style="padding-bottom: 10px">设备二维码</div>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 

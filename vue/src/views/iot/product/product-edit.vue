@@ -136,10 +136,10 @@
                 <product-authorize ref="productAuthorize" :product="form" />
             </el-tab-pane>
 
-            <el-tab-pane label="" name="alert" :disabled="form.productId == 0" v-if="form.deviceType !== 3">
-                <span slot="label"><span style="color:red;">￥ </span>告警配置</span>
-                <business ref="business"/>
-            </el-tab-pane>
+<!--            <el-tab-pane label="" name="alert" :disabled="form.productId == 0" v-if="form.deviceType !== 3">-->
+<!--                <span slot="label"><span style="color:red;">￥ </span>告警配置</span>-->
+<!--                <business ref="business"/>-->
+<!--            </el-tab-pane>-->
 
 
             <div style="margin-top:200px;"></div>
@@ -234,13 +234,13 @@ export default {
                     required: true,
                     message: "产品名称不能为空",
                     trigger: "blur",
-                    
+
                 },
                 {
                     min: 1,
                     max: 64,
                     message: '产品名称不能少于1个字符和超过64字符',
-                    trigger: 'blur',    
+                    trigger: 'blur',
                 },
                ],
                 categoryId: [{
@@ -317,7 +317,7 @@ export default {
     activated() {
         const time = this.$route.query.t;
         if (time != null && time != this.uniqueId) {
-            this.uniqueId = time;  
+            this.uniqueId = time;
         }
         // 获取产品信息
         let productId = this.$route.query.productId

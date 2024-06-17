@@ -46,14 +46,14 @@
                   <template slot="prepend">Version</template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="模拟设备" prop="isSimulate">
-                <el-switch v-model="form.isSimulate" active-text="" inactive-text="" :active-value="1" :inactive-value="0"
-                  :disabled="form.deviceType === 3"></el-switch>
-              </el-form-item>
-              <el-form-item label="设备影子" prop="isShadow">
-                <el-switch v-model="form.isShadow" active-text="" inactive-text="" :active-value="1" :inactive-value="0"
-                  :disabled="form.deviceType === 3"></el-switch>
-              </el-form-item>
+<!--              <el-form-item label="模拟设备" prop="isSimulate">-->
+<!--                <el-switch v-model="form.isSimulate" active-text="" inactive-text="" :active-value="1" :inactive-value="0"-->
+<!--                  :disabled="form.deviceType === 3"></el-switch>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="设备影子" prop="isShadow">-->
+<!--                <el-switch v-model="form.isShadow" active-text="" inactive-text="" :active-value="1" :inactive-value="0"-->
+<!--                  :disabled="form.deviceType === 3"></el-switch>-->
+<!--              </el-form-item>-->
               <el-form-item label="禁用设备" prop="deviceStatus">
                 <el-switch v-model="deviceStatus" active-text="" inactive-text=""
                            :disabled="form.status === 1 || form.deviceType === 3" :active-value="1" :inactive-value="0"
@@ -100,7 +100,7 @@
                 <dict-tag :options="dict.type.iot_device_status" :value="form.status"
                   style="display: inline-block; margin-right: 8px" />
                 <el-button size="small" @click="handleViewMqtt()">认证信息</el-button>
-                <el-button size="small" @click="openCodeDialog()">二维码</el-button>
+<!--                <el-button size="small" @click="openCodeDialog()">二维码</el-button>-->
               </el-form-item>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8" v-if="form.deviceId != 0">

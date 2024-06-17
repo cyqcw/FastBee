@@ -1,9 +1,9 @@
 <template>
   <div style="padding: 10px; background-color: #f8f8f8">
-    <el-row :gutter="20" style="margin: 10px 0px 20px 0px">
+    <el-row :gutter="20" style="margin: 10px 0px 20px 0px; display: flex; align-items: stretch;">
       <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
         <div style="overflow: hidden; border: 1px solid #ccc">
-          <div ref="map" style="height: 650px"></div>
+          <div ref="map" style="height: 500px"></div>
         </div>
       </el-col>
 
@@ -14,7 +14,7 @@
             设备统计
           </h3>
           <el-row :gutter="40" class="panel-group">
-            <el-col :span="12" class="card-panel-col">
+            <template :span="12" class="card-panel-col" style="margin: 10px 10px 20px 20px; display: flex;">
               <div class="card-panel">
                 <div class="card-panel-icon-wrapper icon-blue">
                   <svg-icon icon-class="device" class-name="card-panel-icon" />
@@ -24,8 +24,8 @@
                   <count-to :start-val="0" :end-val="deviceStatistic.deviceCount" :duration="3000" class="card-panel-num" />
                 </div>
               </div>
-            </el-col>
-            <el-col :span="12" class="card-panel-col">
+            </template>
+            <template :span="12" class="card-panel-col">
               <div class="card-panel">
                 <div class="card-panel-icon-wrapper icon-red">
                   <svg-icon icon-class="monitor-a" class-name="card-panel-icon" />
@@ -35,8 +35,8 @@
                   <count-to :start-val="0" :end-val="deviceStatistic.monitorCount" :duration="3000" class="card-panel-num" />
                 </div>
               </div>
-            </el-col>
-            <el-col :span="12" class="card-panel-col">
+            </template>
+            <template :span="12" class="card-panel-col">
               <div class="card-panel">
                 <div class="card-panel-icon-wrapper icon-blue">
                   <svg-icon icon-class="model" class-name="card-panel-icon" />
@@ -46,8 +46,8 @@
                   <count-to :start-val="0" :end-val="deviceStatistic.productCount" :duration="1000" class="card-panel-num" />
                 </div>
               </div>
-            </el-col>
-            <el-col :span="12" class="card-panel-col">
+            </template>
+            <template :span="12" class="card-panel-col">
               <div class="card-panel">
                 <div class="card-panel-icon-wrapper icon-red">
                   <svg-icon icon-class="alert" class-name="card-panel-icon" />
@@ -57,8 +57,8 @@
                   <count-to :start-val="0" :end-val="deviceStatistic.alertCount" :duration="1000" class="card-panel-num" />
                 </div>
               </div>
-            </el-col>
-            <el-col :span="12" class="card-panel-col">
+            </template>
+            <template :span="12" class="card-panel-col">
               <div class="card-panel">
                 <div class="card-panel-icon-wrapper icon-blue">
                   <svg-icon icon-class="log-a" class-name="card-panel-icon" />
@@ -68,8 +68,8 @@
                   <count-to :start-val="0" :end-val="deviceStatistic.functionCount" :duration="2000" class="card-panel-num" />
                 </div>
               </div>
-            </el-col>
-            <el-col :span="12" class="card-panel-col">
+            </template>
+            <template :span="12" class="card-panel-col">
               <div class="card-panel">
                 <div class="card-panel-icon-wrapper icon-red">
                   <svg-icon icon-class="event-a" class-name="card-panel-icon" />
@@ -79,31 +79,14 @@
                   <count-to :start-val="0" :end-val="deviceStatistic.eventCount" :duration="2000" class="card-panel-num" />
                 </div>
               </div>
-            </el-col>
+            </template>
           </el-row>
-        </el-card>
-        <el-card shadow="none" style="margin-top: 22px; height: 302px">
-          <h3 style="font-weight: bold; margin-bottom: 10px">
-            <i class="el-icon-s-order"></i>
-            信息栏
-          </h3>
-          <div style="cursor: pointer; display: table; width: 100%; line-height: 36px" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
-            <div style="display: table-cell; padding-right: 10px">
-              <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType == 2">公告</el-tag>
-              <el-tag size="mini" effect="dark" v-else>信息</el-tag>
-              {{ item.noticeTitle }}
-            </div>
-            <div style="display: table-cell; width: 90px; font-size: 14px">
-              <i class="el-icon-time"></i>
-              {{ parseTime(item.createTime, '{y}-{m}-{d}') }}
-            </div>
-          </div>
         </el-card>
       </el-col>
     </el-row>
 
-    <el-card shadow="none" style="margin: 10px 10px 20px 10px">
-      <el-row :gutter="120" v-if="isAdmin">
+    <el-card v-if="isAdmin" shadow="none" style="margin: 10px 10px 20px 10px">
+      <el-row :gutter="120" >
         <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
           <div style="padding: 20px">
             <div ref="pieCpu" style="height: 161px"></div>
@@ -120,6 +103,23 @@
           </div>
         </el-col>
       </el-row>
+      <el-card shadow="none" style="margin-top: 22px; height: 302px">
+        <h3 style="font-weight: bold; margin-bottom: 10px">
+          <i class="el-icon-s-order"></i>
+          信息栏
+        </h3>
+        <div style="cursor: pointer; display: table; width: 100%; line-height: 36px" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
+          <div style="display: table-cell; padding-right: 10px">
+            <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType == 2">公告</el-tag>
+            <el-tag size="mini" effect="dark" v-else>信息</el-tag>
+            {{ item.noticeTitle }}
+          </div>
+          <div style="display: table-cell; width: 90px; font-size: 14px">
+            <i class="el-icon-time"></i>
+            {{ parseTime(item.createTime, '{y}-{m}-{d}') }}
+          </div>
+        </div>
+      </el-card>
     </el-card>
 
     <!--通知公告详情 -->
@@ -164,10 +164,12 @@ import { loadBMap } from '@/utils/map.js';
 require('echarts/extension/bmap/bmap');
 import { getServer } from '@/api/monitor/server';
 import { listAllDeviceShort } from '@/api/iot/device';
+import Template from './iot/template/index.vue';
 
 export default {
   name: 'Index',
   components: {
+    Template,
     CountTo,
   },
   data() {
@@ -224,7 +226,11 @@ export default {
   },
   methods: {
     init() {
-      if (this.$store.state.user.roles.indexOf('tenant') === -1 && this.$store.state.user.roles.indexOf('general') === -1) {
+      console.log(this.$store.state.user.roles);
+      if (this.$store.state.user.roles.indexOf('tenant') === -1 &&
+        this.$store.state.user.roles.indexOf('general') === -1 &&
+        this.$store.state.user.roles.indexOf('show') === -1) {
+        // console.log("in init");
         this.isAdmin = true;
         this.getServer();
       }
