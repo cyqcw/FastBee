@@ -251,7 +251,7 @@ def publishEvent():
     # data=[objTmeperature,objException]
     jsonData=json.dumps(objTmeperature)
     printMsg("发布事件:"+jsonData)
-    client.publish(pEventTopic,jsonData)
+    client.publish(pEventTopic, jsonData)
 
 # 6.发布实时监测数据
 def publishMonitor():
