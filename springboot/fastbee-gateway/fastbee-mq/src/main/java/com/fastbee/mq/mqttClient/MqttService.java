@@ -15,12 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
@@ -41,12 +36,7 @@ public class MqttService {
     @Resource
     private IDeviceService deviceService;
 
-    private final WebClient webClient;
     private static final String DINGTALK_WEBHOOK = "https://oapi.dingtalk.com/robot/send?access_token=b5bfecb8c553f2fbde9a566c46d66e30625c848decf15cc17886d011f05d8a65";
-
-    public MqttService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl(DINGTALK_WEBHOOK).build();
-    }
 
     public void subscribe(MqttAsyncClient client) throws MqttException {
         TopicsPost allPost = topicsUtils.getAllPost();

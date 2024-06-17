@@ -130,47 +130,47 @@
         <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatusData($event)"/>
       </el-tab-pane>
 
-      <el-tab-pane name="runningStatus" v-if="isSubDev">
-        <span slot="label"><span style="color:red;">￥ </span>运行状态</span>
-        <business ref="business"/>
-      </el-tab-pane>
+<!--      <el-tab-pane name="runningStatus" v-if="isSubDev">-->
+<!--        <span slot="label"><span style="color:red;">￥ </span>运行状态</span>-->
+<!--        <business ref="business"/>-->
+<!--      </el-tab-pane>-->
 
-      <el-tab-pane name="sipChannel" :disabled="form.deviceId === 0" v-if="form.deviceType === 3">
-        <span slot="label"><span style="color:red;">￥ </span>设备通道</span>
-        <business ref="business"/>
-      </el-tab-pane>
+<!--      <el-tab-pane name="sipChannel" :disabled="form.deviceId === 0" v-if="form.deviceType === 3">-->
+<!--        <span slot="label"><span style="color:red;">￥ </span>设备通道</span>-->
+<!--        <business ref="business"/>-->
+<!--      </el-tab-pane>-->
 
-      <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipPlayer">
-        <span slot="label"><span style="color:red;">￥ </span>设备直播</span>
-        <business ref="business"/>
-      </el-tab-pane>
+<!--      <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipPlayer">-->
+<!--        <span slot="label"><span style="color:red;">￥ </span>设备直播</span>-->
+<!--        <business ref="business"/>-->
+<!--      </el-tab-pane>-->
 
-      <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipVideo">
-        <span slot="label"><span style="color:red;">￥ </span>直播录像</span>
-        <business ref="business"/>
-      </el-tab-pane>
+<!--      <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipVideo">-->
+<!--        <span slot="label"><span style="color:red;">￥ </span>直播录像</span>-->
+<!--        <business ref="business"/>-->
+<!--      </el-tab-pane>-->
 
-      <el-tab-pane name="deviceTimer" :disabled="form.deviceId === 0"
-        v-if="form.deviceType !== 3 && hasShrarePerm('timer')">
-        <span slot="label">设备定时</span>
-        <device-timer ref="deviceTimer" :device="form" />
-      </el-tab-pane>
+<!--      <el-tab-pane name="deviceTimer" :disabled="form.deviceId === 0"-->
+<!--        v-if="form.deviceType !== 3 && hasShrarePerm('timer')">-->
+<!--        <span slot="label">设备定时</span>-->
+<!--        <device-timer ref="deviceTimer" :device="form" />-->
+<!--      </el-tab-pane>-->
 
-      <el-tab-pane name="deviceUser" :disabled="form.deviceId == 0">
-        <span slot="label">设备用户</span>
-        <device-user ref="deviceUser" :device="form" @userEvent="getUserData($event)" />
-      </el-tab-pane>
+<!--      <el-tab-pane name="deviceUser" :disabled="form.deviceId == 0">-->
+<!--        <span slot="label">设备用户</span>-->
+<!--        <device-user ref="deviceUser" :device="form" @userEvent="getUserData($event)" />-->
+<!--      </el-tab-pane>-->
 
-      <el-tab-pane name="deviceLog" :disabled="form.deviceId == 0 && hasShrarePerm('log')" lazy>
-        <span slot="label">事件日志</span>
-        <device-log ref="deviceLog" :device="form" />
-      </el-tab-pane>
+<!--      <el-tab-pane name="deviceLog" :disabled="form.deviceId == 0 && hasShrarePerm('log')" lazy>-->
+<!--        <span slot="label">事件日志</span>-->
+<!--        <device-log ref="deviceLog" :device="form" />-->
+<!--      </el-tab-pane>-->
 
-      <el-tab-pane name="deviceFuncLog" :disabled="form.deviceId == 0"
-        v-if="form.deviceType !== 3 && hasShrarePerm('log')" lazy>
-        <span slot="label">指令日志</span>
-        <device-func ref="deviceFuncLog" :device="form" />
-      </el-tab-pane>
+<!--      <el-tab-pane name="deviceFuncLog" :disabled="form.deviceId == 0"-->
+<!--        v-if="form.deviceType !== 3 && hasShrarePerm('log')" lazy>-->
+<!--        <span slot="label">指令日志</span>-->
+<!--        <device-func ref="deviceFuncLog" :device="form" />-->
+<!--      </el-tab-pane>-->
 
       <el-tab-pane name="deviceMonitor" :disabled="form.deviceId == 0 "
         v-if="form.deviceType !== 3 && hasShrarePerm('monitor')">
@@ -178,11 +178,11 @@
         <device-monitor ref="deviceMonitor" :device="form" />
       </el-tab-pane>
 
-      <el-tab-pane name="deviceStastic" :disabled="form.deviceId == 0"
-        v-if="form.deviceType !== 3 && hasShrarePerm('statistic')">
-        <span slot="label">监测统计</span>
-        <device-statistic ref="deviceStatistic" :device="form" />
-      </el-tab-pane>
+<!--      <el-tab-pane name="deviceStastic" :disabled="form.deviceId == 0"-->
+<!--        v-if="form.deviceType !== 3 && hasShrarePerm('statistic')">-->
+<!--        <span slot="label">监测统计</span>-->
+<!--        <device-statistic ref="deviceStatistic" :device="form" />-->
+<!--      </el-tab-pane>-->
 
       <!-- 用于设置间距 -->
       <el-tab-pane disabled>
