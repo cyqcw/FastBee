@@ -78,7 +78,7 @@
 
 <script>
 import 'element-ui/lib/theme-chalk/display.css';
-import logo from '@/assets/logo/logo.gif';
+import logo from '@/assets/logo/logo.png';
 import { getCodeImg, checkBindId, bindRegister } from '@/api/login';
 import { register } from '@/api/iot/tool';
 

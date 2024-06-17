@@ -95,7 +95,7 @@
 
 <script>
 import 'element-ui/lib/theme-chalk/display.css';
-import logo from '@/assets/logo/logo.gif';
+import logo from '@/assets/logo/logo.png';
 import { getCodeImg, checkBindId, getErrorMsg, socialLogin, bindLogin } from '@/api/login';
 import Cookies from 'js-cookie';
 import { encrypt, decrypt } from '@/utils/jsencrypt';
