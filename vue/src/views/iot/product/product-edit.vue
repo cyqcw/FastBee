@@ -51,11 +51,11 @@
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
-                            <el-form-item label="启用授权" prop="networkMethod">
-                                <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)"
-                                    :active-value="1" :inactive-value="0"
-                                    :disabled="form.status == 2 || form.deviceType == 3" />
-                            </el-form-item>
+<!--                            <el-form-item label="启用授权" prop="networkMethod">-->
+<!--                                <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)"-->
+<!--                                    :active-value="1" :inactive-value="0"-->
+<!--                                    :disabled="form.status == 2 || form.deviceType == 3" />-->
+<!--                            </el-form-item>-->
                             <el-form-item label="认证方式" prop="vertificateMethod">
                                 <el-select v-model="form.vertificateMethod" placeholder="请选择认证方式" style="width:100%"
                                     :disabled="form.status == 2 || form.deviceType == 3">
@@ -127,14 +127,14 @@
             </el-tab-pane>
 
             <el-tab-pane label="" name="things" :disabled="form.productId == 0">
-                <span slot="label"><span style="color:red;">* </span>产品模型</span>
+                <span slot="label"><span style="color:red;">* </span>产品参数</span>
                 <product-things-model ref="productThingsModel" :product="form" />
             </el-tab-pane>
 
-            <el-tab-pane label="" name="productAuthorize" :disabled="form.productId == 0" v-if="form.deviceType !== 3">
-                <span slot="label">设备授权</span>
-                <product-authorize ref="productAuthorize" :product="form" />
-            </el-tab-pane>
+<!--            <el-tab-pane label="" name="productAuthorize" :disabled="form.productId == 0" v-if="form.deviceType !== 3">-->
+<!--                <span slot="label">设备授权</span>-->
+<!--                <product-authorize ref="productAuthorize" :product="form" />-->
+<!--            </el-tab-pane>-->
 
 <!--            <el-tab-pane label="" name="alert" :disabled="form.productId == 0" v-if="form.deviceType !== 3">-->
 <!--                <span slot="label"><span style="color:red;">￥ </span>告警配置</span>-->

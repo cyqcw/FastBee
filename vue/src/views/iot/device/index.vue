@@ -188,8 +188,8 @@
                 @click="handleDelete(item)" v-hasPermi="['iot:device:remove']">删除</el-button>
               <el-button type="primary" size="mini" style="padding: 5px 15px" icon="el-icon-view"
                 @click="handleEditDevice(item, 'basic')" v-hasPermi="['iot:device:add']">查看</el-button>
-              <el-button type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer"
-                @click="handleRunDevice(item)" v-hasPermi="['iot:device:add']">运行状态</el-button>
+<!--              <el-button type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer"-->
+<!--                @click="handleRunDevice(item)" v-hasPermi="['iot:device:add']">运行状态</el-button>-->
             </el-button-group>
           </el-card>
         </el-col>

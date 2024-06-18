@@ -1,27 +1,27 @@
 <template>
   <div style="padding: 6px">
-    <el-card v-show="showSearch" style="margin-bottom: 5px">
-      <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
-        <el-form-item label="模型名称" prop="templateName">
-          <el-input v-model="queryParams.templateName" placeholder="请输入模型名称" clearable size="small"
-            @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <el-form-item label="模型类别" prop="type">
-          <el-select v-model="queryParams.type" placeholder="请选择模型类别" clearable size="small">
-            <el-option v-for="dict in dict.type.iot_things_type" :key="dict.value" :label="dict.label"
-              :value="dict.value" />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-        </el-form-item>
-        <el-form-item style="float: right">
-          <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-            v-hasPermi="['iot:template:add']">新增</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+<!--    <el-card v-show="showSearch" style="margin-bottom: 5px">-->
+<!--      <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">-->
+<!--        <el-form-item label="模型名称" prop="templateName">-->
+<!--          <el-input v-model="queryParams.templateName" placeholder="请输入模型名称" clearable size="small"-->
+<!--            @keyup.enter.native="handleQuery" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="模型类别" prop="type">-->
+<!--          <el-select v-model="queryParams.type" placeholder="请选择模型类别" clearable size="small">-->
+<!--            <el-option v-for="dict in dict.type.iot_things_type" :key="dict.value" :label="dict.label"-->
+<!--              :value="dict.value" />-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item>-->
+<!--          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
+<!--          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item style="float: right">-->
+<!--          <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"-->
+<!--            v-hasPermi="['iot:template:add']">新增</el-button>-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+<!--    </el-card>-->
 
     <el-card style="padding-bottom: 100px">
       <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange" border>
@@ -69,11 +69,11 @@
           </template>
         </el-table-column>
         <el-table-column label="排序" align="center" prop="modelOrder" width="80" />
-        <el-table-column label="创建时间" align="center" prop="createTime" width="200">
-          <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{m}:{s}') }}</span>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="创建时间" align="center" prop="createTime" width="200">-->
+<!--          <template slot-scope="scope">-->
+<!--            <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{m}:{s}') }}</span>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
           <template slot-scope="scope">
             <el-button size="small" type="primary" style="padding: 5px" icon="el-icon-edit"

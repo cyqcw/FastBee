@@ -54,10 +54,10 @@
                                 <el-descriptions-item label="联网方式">
                                     <dict-tag :options="dict.type.iot_network_method" :value="item.networkMethod" />
                                 </el-descriptions-item>
-                                <el-descriptions-item label="设备授权">
-                                    <el-tag type="success" size="mini" v-if="item.isAuthorize==1">已启用</el-tag>
-                                    <el-tag type="info" size="mini" v-else>未启用</el-tag>
-                                </el-descriptions-item>
+<!--                                <el-descriptions-item label="设备授权">-->
+<!--                                    <el-tag type="success" size="mini" v-if="item.isAuthorize==1">已启用</el-tag>-->
+<!--                                    <el-tag type="info" size="mini" v-else>未启用</el-tag>-->
+<!--                                </el-descriptions-item>-->
                             </el-descriptions>
                         </el-col>
                         <el-col :span="10">
@@ -72,7 +72,7 @@
                     <el-button-group style="margin-top:15px;height:28px;">
                         <el-button size="mini" type="primary" icon="el-icon-view" @click="handleEditProduct(item)" v-hasPermi="['iot:product:query']">详情</el-button>
                         <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:product:remove']" v-if="item.status==1">删除</el-button>
-                        <el-button size="mini" type="success" icon="el-icon-s-check" @click="handleDeviceAuthorize(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2" :disabled="item.isAuthorize!=1">设备授权</el-button>
+<!--                        <el-button size="mini" type="success" icon="el-icon-s-check" @click="handleDeviceAuthorize(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2" :disabled="item.isAuthorize!=1">设备授权</el-button>-->
                         <el-button size="mini" type="warning" icon="el-icon-search" @click="handleViewDevice(item.productId)" v-hasPermi="['iot:device:query']">查看设备</el-button>
                     </el-button-group>
                 </el-card>

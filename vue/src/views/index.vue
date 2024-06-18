@@ -141,9 +141,6 @@
       <span>
         Copyright © 2024-2025
         <a href="https://github.com/cyqcw/FastBee" target="_blank">智能家居管理平台 </a>
-        |
-        <a href="https://github.com/cyqcw/FastBee" target="_blank">智能家居管理平台</a>
-        | Apache License
       </span>
       <br />
       <span>
@@ -382,8 +379,8 @@ export default {
       option = {
         title: {
           text: '设备分布（在线数 ' + this.deviceList.filter((x) => x.status == 3).length + '）',
-          subtext: 'fastbee open source iot platform',
-          sublink: 'https://iot.fastbee.cn',
+          // subtext: 'fastbee open source iot platform',
+          // sublink: 'https://iot.fastbee.cn',
           target: '_blank',
           textStyle: {
             color: '#333',
