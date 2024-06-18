@@ -276,7 +276,7 @@ def randomPropertyData():
     objCo2={"id":"co2","value":str(random.randint(400,1000)),"remark":""}
     objBrightness={"id":"brightness","value":str(random.randint(1000,10000)),"remark":""}
     printMsg("随机生成监测数据值:")
-    data=[objTmeperature,objHumidity,objCo2,objBrightness]
+    data=[objBrightness,objHumidity,objCo2,objTmeperature]
     print(json.dumps(data))
     return json.dumps(data)
 

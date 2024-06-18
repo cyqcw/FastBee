@@ -1,11 +1,11 @@
 <template>
   <div style="padding-left: 20px">
     <el-form :inline="true" label-width="100px">
-      <el-form-item label="监测间隔(ms)">
-        <el-tooltip class="item" effect="light" content="取值范围500-10000毫秒" placement="top">
-          <el-input v-model="monitorInterval" placeholder="请输入监测间隔" type="number" clearable size="small" style="width: 180px" />
-        </el-tooltip>
-      </el-form-item>
+<!--      <el-form-item label="监测间隔(ms)">-->
+<!--        <el-tooltip class="item" effect="light" content="取值范围500-10000毫秒" placement="top">-->
+<!--          <el-input v-model="monitorInterval" placeholder="请输入监测间隔" type="number" clearable size="small" style="width: 180px" />-->
+<!--        </el-tooltip>-->
+<!--      </el-form-item>-->
       <el-form-item label="监测次数">
         <el-tooltip class="item" effect="light" content="取值方位1-300" placement="top">
           <el-input v-model="monitorNumber" placeholder="请输入监测次数" type="number" clearable size="small" style="width: 180px" />
