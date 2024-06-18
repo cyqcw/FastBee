@@ -35,11 +35,11 @@
                 <svg-icon icon-class="date" />创建日期
                 <div class="pull-right">{{ user.createTime }}</div>
               </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="wechat" />微信绑定
-                <div v-if="wxbind" style="color:#007AFf" class="pull-right" @click="secureBind">已绑定,点击解绑</div>
-                <div v-else class="pull-right" @click="loginWxCode">未绑定,点击绑定</div>
-              </li>
+<!--              <li class="list-group-item">-->
+<!--                <svg-icon icon-class="wechat" />微信绑定-->
+<!--                <div v-if="wxbind" style="color:#007AFf" class="pull-right" @click="secureBind">已绑定,点击解绑</div>-->
+<!--                <div v-else class="pull-right" @click="loginWxCode">未绑定,点击绑定</div>-->
+<!--              </li>-->
               <div id="weixinLogin" style="width: 150px;height: 200px;"></div>
             </ul>
           </div>
