@@ -219,8 +219,8 @@ def publishInfo():
             "author":"cyqcw",
             "version":1.6,
             "create":"2022 - 06 - 06"
-            }
         }
+    }
     #     client.publish('raspberry/topic',payload=i,qos=0,retain=False) 
     jsonData=json.dumps(doc)
     printMsg("发布设备信息："+pInfoTopic+" "+jsonData)
@@ -258,7 +258,13 @@ def publishMonitor():
     msg=randomPropertyData()
     # 发布为实时监测数据，不会存储
     printMsg("发布实时监测数据："+msg)
-    client.publish(pMonitorTopic,msg)
+    client.publish(pMonitorTopic, msg)
+
+# 7.发布检测数据
+def publishPropertyData():
+    msg = randomPropertyData()
+    printMsg("发布监测数据："+msg)
+    client.publish(pPropertyTopic, msg)
 
 # 随机生成监测值
 def randomPropertyData():
@@ -347,6 +353,16 @@ def timing_publishMonitor():
         t2=threading.Timer(monitorInterval,timing_publishMonitor)
         t2.start()
         
+# 定时上报数据
+def timing_publishPropertyData():
+    global monitorCount
+    monitorCount=monitorCount-1
+    printMsg("执行数据上传")
+    publishPropertyData()
+    if(monitorCount>0):
+        t2=threading.Timer(monitorInterval,timing_publishPropertyData)
+        t2.start()
+
 if __name__ == '__main__':
     connectMqtt()
     client.loop_start()
@@ -357,7 +373,7 @@ if __name__ == '__main__':
     t1=threading.Timer(60, timing_publishProperty)
     t1.daemon=True #当主线程被关闭后，子线程也关闭
     t1.start()
-    t2=threading.Timer(monitorInterval, timing_publishMonitor)
+    t2=threading.Timer(monitorInterval, timing_publishPropertyData)
     t2.daemon=True #当主线程被关闭后，子线程也关闭
     t2.start()
 

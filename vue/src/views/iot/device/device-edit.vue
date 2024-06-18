@@ -125,10 +125,10 @@
         <product-list ref="productList" :productId="form.productId" @productEvent="getProductData($event)" />
       </el-tab-pane>
 
-      <el-tab-pane name="runningStatus" v-if="form.deviceType !== 3 && !isSubDev">
-        <span slot="label">运行状态</span>
-        <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatusData($event)"/>
-      </el-tab-pane>
+<!--      <el-tab-pane name="runningStatus" v-if="form.deviceType !== 3 && !isSubDev">-->
+<!--        <span slot="label">运行状态</span>-->
+<!--        <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatusData($event)"/>-->
+<!--      </el-tab-pane>-->
 
 <!--      <el-tab-pane name="runningStatus" v-if="isSubDev">-->
 <!--        <span slot="label"><span style="color:red;">￥ </span>运行状态</span>-->

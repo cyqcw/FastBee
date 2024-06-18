@@ -1,347 +1,350 @@
 <template>
   <div style="padding-left: 20px">
+
+<!--      <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="10" style="margin-bottom: 50px">-->
+<!--        <el-descriptions :column="1" border style="margin-bottom: 50px">-->
+<!--          &lt;!&ndash; 设备模式&ndash;&gt;-->
+<!--          <el-descriptions-item :labelStyle="statusColor">-->
+<!--            <template slot="label">-->
+<!--              <i class="el-icon-menu"></i>-->
+<!--              设备模式-->
+<!--            </template>-->
+<!--            <el-link :underline="false" style="line-height: 28px; font-size: 16px; padding-right: 10px">{{ title }}</el-link>-->
+<!--          </el-descriptions-item>-->
+
+<!--          &lt;!&ndash; 设备物模型&ndash;&gt;-->
+<!--          <el-descriptions-item v-for="(item, index) in deviceInfo.thingsModels" :key="index" :labelStyle="statusColor">-->
+<!--            <template slot="label">-->
+<!--              <i class="el-icon-open"></i>-->
+<!--              {{ item.name }}-->
+<!--            </template>-->
+<!--            <div v-if="item.datatype.type == 'bool'">-->
+<!--              <el-switch-->
+<!--                v-model="item.shadow"-->
+<!--                @change="mqttPublish(deviceInfo, item)"-->
+<!--                active-text=""-->
+<!--                inactive-text=""-->
+<!--                active-value="1"-->
+<!--                inactive-value="0"-->
+<!--                style="min-width: 100px"-->
+<!--                :disabled="shadowUnEnable || item.isReadonly == 1"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'enum'">-->
+<!--              <div v-if="item.datatype.showWay && item.datatype.showWay == 'button'">-->
+<!--                <el-button-->
+<!--                  style="margin: 5px"-->
+<!--                  size="mini"-->
+<!--                  @click="enumButtonClick(deviceInfo, item, subItem.value)"-->
+<!--                  v-for="subItem in item.datatype.enumList"-->
+<!--                  :key="subItem.value"-->
+<!--                  :disabled="shadowUnEnable || item.isReadonly == 1"-->
+<!--                >-->
+<!--                  {{ subItem.text }}-->
+<!--                </el-button>-->
+<!--              </div>-->
+<!--              <el-select v-else v-model="item.shadow" placeholder="请选择" @change="mqttPublish(deviceInfo, item)" :disabled="shadowUnEnable || item.isReadonly == 1">-->
+<!--                <el-option v-for="subItem in item.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />-->
+<!--              </el-select>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'string'">-->
+<!--              <el-input v-model="item.shadow" :placeholder="'请输入字符串 ' + (item.datatype.unit ? '，单位：' + item.datatype.unit : '')" :disabled="shadowUnEnable || item.isReadonly == 1">-->
+<!--                <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, item)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && item.isReadonly == 0"></el-button>-->
+<!--              </el-input>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'decimal'">-->
+<!--              <div style="width: 80%; float: left">-->
+<!--                <el-slider-->
+<!--                  v-model="item.shadow"-->
+<!--                  :min="item.datatype.min"-->
+<!--                  :max="item.datatype.max"-->
+<!--                  :step="item.datatype.step"-->
+<!--                  :format-tooltip="(x) => x + ' ' + item.datatype.unit"-->
+<!--                  :disabled="shadowUnEnable || item.isReadonly == 1"-->
+<!--                ></el-slider>-->
+<!--              </div>-->
+<!--              <div style="width: 20%; float: left">-->
+<!--                <el-button-->
+<!--                  icon="el-icon-s-promotion"-->
+<!--                  type="info"-->
+<!--                  @click="mqttPublish(deviceInfo, item)"-->
+<!--                  style="font-size: 16px; padding: 1px 8px; margin: 2px 0 0 5px; border-radius: 3px"-->
+<!--                  title="指令发送"-->
+<!--                  v-if="!shadowUnEnable && item.isReadonly == 0"-->
+<!--                ></el-button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'integer'">-->
+<!--              <div style="width: 80%; float: left">-->
+<!--                <el-slider-->
+<!--                  v-model="item.shadow"-->
+<!--                  :min="item.datatype.min"-->
+<!--                  :max="item.datatype.max"-->
+<!--                  :step="item.datatype.step"-->
+<!--                  :format-tooltip="(x) => x + ' ' + item.datatype.unit"-->
+<!--                  :disabled="shadowUnEnable || item.isReadonly == 1"-->
+<!--                ></el-slider>-->
+<!--              </div>-->
+<!--              <div style="width: 20%; float: left">-->
+<!--                <el-button-->
+<!--                  icon="el-icon-s-promotion"-->
+<!--                  type="info"-->
+<!--                  @click="mqttPublish(deviceInfo, item)"-->
+<!--                  style="font-size: 16px; padding: 1px 8px; margin: 4px 0 0 10px; border-radius: 3px"-->
+<!--                  title="指令发送"-->
+<!--                  v-if="!shadowUnEnable && item.isReadonly == 0"-->
+<!--                ></el-button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'object'">-->
+<!--              <el-descriptions :column="1" size="mini" border>-->
+<!--                <el-descriptions-item v-for="(param, index) in item.datatype.params" :key="index" :label="param.name">-->
+<!--                  <div v-if="param.datatype.type == 'bool'">-->
+<!--                    <el-switch-->
+<!--                      v-model="param.shadow"-->
+<!--                      @change="mqttPublish(deviceInfo, param)"-->
+<!--                      active-text=""-->
+<!--                      inactive-text=""-->
+<!--                      active-value="1"-->
+<!--                      inactive-value="0"-->
+<!--                      style="min-width: 100px"-->
+<!--                      :disabled="shadowUnEnable || param.isReadonly == 1"-->
+<!--                    />-->
+<!--                  </div>-->
+<!--                  <div v-if="param.datatype.type == 'enum'">-->
+<!--                    <div v-if="param.datatype.showWay && param.datatype.showWay == 'button'">-->
+<!--                      <el-button-->
+<!--                        style="margin: 5px"-->
+<!--                        size="mini"-->
+<!--                        @click="enumButtonClick(deviceInfo, param, subItem.value)"-->
+<!--                        v-for="subItem in param.datatype.enumList"-->
+<!--                        :key="subItem.value"-->
+<!--                        :disabled="shadowUnEnable || param.isReadonly == 1"-->
+<!--                      >-->
+<!--                        {{ subItem.text }}-->
+<!--                      </el-button>-->
+<!--                    </div>-->
+<!--                    <el-select size="small" v-else v-model="param.shadow" placeholder="请选择" @change="mqttPublish(deviceInfo, param)" :disabled="shadowUnEnable || param.isReadonly == 1">-->
+<!--                      <el-option v-for="subItem in param.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />-->
+<!--                    </el-select>-->
+<!--                  </div>-->
+<!--                  <div v-if="param.datatype.type == 'string'">-->
+<!--                    <el-input v-model="param.shadow" placeholder="请输入字符串" :disabled="shadowUnEnable || param.isReadonly == 1">-->
+<!--                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>-->
+<!--                    </el-input>-->
+<!--                  </div>-->
+<!--                  <div v-if="param.datatype.type == 'decimal'">-->
+<!--                    <el-input v-model="param.shadow" type="number" placeholder="请输入小数 " :disabled="shadowUnEnable || param.isReadonly == 1">-->
+<!--                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>-->
+<!--                    </el-input>-->
+<!--                  </div>-->
+<!--                  <div v-if="param.datatype.type == 'integer'">-->
+<!--                    <el-input v-model="param.shadow" type="integer" placeholder="请输入整数 " :disabled="shadowUnEnable || param.isReadonly == 1">-->
+<!--                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>-->
+<!--                    </el-input>-->
+<!--                  </div>-->
+<!--                </el-descriptions-item>-->
+<!--              </el-descriptions>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'array'">-->
+<!--              <el-descriptions :column="1" size="mini" border v-if="item.datatype.arrayType != 'object'">-->
+<!--                <el-descriptions-item v-for="(model, index) in item.datatype.arrayModel" :key="index" :label="item.name + (index + 1)">-->
+<!--                  <div v-if="item.datatype.arrayType == 'string'">-->
+<!--                    <el-input placeholder="请输入字符串" size="mini" v-model="model.shadow" :disabled="shadowUnEnable || item.isReadonly == 1" @input="arrayItemChange($event, item)">-->
+<!--                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, model)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable || item.isReadonly == 0"></el-button>-->
+<!--                    </el-input>-->
+<!--                  </div>-->
+<!--                  <div v-if="item.datatype.arrayType == 'decimal'">-->
+<!--                    <el-input type="number" placeholder="请输入小数 " size="mini" v-model="model.shadow" :disabled="shadowUnEnable || item.isReadonly == 1" @input="arrayItemChange($event, item)">-->
+<!--                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, model)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable || item.isReadonly == 0"></el-button>-->
+<!--                    </el-input>-->
+<!--                  </div>-->
+<!--                  <div v-if="item.datatype.arrayType == 'integer'">-->
+<!--                    <el-input type="integer" placeholder="请输入整数 " size="mini" v-model="model.shadow" :disabled="shadowUnEnable || item.isReadonly == 1" @input="arrayItemChange($event, item)">-->
+<!--                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, model)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable || item.isReadonly == 0"></el-button>-->
+<!--                    </el-input>-->
+<!--                  </div>-->
+<!--                </el-descriptions-item>-->
+<!--              </el-descriptions>-->
+<!--              <el-collapse v-if="item.datatype.arrayType == 'object'">-->
+<!--                <el-collapse-item v-for="(arrayParam, index) in item.datatype.arrayParams" :key="index">-->
+<!--                  <template slot="title">-->
+<!--                    <span style="color: #666">-->
+<!--                      <i class="el-icon-tickets"></i>-->
+<!--                      {{ item.name + (index + 1) }}-->
+<!--                    </span>-->
+<!--                  </template>-->
+<!--                  <el-descriptions :column="1" size="mini" border>-->
+<!--                    <el-descriptions-item v-for="(param, index) in arrayParam" :key="index" :label="param.name">-->
+<!--                      <div v-if="param.datatype.type == 'bool'">-->
+<!--                        <el-switch-->
+<!--                          v-model="param.shadow"-->
+<!--                          @change="mqttPublish(deviceInfo, param)"-->
+<!--                          active-text=""-->
+<!--                          inactive-text=""-->
+<!--                          active-value="1"-->
+<!--                          inactive-value="0"-->
+<!--                          style="min-width: 100px"-->
+<!--                          :disabled="shadowUnEnable || param.isReadonly == 1"-->
+<!--                        />-->
+<!--                      </div>-->
+<!--                      <div v-if="param.datatype.type == 'enum'">-->
+<!--                        <div v-if="param.datatype.showWay && param.datatype.showWay == 'button'">-->
+<!--                          <el-button-->
+<!--                            style="margin: 5px"-->
+<!--                            size="mini"-->
+<!--                            @click="enumButtonClick(deviceInfo, param, subItem.value)"-->
+<!--                            v-for="subItem in param.datatype.enumList"-->
+<!--                            :key="subItem.value"-->
+<!--                            :disabled="shadowUnEnable || param.isReadonly == 1"-->
+<!--                          >-->
+<!--                            {{ subItem.text }}-->
+<!--                          </el-button>-->
+<!--                        </div>-->
+<!--                        <el-select v-else v-model="param.shadow" placeholder="请选择" size="small" @change="mqttPublish(deviceInfo, param)" :disabled="shadowUnEnable || param.isReadonly == 1">-->
+<!--                          <el-option v-for="subItem in param.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />-->
+<!--                        </el-select>-->
+<!--                      </div>-->
+<!--                      <div v-if="param.datatype.type == 'string'">-->
+<!--                        <el-input v-model="param.shadow" placeholder="请输入字符串" :disabled="shadowUnEnable || param.isReadonly == 1">-->
+<!--                          <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>-->
+<!--                        </el-input>-->
+<!--                      </div>-->
+<!--                      <div v-if="param.datatype.type == 'decimal'">-->
+<!--                        <el-input v-model="param.shadow" type="number" placeholder="请输入小数 " :disabled="shadowUnEnable || param.isReadonly == 1">-->
+<!--                          <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>-->
+<!--                        </el-input>-->
+<!--                      </div>-->
+<!--                      <div v-if="param.datatype.type == 'integer'">-->
+<!--                        <el-input v-model="param.shadow" type="integer" placeholder="请输入整数 " :disabled="shadowUnEnable || param.isReadonly == 1">-->
+<!--                          <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>-->
+<!--                        </el-input>-->
+<!--                      </div>-->
+<!--                    </el-descriptions-item>-->
+<!--                  </el-descriptions>-->
+<!--                </el-collapse-item>-->
+<!--              </el-collapse>-->
+<!--            </div>-->
+<!--          </el-descriptions-item>-->
+<!--        </el-descriptions>-->
+
+<!--        &lt;!&ndash;-设备状态(影子模式，value值不会更新)&ndash;&gt;-->
+<!--        <el-descriptions :column="1" border size="mini" v-if="deviceInfo.isShadow == 1 && deviceInfo.status != 3">-->
+<!--          <template slot="title">-->
+<!--            <span style="font-size: 14px; color: #606266">设备离线时状态</span>-->
+<!--          </template>-->
+
+<!--          &lt;!&ndash; 设备物模型&ndash;&gt;-->
+<!--          <el-descriptions-item v-for="(item, index) in deviceInfo.thingsModels" :key="index">-->
+<!--            <template slot="label">-->
+<!--              <i class="el-icon-open"></i>-->
+<!--              {{ item.name }}-->
+<!--            </template>-->
+<!--            <div v-if="item.datatype.type == 'bool'">-->
+<!--              <el-switch v-model="item.value" @change="mqttPublish(deviceInfo, item)" active-text="" inactive-text="" active-value="1" inactive-value="0" style="min-width: 100px" disabled />-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'enum'">-->
+<!--              <div v-if="item.datatype.showWay && item.datatype.showWay == 'button'">-->
+<!--                <el-button style="margin: 5px" size="mini" disabled v-for="subItem in item.datatype.enumList" :key="subItem.value">{{ subItem.text }}</el-button>-->
+<!--              </div>-->
+<!--              <el-select v-else v-model="item.value" placeholder="请选择" @change="mqttPublish(deviceInfo, item)" disabled size="mini">-->
+<!--                <el-option v-for="subItem in item.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />-->
+<!--              </el-select>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'string'">-->
+<!--              <el-input v-model="item.value" placeholder="请输入字符串" disabled size="mini"></el-input>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'decimal'">-->
+<!--              <el-input v-model="item.value" type="number" placeholder="请输入小数 " disabled size="mini"></el-input>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'integer'">-->
+<!--              <el-input v-model="item.value" type="integer" placeholder="请输入整数 " disabled size="mini"></el-input>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'object'">-->
+<!--              <el-descriptions :column="1" size="mini" border>-->
+<!--                <el-descriptions-item v-for="(param, index) in item.datatype.params" :key="index" :label="param.name">-->
+<!--                  <div v-if="param.datatype.type == 'bool'">-->
+<!--                    <el-switch v-model="param.value" size="mini" @change="mqttPublish(deviceInfo, param)" active-text="" inactive-text="" active-value="1" inactive-value="0" style="min-width: 100px" disabled />-->
+<!--                  </div>-->
+<!--                  <div v-if="param.datatype.type == 'enum'">-->
+<!--                    <el-select v-model="param.value" placeholder="请选择" @change="mqttPublish(deviceInfo, param)" disabled size="mini">-->
+<!--                      <el-option v-for="subItem in param.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />-->
+<!--                    </el-select>-->
+<!--                  </div>-->
+<!--                  <div v-if="param.datatype.type == 'string'">-->
+<!--                    <el-input v-model="param.value" placeholder="请输入字符串" disabled size="mini"></el-input>-->
+<!--                  </div>-->
+<!--                  <div v-if="param.datatype.type == 'decimal'">-->
+<!--                    <el-input v-model="param.value" type="number" placeholder="请输入小数 " disabled size="mini"></el-input>-->
+<!--                  </div>-->
+<!--                  <div v-if="param.datatype.type == 'integer'">-->
+<!--                    <el-input v-model="param.value" type="integer" placeholder="请输入整数 " disabled size="mini"></el-input>-->
+<!--                  </div>-->
+<!--                </el-descriptions-item>-->
+<!--              </el-descriptions>-->
+<!--            </div>-->
+<!--            <div v-if="item.datatype.type == 'array'">-->
+<!--              <el-descriptions :column="1" size="mini" border v-if="item.datatype.arrayType != 'object'">-->
+<!--                <el-descriptions-item v-for="(model, index) in item.datatype.arrayModel" :key="index" :label="item.name + (index + 1)">-->
+<!--                  <div v-if="item.datatype.arrayType == 'string'">-->
+<!--                    <el-input v-model="model.value" placeholder="请输入字符串" size="mini" disabled></el-input>-->
+<!--                  </div>-->
+<!--                  <div v-if="item.datatype.arrayType == 'decimal'">-->
+<!--                    <el-input v-model="model.value" type="number" placeholder="请输入小数 " size="mini" disabled></el-input>-->
+<!--                  </div>-->
+<!--                  <div v-if="item.datatype.arrayType == 'integer'">-->
+<!--                    <el-input v-model="model.value" type="integer" placeholder="请输入整数 " size="mini" disabled></el-input>-->
+<!--                  </div>-->
+<!--                </el-descriptions-item>-->
+<!--              </el-descriptions>-->
+<!--              <el-collapse v-if="item.datatype.arrayType == 'object'">-->
+<!--                <el-collapse-item v-for="(arrayParam, index) in item.datatype.arrayParams" :key="index">-->
+<!--                  <template slot="title">-->
+<!--                    <span style="color: #666">-->
+<!--                      <i class="el-icon-tickets"></i>-->
+<!--                      {{ item.name + (index + 1) }}-->
+<!--                    </span>-->
+<!--                  </template>-->
+<!--                  <el-descriptions :column="1" size="mini" border>-->
+<!--                    <el-descriptions-item v-for="(param, index) in arrayParam" :key="index" :label="param.name">-->
+<!--                      <div v-if="param.datatype.type == 'bool'">-->
+<!--                        <el-switch v-model="param.value" @change="mqttPublish(deviceInfo, param)" active-text="" inactive-text="" active-value="1" inactive-value="0" style="min-width: 100px" disabled />-->
+<!--                      </div>-->
+<!--                      <div v-if="param.datatype.type == 'enum'">-->
+<!--                        <el-select v-model="param.value" placeholder="请选择" @change="mqttPublish(deviceInfo, param)" disabled size="mini">-->
+<!--                          <el-option v-for="subItem in param.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />-->
+<!--                        </el-select>-->
+<!--                      </div>-->
+<!--                      <div v-if="param.datatype.type == 'string'">-->
+<!--                        <el-input v-model="param.value" placeholder="请输入字符串" disabled size="mini"></el-input>-->
+<!--                      </div>-->
+<!--                      <div v-if="param.datatype.type == 'decimal'">-->
+<!--                        <el-input v-model="param.value" type="number" placeholder="请输入小数 " disabled size="mini"></el-input>-->
+<!--                      </div>-->
+<!--                      <div v-if="param.datatype.type == 'integer'">-->
+<!--                        <el-input v-model="param.value" type="integer" placeholder="请输入整数 " disabled size="mini"></el-input>-->
+<!--                      </div>-->
+<!--                    </el-descriptions-item>-->
+<!--                  </el-descriptions>-->
+<!--                </el-collapse-item>-->
+<!--              </el-collapse>-->
+<!--            </div>-->
+<!--          </el-descriptions-item>-->
+<!--        </el-descriptions>-->
+<!--      </el-col>-->
     <el-row :gutter="120">
-      <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="10" style="margin-bottom: 50px">
-        <el-descriptions :column="1" border style="margin-bottom: 50px">
-          <!-- 设备模式-->
-          <el-descriptions-item :labelStyle="statusColor">
-            <template slot="label">
-              <i class="el-icon-menu"></i>
-              设备模式
-            </template>
-            <el-link :underline="false" style="line-height: 28px; font-size: 16px; padding-right: 10px">{{ title }}</el-link>
-          </el-descriptions-item>
-
-          <!-- 设备物模型-->
-          <el-descriptions-item v-for="(item, index) in deviceInfo.thingsModels" :key="index" :labelStyle="statusColor">
-            <template slot="label">
-              <i class="el-icon-open"></i>
-              {{ item.name }}
-            </template>
-            <div v-if="item.datatype.type == 'bool'">
-              <el-switch
-                v-model="item.shadow"
-                @change="mqttPublish(deviceInfo, item)"
-                active-text=""
-                inactive-text=""
-                active-value="1"
-                inactive-value="0"
-                style="min-width: 100px"
-                :disabled="shadowUnEnable || item.isReadonly == 1"
-              />
-            </div>
-            <div v-if="item.datatype.type == 'enum'">
-              <div v-if="item.datatype.showWay && item.datatype.showWay == 'button'">
-                <el-button
-                  style="margin: 5px"
-                  size="mini"
-                  @click="enumButtonClick(deviceInfo, item, subItem.value)"
-                  v-for="subItem in item.datatype.enumList"
-                  :key="subItem.value"
-                  :disabled="shadowUnEnable || item.isReadonly == 1"
-                >
-                  {{ subItem.text }}
-                </el-button>
-              </div>
-              <el-select v-else v-model="item.shadow" placeholder="请选择" @change="mqttPublish(deviceInfo, item)" :disabled="shadowUnEnable || item.isReadonly == 1">
-                <el-option v-for="subItem in item.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />
-              </el-select>
-            </div>
-            <div v-if="item.datatype.type == 'string'">
-              <el-input v-model="item.shadow" :placeholder="'请输入字符串 ' + (item.datatype.unit ? '，单位：' + item.datatype.unit : '')" :disabled="shadowUnEnable || item.isReadonly == 1">
-                <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, item)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && item.isReadonly == 0"></el-button>
-              </el-input>
-            </div>
-            <div v-if="item.datatype.type == 'decimal'">
-              <div style="width: 80%; float: left">
-                <el-slider
-                  v-model="item.shadow"
-                  :min="item.datatype.min"
-                  :max="item.datatype.max"
-                  :step="item.datatype.step"
-                  :format-tooltip="(x) => x + ' ' + item.datatype.unit"
-                  :disabled="shadowUnEnable || item.isReadonly == 1"
-                ></el-slider>
-              </div>
-              <div style="width: 20%; float: left">
-                <el-button
-                  icon="el-icon-s-promotion"
-                  type="info"
-                  @click="mqttPublish(deviceInfo, item)"
-                  style="font-size: 16px; padding: 1px 8px; margin: 2px 0 0 5px; border-radius: 3px"
-                  title="指令发送"
-                  v-if="!shadowUnEnable && item.isReadonly == 0"
-                ></el-button>
-              </div>
-            </div>
-            <div v-if="item.datatype.type == 'integer'">
-              <div style="width: 80%; float: left">
-                <el-slider
-                  v-model="item.shadow"
-                  :min="item.datatype.min"
-                  :max="item.datatype.max"
-                  :step="item.datatype.step"
-                  :format-tooltip="(x) => x + ' ' + item.datatype.unit"
-                  :disabled="shadowUnEnable || item.isReadonly == 1"
-                ></el-slider>
-              </div>
-              <div style="width: 20%; float: left">
-                <el-button
-                  icon="el-icon-s-promotion"
-                  type="info"
-                  @click="mqttPublish(deviceInfo, item)"
-                  style="font-size: 16px; padding: 1px 8px; margin: 4px 0 0 10px; border-radius: 3px"
-                  title="指令发送"
-                  v-if="!shadowUnEnable && item.isReadonly == 0"
-                ></el-button>
-              </div>
-            </div>
-            <div v-if="item.datatype.type == 'object'">
-              <el-descriptions :column="1" size="mini" border>
-                <el-descriptions-item v-for="(param, index) in item.datatype.params" :key="index" :label="param.name">
-                  <div v-if="param.datatype.type == 'bool'">
-                    <el-switch
-                      v-model="param.shadow"
-                      @change="mqttPublish(deviceInfo, param)"
-                      active-text=""
-                      inactive-text=""
-                      active-value="1"
-                      inactive-value="0"
-                      style="min-width: 100px"
-                      :disabled="shadowUnEnable || param.isReadonly == 1"
-                    />
-                  </div>
-                  <div v-if="param.datatype.type == 'enum'">
-                    <div v-if="param.datatype.showWay && param.datatype.showWay == 'button'">
-                      <el-button
-                        style="margin: 5px"
-                        size="mini"
-                        @click="enumButtonClick(deviceInfo, param, subItem.value)"
-                        v-for="subItem in param.datatype.enumList"
-                        :key="subItem.value"
-                        :disabled="shadowUnEnable || param.isReadonly == 1"
-                      >
-                        {{ subItem.text }}
-                      </el-button>
-                    </div>
-                    <el-select size="small" v-else v-model="param.shadow" placeholder="请选择" @change="mqttPublish(deviceInfo, param)" :disabled="shadowUnEnable || param.isReadonly == 1">
-                      <el-option v-for="subItem in param.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />
-                    </el-select>
-                  </div>
-                  <div v-if="param.datatype.type == 'string'">
-                    <el-input v-model="param.shadow" placeholder="请输入字符串" :disabled="shadowUnEnable || param.isReadonly == 1">
-                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
-                    </el-input>
-                  </div>
-                  <div v-if="param.datatype.type == 'decimal'">
-                    <el-input v-model="param.shadow" type="number" placeholder="请输入小数 " :disabled="shadowUnEnable || param.isReadonly == 1">
-                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
-                    </el-input>
-                  </div>
-                  <div v-if="param.datatype.type == 'integer'">
-                    <el-input v-model="param.shadow" type="integer" placeholder="请输入整数 " :disabled="shadowUnEnable || param.isReadonly == 1">
-                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
-                    </el-input>
-                  </div>
-                </el-descriptions-item>
-              </el-descriptions>
-            </div>
-            <div v-if="item.datatype.type == 'array'">
-              <el-descriptions :column="1" size="mini" border v-if="item.datatype.arrayType != 'object'">
-                <el-descriptions-item v-for="(model, index) in item.datatype.arrayModel" :key="index" :label="item.name + (index + 1)">
-                  <div v-if="item.datatype.arrayType == 'string'">
-                    <el-input placeholder="请输入字符串" size="mini" v-model="model.shadow" :disabled="shadowUnEnable || item.isReadonly == 1" @input="arrayItemChange($event, item)">
-                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, model)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable || item.isReadonly == 0"></el-button>
-                    </el-input>
-                  </div>
-                  <div v-if="item.datatype.arrayType == 'decimal'">
-                    <el-input type="number" placeholder="请输入小数 " size="mini" v-model="model.shadow" :disabled="shadowUnEnable || item.isReadonly == 1" @input="arrayItemChange($event, item)">
-                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, model)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable || item.isReadonly == 0"></el-button>
-                    </el-input>
-                  </div>
-                  <div v-if="item.datatype.arrayType == 'integer'">
-                    <el-input type="integer" placeholder="请输入整数 " size="mini" v-model="model.shadow" :disabled="shadowUnEnable || item.isReadonly == 1" @input="arrayItemChange($event, item)">
-                      <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, model)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable || item.isReadonly == 0"></el-button>
-                    </el-input>
-                  </div>
-                </el-descriptions-item>
-              </el-descriptions>
-              <el-collapse v-if="item.datatype.arrayType == 'object'">
-                <el-collapse-item v-for="(arrayParam, index) in item.datatype.arrayParams" :key="index">
-                  <template slot="title">
-                    <span style="color: #666">
-                      <i class="el-icon-tickets"></i>
-                      {{ item.name + (index + 1) }}
-                    </span>
-                  </template>
-                  <el-descriptions :column="1" size="mini" border>
-                    <el-descriptions-item v-for="(param, index) in arrayParam" :key="index" :label="param.name">
-                      <div v-if="param.datatype.type == 'bool'">
-                        <el-switch
-                          v-model="param.shadow"
-                          @change="mqttPublish(deviceInfo, param)"
-                          active-text=""
-                          inactive-text=""
-                          active-value="1"
-                          inactive-value="0"
-                          style="min-width: 100px"
-                          :disabled="shadowUnEnable || param.isReadonly == 1"
-                        />
-                      </div>
-                      <div v-if="param.datatype.type == 'enum'">
-                        <div v-if="param.datatype.showWay && param.datatype.showWay == 'button'">
-                          <el-button
-                            style="margin: 5px"
-                            size="mini"
-                            @click="enumButtonClick(deviceInfo, param, subItem.value)"
-                            v-for="subItem in param.datatype.enumList"
-                            :key="subItem.value"
-                            :disabled="shadowUnEnable || param.isReadonly == 1"
-                          >
-                            {{ subItem.text }}
-                          </el-button>
-                        </div>
-                        <el-select v-else v-model="param.shadow" placeholder="请选择" size="small" @change="mqttPublish(deviceInfo, param)" :disabled="shadowUnEnable || param.isReadonly == 1">
-                          <el-option v-for="subItem in param.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />
-                        </el-select>
-                      </div>
-                      <div v-if="param.datatype.type == 'string'">
-                        <el-input v-model="param.shadow" placeholder="请输入字符串" :disabled="shadowUnEnable || param.isReadonly == 1">
-                          <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
-                        </el-input>
-                      </div>
-                      <div v-if="param.datatype.type == 'decimal'">
-                        <el-input v-model="param.shadow" type="number" placeholder="请输入小数 " :disabled="shadowUnEnable || param.isReadonly == 1">
-                          <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
-                        </el-input>
-                      </div>
-                      <div v-if="param.datatype.type == 'integer'">
-                        <el-input v-model="param.shadow" type="integer" placeholder="请输入整数 " :disabled="shadowUnEnable || param.isReadonly == 1">
-                          <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
-                        </el-input>
-                      </div>
-                    </el-descriptions-item>
-                  </el-descriptions>
-                </el-collapse-item>
-              </el-collapse>
-            </div>
-          </el-descriptions-item>
-        </el-descriptions>
-
-        <!---设备状态(影子模式，value值不会更新)-->
-        <el-descriptions :column="1" border size="mini" v-if="deviceInfo.isShadow == 1 && deviceInfo.status != 3">
-          <template slot="title">
-            <span style="font-size: 14px; color: #606266">设备离线时状态</span>
-          </template>
-
-          <!-- 设备物模型-->
-          <el-descriptions-item v-for="(item, index) in deviceInfo.thingsModels" :key="index">
-            <template slot="label">
-              <i class="el-icon-open"></i>
-              {{ item.name }}
-            </template>
-            <div v-if="item.datatype.type == 'bool'">
-              <el-switch v-model="item.value" @change="mqttPublish(deviceInfo, item)" active-text="" inactive-text="" active-value="1" inactive-value="0" style="min-width: 100px" disabled />
-            </div>
-            <div v-if="item.datatype.type == 'enum'">
-              <div v-if="item.datatype.showWay && item.datatype.showWay == 'button'">
-                <el-button style="margin: 5px" size="mini" disabled v-for="subItem in item.datatype.enumList" :key="subItem.value">{{ subItem.text }}</el-button>
-              </div>
-              <el-select v-else v-model="item.value" placeholder="请选择" @change="mqttPublish(deviceInfo, item)" disabled size="mini">
-                <el-option v-for="subItem in item.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />
-              </el-select>
-            </div>
-            <div v-if="item.datatype.type == 'string'">
-              <el-input v-model="item.value" placeholder="请输入字符串" disabled size="mini"></el-input>
-            </div>
-            <div v-if="item.datatype.type == 'decimal'">
-              <el-input v-model="item.value" type="number" placeholder="请输入小数 " disabled size="mini"></el-input>
-            </div>
-            <div v-if="item.datatype.type == 'integer'">
-              <el-input v-model="item.value" type="integer" placeholder="请输入整数 " disabled size="mini"></el-input>
-            </div>
-            <div v-if="item.datatype.type == 'object'">
-              <el-descriptions :column="1" size="mini" border>
-                <el-descriptions-item v-for="(param, index) in item.datatype.params" :key="index" :label="param.name">
-                  <div v-if="param.datatype.type == 'bool'">
-                    <el-switch v-model="param.value" size="mini" @change="mqttPublish(deviceInfo, param)" active-text="" inactive-text="" active-value="1" inactive-value="0" style="min-width: 100px" disabled />
-                  </div>
-                  <div v-if="param.datatype.type == 'enum'">
-                    <el-select v-model="param.value" placeholder="请选择" @change="mqttPublish(deviceInfo, param)" disabled size="mini">
-                      <el-option v-for="subItem in param.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />
-                    </el-select>
-                  </div>
-                  <div v-if="param.datatype.type == 'string'">
-                    <el-input v-model="param.value" placeholder="请输入字符串" disabled size="mini"></el-input>
-                  </div>
-                  <div v-if="param.datatype.type == 'decimal'">
-                    <el-input v-model="param.value" type="number" placeholder="请输入小数 " disabled size="mini"></el-input>
-                  </div>
-                  <div v-if="param.datatype.type == 'integer'">
-                    <el-input v-model="param.value" type="integer" placeholder="请输入整数 " disabled size="mini"></el-input>
-                  </div>
-                </el-descriptions-item>
-              </el-descriptions>
-            </div>
-            <div v-if="item.datatype.type == 'array'">
-              <el-descriptions :column="1" size="mini" border v-if="item.datatype.arrayType != 'object'">
-                <el-descriptions-item v-for="(model, index) in item.datatype.arrayModel" :key="index" :label="item.name + (index + 1)">
-                  <div v-if="item.datatype.arrayType == 'string'">
-                    <el-input v-model="model.value" placeholder="请输入字符串" size="mini" disabled></el-input>
-                  </div>
-                  <div v-if="item.datatype.arrayType == 'decimal'">
-                    <el-input v-model="model.value" type="number" placeholder="请输入小数 " size="mini" disabled></el-input>
-                  </div>
-                  <div v-if="item.datatype.arrayType == 'integer'">
-                    <el-input v-model="model.value" type="integer" placeholder="请输入整数 " size="mini" disabled></el-input>
-                  </div>
-                </el-descriptions-item>
-              </el-descriptions>
-              <el-collapse v-if="item.datatype.arrayType == 'object'">
-                <el-collapse-item v-for="(arrayParam, index) in item.datatype.arrayParams" :key="index">
-                  <template slot="title">
-                    <span style="color: #666">
-                      <i class="el-icon-tickets"></i>
-                      {{ item.name + (index + 1) }}
-                    </span>
-                  </template>
-                  <el-descriptions :column="1" size="mini" border>
-                    <el-descriptions-item v-for="(param, index) in arrayParam" :key="index" :label="param.name">
-                      <div v-if="param.datatype.type == 'bool'">
-                        <el-switch v-model="param.value" @change="mqttPublish(deviceInfo, param)" active-text="" inactive-text="" active-value="1" inactive-value="0" style="min-width: 100px" disabled />
-                      </div>
-                      <div v-if="param.datatype.type == 'enum'">
-                        <el-select v-model="param.value" placeholder="请选择" @change="mqttPublish(deviceInfo, param)" disabled size="mini">
-                          <el-option v-for="subItem in param.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />
-                        </el-select>
-                      </div>
-                      <div v-if="param.datatype.type == 'string'">
-                        <el-input v-model="param.value" placeholder="请输入字符串" disabled size="mini"></el-input>
-                      </div>
-                      <div v-if="param.datatype.type == 'decimal'">
-                        <el-input v-model="param.value" type="number" placeholder="请输入小数 " disabled size="mini"></el-input>
-                      </div>
-                      <div v-if="param.datatype.type == 'integer'">
-                        <el-input v-model="param.value" type="integer" placeholder="请输入整数 " disabled size="mini"></el-input>
-                      </div>
-                    </el-descriptions-item>
-                  </el-descriptions>
-                </el-collapse-item>
-              </el-collapse>
-            </div>
-          </el-descriptions-item>
-        </el-descriptions>
-      </el-col>
-
-      <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="14">
+      <el-col :xs="100" :sm="100" :md="100" :lg="40" :xl="60">
         <!-- 设备监测图表-->
-        <el-row :gutter="20" style="background-color: #f5f7fa; padding: 20px 10px 20px 10px; border-radius: 15px; margin-right: 5px" v-if="deviceInfo.chartList.length > 0">
-          <el-col :xs="24" :sm="12" :md="12" :lg="24" :xl="8" v-for="(item, index) in deviceInfo.chartList" :key="index">
-            <el-card shadow="hover" style="border-radius: 30px; margin-bottom: 20px">
-              <div ref="map" style="height: 230px; width: 185px; margin: 0 auto"></div>
-            </el-card>
-          </el-col>
-        </el-row>
+        <template v-if="deviceInfo.chartList.length > 0">
+          <el-row :gutter="20" style="background-color: #f5f7fa; padding: 20px 10px 20px 10px; border-radius: 15px; margin-right: 5px">
+            <!-- 修改这里，确保四个图表能在同一行显示 -->
+            <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" v-for="(item, index) in deviceInfo.chartList.slice(0, 4)" :key="index">
+              <el-card shadow="hover" style="border-radius: 30px; margin-bottom: 20px">
+                <div ref="map" style="height: 230px; width: 185px; margin: 0 auto"></div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </template>
       </el-col>
     </el-row>
   </div>
@@ -350,9 +353,11 @@
 <script>
 
 import { serviceInvoke } from '@/api/iot/runstatus';
+import Template from '../template/index.vue';
 
 export default {
   name: 'running-status',
+  components: { Template },
   props: {
     device: {
       type: Object,
@@ -541,7 +546,8 @@ export default {
                       }
                     }
                   }
-                } else {
+                }
+                else {
                   // 普通类型匹配
                   if (this.deviceInfo.chartList[k].id == message[j].id) {
                     this.deviceInfo.chartList[k].shadow = message[j].value;

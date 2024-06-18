@@ -23,12 +23,31 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-row :gutter="120">
+      <el-col :xs="100" :sm="100" :md="100" :lg="40" :xl="60">
+        <!-- 设备监测图表-->
+        <template v-if="deviceInfo.chartList.length > 0">
+          <el-row :gutter="20" style="background-color: #f5f7fa; padding: 20px 10px 20px 10px; border-radius: 15px; margin-right: 5px">
+            <!-- 修改这里，确保四个图表能在同一行显示 -->
+            <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" v-for="(item, index) in deviceInfo.chartList.slice(0, 4)" :key="index">
+              <el-card shadow="hover" style="border-radius: 30px; margin-bottom: 20px">
+                <div ref="map" style="height: 230px; width: 185px; margin: 0 auto"></div>
+              </el-card>
+            </el-col>
+          </el-row>
+          <!-- 如果有更多图表，考虑分页或滚动显示 -->
+        </template>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import Template from '../template/index.vue';
+
 export default {
   name: 'DeviceMonitor',
+  components: { Template },
   props: {
     device: {
       type: Object,

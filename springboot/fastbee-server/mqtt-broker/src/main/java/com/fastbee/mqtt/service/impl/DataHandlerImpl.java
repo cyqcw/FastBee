@@ -65,7 +65,8 @@ public class DataHandlerImpl implements IDataHandler {
             input.setThingsModelValueRemarkItem(thingsModelSimpleItems);
             input.setSlaveId(bo.getSlaveId());
             List<ThingsModelSimpleItem> result = deviceService.reportDeviceThingsModelValue(input, bo.getType(), bo.isShadow());
-
+            log.info("上报属性或功能处理 result={}", result);
+            //
 
         } catch (Exception e) {
             log.error("接收属性数据，解析数据时异常 message={},e={}", e.getMessage(),e);
