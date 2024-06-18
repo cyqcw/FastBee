@@ -329,27 +329,30 @@ export default {
 
     /* 仪表盘展示 */
     MonitorChart(message) {
-      for (let i = 0; i < this.monitorThings; i++) {
+      console.log('仪表盘展示：', message);
+      for (let i = 0; i < this.monitorThings.length; i++) {
         this.monitorChart[i] = {
           chart: this.$echarts.init(this.$refs.map[i]),
           data: {
             id: this.monitorThings[i].id,
             name: this.monitorThings[i].name,
-            value: this.monitorThings.shadow ? this.monitorThings[i].shadow : this.monitorThings[i].datatype.min,
+            value: this.monitorThings.shadow ? this.monitorThings[i].shadow : this.deviceInfo.chartList[i].datatype.min,
           },
         };
+        console.log('bnuu：', this.monitorChart[i]);
+
 
         var option;
         option = {
           tooltip: {
-            formatter: ' {b} <br/> {c}' + this.monitorThings[i].datatype.unit,
+            formatter: ' {b} <br/> {c}' + this.deviceInfo.chartList[i].datatype.unit,
           },
           series: [
             {
-              name: this.monitorThings[i].datatype.type,
+              name: this.deviceInfo.chartList[i].datatype.type,
               type: 'gauge',
-              min: this.monitorThings[i].datatype.min,
-              max: this.monitorThings[i].datatype.max,
+              min: this.deviceInfo.chartList[i].datatype.min,
+              max: this.deviceInfo.chartList[i].datatype.max,
               colorBy: 'data',
               splitNumber: 10,
               radius: '100%',
@@ -388,14 +391,14 @@ export default {
               },
               detail: {
                 valueAnimation: true,
-                formatter: '{value}' + ' ' + this.monitorThings[i].datatype.unit,
+                formatter: '{value}' + ' ' + this.deviceInfo.chartList[i].datatype.unit,
                 offsetCenter: [0, '80%'],
                 fontSize: 20,
               },
               data: [
                 {
-                  value: this.monitorThings[i].shadow ? this.monitorThings[i].shadow : this.monitorThings[i].datatype.min,
-                  name: this.monitorThings[i].name,
+                  value: message[i].value,
+                  name: this.deviceInfo.chartList[i].name,
                 },
               ],
               title: {
