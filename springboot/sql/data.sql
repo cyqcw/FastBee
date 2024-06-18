@@ -1,15 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
+ Source Server         : master
  Source Server Type    : MySQL
- Source Server Version : 50743
+ Source Server Version : 80200
+ Source Host           : 121.41.95.194:3306
  Source Schema         : fastbee
 
  Target Server Type    : MySQL
- Target Server Version : 50743
+ Target Server Version : 80200
  File Encoding         : 65001
 
- Date: 26/09/2023 22:22:29
+ Date: 18/06/2024 20:04:30
 */
 
 SET NAMES utf8mb4;
@@ -20,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `gen_table`;
 CREATE TABLE `gen_table`  (
-  `table_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `table_id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
   `table_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '表名称',
   `table_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '表描述',
   `sub_table_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关联子表的表名',
@@ -36,12 +38,12 @@ CREATE TABLE `gen_table`  (
   `gen_path` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '/' COMMENT '生成路径（不填默认项目路径）',
   `options` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '其它生成选项',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
@@ -52,7 +54,7 @@ CREATE TABLE `gen_table`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `gen_table_column`;
 CREATE TABLE `gen_table_column`  (
-  `column_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `column_id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
   `table_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '归属表编号',
   `column_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列名称',
   `column_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列描述',
@@ -69,46 +71,45 @@ CREATE TABLE `gen_table_column`  (
   `query_type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
   `html_type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
   `dict_type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典类型',
-  `sort` int(11) NULL DEFAULT NULL COMMENT '排序',
+  `sort` int NULL DEFAULT NULL COMMENT '排序',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
 -- ----------------------------
-
 
 -- ----------------------------
 -- Table structure for iot_category
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_category`;
 CREATE TABLE `iot_category`  (
-  `category_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '产品分类ID',
-  `category_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品分类名称',
-  `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
-  `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
+  `category_id` bigint NOT NULL AUTO_INCREMENT COMMENT '产品分类ID',
+  `category_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '产品分类名称',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `tenant_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
   `is_sys` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否系统通用（0-否，1-是）',
-  `parent_id` bigint(20) NULL DEFAULT NULL COMMENT '父级ID',
-  `order_num` int(4) NULL DEFAULT NULL COMMENT '显示顺序',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `parent_id` bigint NULL DEFAULT NULL COMMENT '父级ID',
+  `order_num` int NULL DEFAULT NULL COMMENT '显示顺序',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`category_id`) USING BTREE,
-  INDEX `iot_category_index_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `iot_category_index_parent_id`(`parent_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '产品分类' ROW_FORMAT = Dynamic;
+  INDEX `iot_category_index_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `iot_category_index_parent_id`(`parent_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '产品分类' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_category
 -- ----------------------------
-INSERT INTO `iot_category` VALUES (1, '电工照明', 1, 'admin', 1, 0, 1, '0', '', '2022-03-01 11:44:37', '', '2023-04-10 01:12:48', '例如：通断器、开关、插座、窗帘、灯');
+INSERT INTO `iot_category` VALUES (1, '电工照明', 1, 'admin', 1, 0, 1, '0', '', '2022-03-01 11:44:37', '', '2024-05-31 13:40:59', '例如：通断器、开关、插座、窗帘、灯');
 INSERT INTO `iot_category` VALUES (2, '家居安防', 1, 'admin', 1, 0, 2, '0', '', '2021-12-18 14:46:52', '', '2021-12-18 14:49:48', '例如：智能门锁、摄像头、智能窗帘');
 INSERT INTO `iot_category` VALUES (3, '环境电器', 1, 'admin', 1, 0, 3, '0', '', '2021-12-18 14:50:24', '', '2023-04-10 01:12:53', '例如：加湿器、风扇、扫地机器人');
 INSERT INTO `iot_category` VALUES (4, '大家电', 1, 'admin', 1, 0, 4, '0', '', '2021-12-18 14:50:58', '', '2021-12-18 14:52:30', '例如：冰箱、热水器、电视');
@@ -121,19 +122,19 @@ INSERT INTO `iot_category` VALUES (7, '其他', 1, 'admin', 1, 0, 7, '0', '', '2
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_device`;
 CREATE TABLE `iot_device`  (
-  `device_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备ID',
-  `device_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设备名称',
-  `product_id` bigint(20) NOT NULL COMMENT '产品ID',
-  `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品名称',
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
-  `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
-  `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
-  `serial_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设备编号',
-  `gw_dev_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子设备网关编号',
+  `device_id` bigint NOT NULL AUTO_INCREMENT COMMENT '设备ID',
+  `device_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '设备名称',
+  `product_id` bigint NOT NULL COMMENT '产品ID',
+  `product_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '产品名称',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `user_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `tenant_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
+  `serial_number` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '设备编号',
+  `gw_dev_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '子设备网关编号',
   `firmware_version` float(11, 2) NOT NULL COMMENT '固件版本',
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '设备状态（1-未激活，2-禁用，3-在线，4-离线）',
-  `rssi` tinyint(11) NULL DEFAULT NULL COMMENT '信号强度（\r\n信号极好4格[-55— 0]，\r\n信号好3格[-70— -55]，\r\n信号一般2格[-85— -70]，\r\n信号差1格[-100— -85]）',
+  `rssi` tinyint NULL DEFAULT NULL COMMENT '信号强度（\r\n信号极好4格[-55— 0]，\r\n信号好3格[-70— -55]，\r\n信号一般2格[-85— -70]，\r\n信号差1格[-100— -85]）',
   `is_shadow` tinyint(1) NULL DEFAULT NULL COMMENT '是否启用设备影子(0=禁用，1=启用)',
   `location_way` tinyint(1) NULL DEFAULT NULL COMMENT '定位方式(1=ip自动定位，2=设备定位，3=自定义)',
   `things_model_value` json NULL COMMENT '物模型值',
@@ -141,52 +142,57 @@ CREATE TABLE `iot_device`  (
   `network_ip` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备入网IP',
   `longitude` double(11, 6) NULL DEFAULT NULL COMMENT '设备经度',
   `latitude` double(11, 6) NULL DEFAULT NULL COMMENT '设备纬度',
-  `active_time` datetime(0) NULL DEFAULT NULL COMMENT '激活时间',
+  `active_time` datetime NULL DEFAULT NULL COMMENT '激活时间',
   `summary` json NULL COMMENT '设备摘要，格式[{\"name\":\"device\"},{\"chip\":\"esp8266\"}]',
-  `img_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片地址',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `img_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '图片地址',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   `is_simulate` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否是模拟设备',
-  `slave_id` int(10) NULL DEFAULT NULL COMMENT '从机id',
+  `slave_id` int NULL DEFAULT NULL COMMENT '从机id',
   PRIMARY KEY (`device_id`) USING BTREE,
-  UNIQUE INDEX `iot_device_index_serial_number`(`serial_number`) USING BTREE,
-  INDEX `iot_device_index_product_id`(`product_id`) USING BTREE,
-  INDEX `iot_device_index_tanant_id`(`tenant_id`) USING BTREE,
-  INDEX `iot_device_index_user_id`(`user_id`) USING BTREE,
-  INDEX `iot_device_index_create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 141 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备' ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `iot_device_index_serial_number`(`serial_number` ASC) USING BTREE,
+  INDEX `iot_device_index_product_id`(`product_id` ASC) USING BTREE,
+  INDEX `iot_device_index_tanant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `iot_device_index_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `iot_device_index_create_time`(`create_time` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 148 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_device
 -- ----------------------------
-INSERT INTO `iot_device` VALUES (108, '★温湿度开关', 41, '★智能开关产品', 1, 'admin', 1, 'admin', 'D1ELV3A5TOJS', NULL, 1.00, 4, -51, 1, 1, '[{\"id\": \"irc\", \"name\": \"射频遥控\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"switch\", \"name\": \"设备开关\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"report_monitor\", \"name\": \"上报数据\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"humidity\", \"name\": \"空气湿度\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"co2\", \"name\": \"二氧化碳\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"value\": \" , , , \", \"shadow\": \" , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"status\", \"name\": \"上报状态\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"temperature\", \"name\": \"空气温度\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"brightness\", \"name\": \"室内亮度\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]', ' 本机地址', '127.0.0.1', 113.128512, 23.027759, '2023-02-26 00:00:00', '{\"chip\": \"esp8266\", \"name\": \"wumei-smart\", \"author\": \"kerwincui\", \"create\": \"2022-06-06\", \"version\": 1.6}', NULL, '0', '', '2025-02-25 23:15:56', '', '2023-09-22 15:08:07', NULL, NULL, NULL);
-INSERT INTO `iot_device` VALUES (109, '★网关设备', 55, '★网关产品', 1, 'admin', 1, 'admin', 'D1PGLPG58KZ2', NULL, 1.00, 4, -73, 1, 3, '[{\"id\": \"category_gear\", \"name\": \"运行档位\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"switch\", \"name\": \"设备开关\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_switch\", \"name\": \"设备开关\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_light\", \"ts\": \"2023-09-25 17:56:08.848\", \"name\": \"光照\", \"value\": \"68\", \"shadow\": \"68\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_report_monitor\", \"name\": \"上报监测数据\", \"value\": \" , , , , , , \", \"shadow\": \" , , , , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"value\": \" , , , \", \"shadow\": \" , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"temperature\", \"ts\": \"2023-09-25 17:56:08.582\", \"name\": \"空气温度\", \"value\": \"23.69\", \"shadow\": \"23.69\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_irc\", \"name\": \"射频遥控\", \"value\": \" , , , , , , \", \"shadow\": \" , , , , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"brightness\", \"ts\": \"2023-09-25 17:56:08.671\", \"name\": \"室内亮度\", \"value\": \"5387\", \"shadow\": \"5387\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"report_monitor\", \"name\": \"上报监测数据\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_switch\", \"ts\": \"2023-09-25 17:56:26.188\", \"name\": \"设备开关\", \"value\": \"1,1,1, ,1,1, \", \"shadow\": \"1,1,1, ,1,1, \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_temperature\", \"ts\": \"2023-09-25 17:56:09.203\", \"name\": \"空气温度-只读\", \"value\": \"95\", \"shadow\": \"95\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_co2\", \"ts\": \"2023-09-25 17:56:11.229\", \"name\": \"二氧化碳\", \"value\": \"3780,2612,2145,3988,5697, , \", \"shadow\": \"3780,2612,2145,3988,5697, , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_gear\", \"ts\": \"2023-09-25 17:56:28.066\", \"name\": \"运行档位\", \"value\": \"0,0,0, ,0,0, \", \"shadow\": \"0,0,0, ,0,0, \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_humidity\", \"ts\": \"2023-09-25 17:56:09.025\", \"name\": \"空气湿度\", \"value\": \"90\", \"shadow\": \"90\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_report_monitor\", \"name\": \"上报监测数据\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_irc\", \"name\": \"射频遥控\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_temperature\", \"ts\": \"2023-09-25 17:56:11.45\", \"name\": \"空气温度-只读\", \"value\": \"86,39,4,80,52, , \", \"shadow\": \"86,39,4,80,52, , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]', '云南省曲靖市 移通', '183.225.206.92', 104.802435, 26.496407, '2023-02-26 00:00:00', '{\"chip\": \"esp8266\", \"name\": \"wumei-smart\", \"author\": \"kerwincui\", \"create\": \"2022-06-06\", \"version\": 1.6}', NULL, '0', '', '2025-02-25 23:17:31', '', '2023-09-25 23:14:52', NULL, NULL, NULL);
-INSERT INTO `iot_device` VALUES (140, '￥视频监控', 88, '￥视频监控产品', 1, 'admin', 1, 'admin', '11010200001320000001', NULL, 1.00, 4, 0, 0, 1, NULL, '广东省 移通', '120.231.214.134', NULL, NULL, '2023-04-11 21:14:16', '{\"port\": 5060, \"firmware\": \"V5.7.4\", \"transport\": \"UDP\", \"streammode\": \"UDP\", \"hostaddress\": \"192.168.2.119:5060\", \"manufacturer\": \"Hikvision\"}', NULL, '0', '', '2023-04-11 21:12:35', '', '2023-04-11 22:11:01', NULL, 0, NULL);
+INSERT INTO `iot_device` VALUES (108, '★温湿度开关', 41, '★智能开关产品', 1, 'admin', 1, 'admin', 'D1ELV3A5TOJS', NULL, 1.00, 3, -51, 1, 1, '[{\"id\": \"co2\", \"name\": \"二氧化碳\", \"isChart\": 1, \"datatype\": {\"max\": 6000, \"min\": 100, \"step\": 1, \"type\": \"integer\", \"unit\": \"ppm\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"brightness\", \"name\": \"室内亮度\", \"isChart\": 1, \"datatype\": {\"max\": 10000, \"min\": 0, \"step\": 1, \"type\": \"integer\", \"unit\": \"cd/m2\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"temperature\", \"name\": \"空气温度\", \"isChart\": 1, \"datatype\": {\"max\": 120, \"min\": -20, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"humidity\", \"name\": \"空气湿度\", \"isChart\": 1, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"%\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"report_monitor\", \"name\": \"上报数据\", \"isChart\": 0, \"datatype\": {\"max\": 10, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"次数\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"string\", \"unit\": \"\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"array\", \"unit\": \"\", \"trueText\": \"\", \"arrayType\": \"integer\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 3}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"switch\", \"name\": \"设备开关\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"bool\", \"unit\": \"\", \"trueText\": \"打开\", \"arrayType\": \"\", \"falseText\": \"关闭\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"重启\", \"value\": \"restart\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"irc\", \"name\": \"射频遥控\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"遥控学习\", \"value\": \"FFXX01\"}, {\"text\": \"遥控清码\", \"value\": \"FFXX02\"}, {\"text\": \"打开开关\", \"value\": \"FFXX03\"}, {\"text\": \"关闭开关\", \"value\": \"FFXX04\"}, {\"text\": \"暂停\", \"value\": \"FFXX05\"}, {\"text\": \"锁定\", \"value\": \"FFXX06\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"select\", \"enumList\": [{\"text\": \"低速档位\", \"value\": \"0\"}, {\"text\": \"中速档位\", \"value\": \"1\"}, {\"text\": \"中高速档位\", \"value\": \"2\"}, {\"text\": \"高速档位\", \"value\": \"3\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"status\", \"name\": \"上报状态\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"更新状态\", \"value\": \"update_status\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]', ' 本机地址', '127.0.0.1', 113.128512, 23.027759, '2024-06-07 00:00:00', '{\"chip\": \"esp8266\", \"name\": \"wumei-smart\", \"author\": \"kerwincui\", \"create\": \"2022-06-06\", \"version\": 1.6}', NULL, '0', '', '2025-02-25 23:15:56', '', '2024-05-31 13:34:11', NULL, 0, NULL);
+INSERT INTO `iot_device` VALUES (109, '★网关设备', 55, '★网关产品', 1, 'admin', 1, 'admin', 'D1PGLPG58KZ2', NULL, 1.00, 3, -73, 1, 3, '[{\"id\": \"category_gear\", \"name\": \"运行档位\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"switch\", \"name\": \"设备开关\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_switch\", \"name\": \"设备开关\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_light\", \"ts\": \"2023-09-25 17:56:08.848\", \"name\": \"光照\", \"value\": \"68\", \"shadow\": \"68\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_report_monitor\", \"name\": \"上报监测数据\", \"value\": \" , , , , , , \", \"shadow\": \" , , , , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"value\": \" , , , \", \"shadow\": \" , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"temperature\", \"ts\": \"2023-09-25 17:56:08.582\", \"name\": \"空气温度\", \"value\": \"23.69\", \"shadow\": \"23.69\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_irc\", \"name\": \"射频遥控\", \"value\": \" , , , , , , \", \"shadow\": \" , , , , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"brightness\", \"ts\": \"2023-09-25 17:56:08.671\", \"name\": \"室内亮度\", \"value\": \"5387\", \"shadow\": \"5387\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"report_monitor\", \"name\": \"上报监测数据\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_switch\", \"ts\": \"2023-09-25 17:56:26.188\", \"name\": \"设备开关\", \"value\": \"1,1,1, ,1,1, \", \"shadow\": \"1,1,1, ,1,1, \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_temperature\", \"ts\": \"2023-09-25 17:56:09.203\", \"name\": \"空气温度-只读\", \"value\": \"95\", \"shadow\": \"95\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_co2\", \"ts\": \"2023-09-25 17:56:11.229\", \"name\": \"二氧化碳\", \"value\": \"3780,2612,2145,3988,5697, , \", \"shadow\": \"3780,2612,2145,3988,5697, , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_gear\", \"ts\": \"2023-09-25 17:56:28.066\", \"name\": \"运行档位\", \"value\": \"0,0,0, ,0,0, \", \"shadow\": \"0,0,0, ,0,0, \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_humidity\", \"ts\": \"2023-09-25 17:56:09.025\", \"name\": \"空气湿度\", \"value\": \"90\", \"shadow\": \"90\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_report_monitor\", \"name\": \"上报监测数据\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"category_irc\", \"name\": \"射频遥控\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device_temperature\", \"ts\": \"2023-09-25 17:56:11.45\", \"name\": \"空气温度-只读\", \"value\": \"86,39,4,80,52, , \", \"shadow\": \"86,39,4,80,52, , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]', '云南省曲靖市 移通', '183.225.206.92', 104.802435, 26.496407, '2024-06-11 00:00:00', '{\"chip\": \"esp8266\", \"name\": \"wumei-smart\", \"author\": \"kerwincui\", \"create\": \"2022-06-06\", \"version\": 1.6}', NULL, '0', '', '2025-02-25 23:17:31', '', '2024-06-18 17:18:30', NULL, NULL, NULL);
+INSERT INTO `iot_device` VALUES (141, '★小米电视A50', 41, '★智能开关产品', 1, 'admin', 1, 'admin', 'D18B75Y99KS9', NULL, 1.00, 3, 0, 0, 3, '[{\"id\": \"temperature\", \"name\": \"空气温度\", \"isChart\": 1, \"datatype\": {\"max\": 120, \"min\": -20, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"humidity\", \"name\": \"空气湿度\", \"isChart\": 1, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"%\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"brightness\", \"name\": \"室内亮度\", \"isChart\": 1, \"datatype\": {\"max\": 10000, \"min\": 0, \"step\": 1, \"type\": \"integer\", \"unit\": \"cd/m2\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"co2\", \"name\": \"二氧化碳\", \"isChart\": 1, \"datatype\": {\"max\": 6000, \"min\": 100, \"step\": 1, \"type\": \"integer\", \"unit\": \"ppm\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"switch\", \"name\": \"设备开关\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"bool\", \"unit\": \"\", \"trueText\": \"打开\", \"arrayType\": \"\", \"falseText\": \"关闭\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"select\", \"enumList\": [{\"text\": \"低速档位\", \"value\": \"0\"}, {\"text\": \"中速档位\", \"value\": \"1\"}, {\"text\": \"中高速档位\", \"value\": \"2\"}, {\"text\": \"高速档位\", \"value\": \"3\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"report_monitor\", \"name\": \"上报数据\", \"isChart\": 0, \"datatype\": {\"max\": 10, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"次数\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"array\", \"unit\": \"\", \"trueText\": \"\", \"arrayType\": \"integer\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 3}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"string\", \"unit\": \"\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"重启\", \"value\": \"restart\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"irc\", \"name\": \"射频遥控\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"遥控学习\", \"value\": \"FFXX01\"}, {\"text\": \"遥控清码\", \"value\": \"FFXX02\"}, {\"text\": \"打开开关\", \"value\": \"FFXX03\"}, {\"text\": \"关闭开关\", \"value\": \"FFXX04\"}, {\"text\": \"暂停\", \"value\": \"FFXX05\"}, {\"text\": \"锁定\", \"value\": \"FFXX06\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"status\", \"name\": \"上报状态\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"更新状态\", \"value\": \"update_status\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]', '青海省', '127.0.0.1', 92.953123, 36.809287, '2024-06-01 00:00:00', NULL, NULL, '0', '', '2024-05-31 13:38:24', '', '2024-06-02 00:34:55', NULL, 0, NULL);
+INSERT INTO `iot_device` VALUES (142, '★小米台灯', 41, '★智能开关产品', 1, 'admin', 1, 'admin', 'D1O0EF819K4S', NULL, 1.20, 3, -43, 0, 3, '[{\"id\": \"irc\", \"name\": \"射频遥控\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"humidity\", \"name\": \"空气湿度\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"report_monitor\", \"name\": \"上报数据\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"brightness\", \"name\": \"室内亮度\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"temperature\", \"name\": \"空气温度\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"switch\", \"name\": \"设备开关\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"value\": \" , , , \", \"shadow\": \" , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"co2\", \"name\": \"二氧化碳\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"status\", \"name\": \"上报状态\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]', '西安', '127.0.0.1', 108.975585, 34.298069, '2024-06-01 00:00:00', '{}', NULL, '0', '', '2024-06-01 15:20:06', '', '2024-06-02 00:35:10', NULL, 0, NULL);
+INSERT INTO `iot_device` VALUES (143, '★小度音箱', 41, '★智能开关产品', 1, 'admin', 1, 'admin', 'D1VK48K0Q334', NULL, 1.20, 3, 1, 0, 3, '[{\"id\": \"temperature\", \"name\": \"空气温度\", \"isChart\": 1, \"datatype\": {\"max\": 120, \"min\": -20, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"humidity\", \"name\": \"空气湿度\", \"isChart\": 1, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"%\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"brightness\", \"name\": \"室内亮度\", \"isChart\": 1, \"datatype\": {\"max\": 10000, \"min\": 0, \"step\": 1, \"type\": \"integer\", \"unit\": \"cd/m2\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"co2\", \"name\": \"二氧化碳\", \"isChart\": 1, \"datatype\": {\"max\": 6000, \"min\": 100, \"step\": 1, \"type\": \"integer\", \"unit\": \"ppm\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"switch\", \"name\": \"设备开关\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"bool\", \"unit\": \"\", \"trueText\": \"打开\", \"arrayType\": \"\", \"falseText\": \"关闭\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"select\", \"enumList\": [{\"text\": \"低速档位\", \"value\": \"0\"}, {\"text\": \"中速档位\", \"value\": \"1\"}, {\"text\": \"中高速档位\", \"value\": \"2\"}, {\"text\": \"高速档位\", \"value\": \"3\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"report_monitor\", \"name\": \"上报数据\", \"isChart\": 0, \"datatype\": {\"max\": 10, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"次数\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"array\", \"unit\": \"\", \"trueText\": \"\", \"arrayType\": \"integer\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 3}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"string\", \"unit\": \"\", \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"重启\", \"value\": \"restart\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"irc\", \"name\": \"射频遥控\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"遥控学习\", \"value\": \"FFXX01\"}, {\"text\": \"遥控清码\", \"value\": \"FFXX02\"}, {\"text\": \"打开开关\", \"value\": \"FFXX03\"}, {\"text\": \"关闭开关\", \"value\": \"FFXX04\"}, {\"text\": \"暂停\", \"value\": \"FFXX05\"}, {\"text\": \"锁定\", \"value\": \"FFXX06\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"status\", \"name\": \"上报状态\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"enum\", \"unit\": \"\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"更新状态\", \"value\": \"update_status\"}], \"trueText\": \"\", \"arrayType\": \"\", \"falseText\": \"\", \"maxLength\": 1024, \"arrayCount\": 0}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]', '厦门', '127.0.0.1', 117.488892, 25.130364, '2024-06-01 00:00:00', '{\"chip\": \"esp8266\", \"name\": \"device\", \"author\": \"cyqcw\", \"create\": \"2022 - 06 - 06\", \"version\": 1.6}', NULL, '0', '', '2024-06-01 17:18:35', '', '2024-06-02 00:33:36', NULL, 0, NULL);
+INSERT INTO `iot_device` VALUES (144, '★海尔空气检测器', 41, '★智能开关产品', 1, 'cyqcw', 1, 'admin', 'D138QFH77I509', NULL, 1.20, 3, 1, 0, 3, '[{\"id\": \"temperature\", \"ts\": \"2024-06-18 15:16:04.513\", \"name\": \"空气温度\", \"value\": \"19.77\", \"shadow\": \"19.77\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"switch\", \"name\": \"设备开关\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"humidity\", \"ts\": \"2024-06-18 15:16:04.311\", \"name\": \"空气湿度\", \"value\": \"58.14\", \"shadow\": \"58.14\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"report_monitor\", \"name\": \"上报数据\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"brightness\", \"ts\": \"2024-06-18 15:16:04.22\", \"name\": \"室内亮度\", \"value\": \"1097\", \"shadow\": \"1097\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"value\": \" , , , \", \"shadow\": \" , , , \", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"co2\", \"ts\": \"2024-06-18 15:16:04.433\", \"name\": \"二氧化碳\", \"value\": \"571\", \"shadow\": \"571\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"irc\", \"name\": \"射频遥控\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"status\", \"name\": \"上报状态\", \"value\": \"\", \"shadow\": \"\", \"isChart\": 0, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]', '北京', '127.0.0.1', 0.000000, 0.000000, '2024-06-01 00:00:00', '{\"chip\": \"esp8266\", \"name\": \"device\", \"author\": \"cyqcw\", \"create\": \"2022 - 06 - 06\", \"version\": 1.6}', NULL, '0', '', '2024-06-01 22:19:47', '', '2024-06-18 15:17:52', NULL, 0, NULL);
 
 -- ----------------------------
 -- Table structure for iot_device_group
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_device_group`;
 CREATE TABLE `iot_device_group`  (
-  `device_id` bigint(20) NOT NULL COMMENT '设备ID',
-  `group_id` bigint(20) NOT NULL COMMENT '分组ID',
+  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `group_id` bigint NOT NULL COMMENT '分组ID',
   PRIMARY KEY (`device_id`, `group_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备分组' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备分组' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_device_group
 -- ----------------------------
+INSERT INTO `iot_device_group` VALUES (141, 2);
+INSERT INTO `iot_device_group` VALUES (142, 2);
 
 -- ----------------------------
 -- Table structure for iot_device_job
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_device_job`;
 CREATE TABLE `iot_device_job`  (
-  `job_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务ID',
+  `job_id` bigint NOT NULL AUTO_INCREMENT COMMENT '任务ID',
   `job_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '任务名称',
   `job_group` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'DEFAULT' COMMENT '任务组名',
   `cron_expression` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT 'cron执行表达式',
@@ -194,28 +200,28 @@ CREATE TABLE `iot_device_job`  (
   `concurrent` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1' COMMENT '是否并发执行（0允许 1禁止）',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0正常 1暂停）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注信息',
-  `device_id` bigint(20) NULL DEFAULT NULL COMMENT '设备ID',
-  `serial_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备编号',
+  `device_id` bigint NULL DEFAULT NULL COMMENT '设备ID',
+  `serial_number` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '设备编号',
   `device_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备名称',
   `is_advance` tinyint(1) NULL DEFAULT NULL COMMENT '是否详细corn表达式（1=是，0=否）',
   `actions` json NULL COMMENT '执行的动作集合',
   `job_type` tinyint(1) NULL DEFAULT NULL COMMENT '任务类型（1=设备定时，2=设备告警，3=场景联动）',
-  `product_id` bigint(20) NULL DEFAULT NULL COMMENT '产品ID',
-  `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产品名称',
-  `scene_id` bigint(20) NULL DEFAULT NULL COMMENT '场景联动ID',
-  `alert_id` bigint(20) NULL DEFAULT NULL COMMENT '告警ID',
+  `product_id` bigint NULL DEFAULT NULL COMMENT '产品ID',
+  `product_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '产品名称',
+  `scene_id` bigint NULL DEFAULT NULL COMMENT '场景联动ID',
+  `alert_id` bigint NULL DEFAULT NULL COMMENT '告警ID',
   `alert_trigger` json NULL COMMENT '定时告警触发器',
   PRIMARY KEY (`job_id`, `job_name`, `job_group`) USING BTREE,
-  INDEX `iot_device_job_index_device_id`(`device_id`) USING BTREE,
-  INDEX `iot_device_job_index_product_id`(`product_id`) USING BTREE,
-  INDEX `iot_device_job_index_scene_id`(`scene_id`) USING BTREE,
-  INDEX `iot_device_job_index_alert_id`(`alert_id`) USING BTREE,
-  INDEX `iot_device_job_index_serial_number`(`serial_number`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备定时' ROW_FORMAT = Dynamic;
+  INDEX `iot_device_job_index_device_id`(`device_id` ASC) USING BTREE,
+  INDEX `iot_device_job_index_product_id`(`product_id` ASC) USING BTREE,
+  INDEX `iot_device_job_index_scene_id`(`scene_id` ASC) USING BTREE,
+  INDEX `iot_device_job_index_alert_id`(`alert_id` ASC) USING BTREE,
+  INDEX `iot_device_job_index_serial_number`(`serial_number` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备定时' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_device_job
@@ -228,31 +234,31 @@ INSERT INTO `iot_device_job` VALUES (5, '告警定时触发', 'DEFAULT', '0 13 1
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_device_log`;
 CREATE TABLE `iot_device_log`  (
-  `log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备监测信息ID',
-  `identity` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
-  `model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物模型名称',
+  `log_id` bigint NOT NULL AUTO_INCREMENT COMMENT '设备监测信息ID',
+  `identity` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '标识符',
+  `model_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '物模型名称',
   `log_type` tinyint(1) NOT NULL COMMENT '类型（1=属性上报，2=调用功能，3=事件上报，4=设备升级，5=设备上线，6=设备离线）',
-  `log_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志值',
-  `device_id` bigint(20) NULL DEFAULT NULL COMMENT '设备ID',
-  `device_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备名称',
-  `serial_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备编号',
+  `log_value` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '日志值',
+  `device_id` bigint NULL DEFAULT NULL COMMENT '设备ID',
+  `device_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '设备名称',
+  `serial_number` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '设备编号',
   `is_monitor` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否监测数据（1=是，0=否）',
   `mode` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '模式(1=影子模式，2=在线模式，3=其他)',
-  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
-  `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '用户昵称',
-  `tenant_id` bigint(20) NULL DEFAULT NULL COMMENT '租户ID',
-  `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '租户名称',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `user_id` bigint NULL DEFAULT NULL COMMENT '用户ID',
+  `user_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '用户昵称',
+  `tenant_id` bigint NULL DEFAULT NULL COMMENT '租户ID',
+  `tenant_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '租户名称',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `remark` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`log_id`) USING BTREE,
-  INDEX `iot_device_log_index_serial_number`(`serial_number`) USING BTREE,
-  INDEX `iot_device_log_index_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `iot_device_log_index_user_id`(`user_id`) USING BTREE,
-  INDEX `iot_device_log_index_device_id`(`device_id`) USING BTREE,
-  INDEX `index_serialNumber_createTime`(`serial_number`, `create_time`) USING BTREE,
-  INDEX `index_isMonitor_serialNumber_createTime`(`serial_number`, `is_monitor`, `create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备日志' ROW_FORMAT = Dynamic;
+  INDEX `iot_device_log_index_serial_number`(`serial_number` ASC) USING BTREE,
+  INDEX `iot_device_log_index_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `iot_device_log_index_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `iot_device_log_index_device_id`(`device_id` ASC) USING BTREE,
+  INDEX `index_serialNumber_createTime`(`serial_number` ASC, `create_time` ASC) USING BTREE,
+  INDEX `index_isMonitor_serialNumber_createTime`(`serial_number` ASC, `is_monitor` ASC, `create_time` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_device_log
@@ -263,11 +269,11 @@ CREATE TABLE `iot_device_log`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_device_template`;
 CREATE TABLE `iot_device_template`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `product_id` bigint(20) NULL DEFAULT NULL COMMENT '产品id',
-  `template_id` bigint(20) NULL DEFAULT NULL COMMENT '采集点模板id',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `product_id` bigint NULL DEFAULT NULL COMMENT '产品id',
+  `template_id` bigint NULL DEFAULT NULL COMMENT '采集点模板id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '设备采集点模板关联对象' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '设备采集点模板关联对象' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_device_template
@@ -289,25 +295,25 @@ INSERT INTO `iot_device_template` VALUES (39, 128, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_device_user`;
 CREATE TABLE `iot_device_user`  (
-  `device_id` bigint(20) NOT NULL COMMENT '设备ID',
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
-  `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
-  `device_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设备名称',
-  `phonenumber` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号码',
-  `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
-  `is_owner` tinyint(11) NOT NULL COMMENT '是否为设备所有者（0=否，1=是）',
-  `perms` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户物模型权限，多个以英文逗号分隔',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `tenant_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
+  `device_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '设备名称',
+  `phonenumber` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '手机号码',
+  `user_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `is_owner` tinyint NOT NULL COMMENT '是否为设备所有者（0=否，1=是）',
+  `perms` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户物模型权限，多个以英文逗号分隔',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`device_id`, `user_id`) USING BTREE,
-  INDEX `iot_device_user_index_user_id`(`user_id`) USING BTREE,
-  INDEX `iot_device_user_index_tenant_id`(`tenant_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备用户' ROW_FORMAT = Dynamic;
+  INDEX `iot_device_user_index_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `iot_device_user_index_tenant_id`(`tenant_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备用户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_device_user
@@ -318,31 +324,35 @@ INSERT INTO `iot_device_user` VALUES (109, 3, 1, 'admin', '★网关设备', '15
 INSERT INTO `iot_device_user` VALUES (109, 7, 1, 'admin', '★网关设备', '18257292958', 'shenzehui', 0, NULL, '0', '', '2023-08-24 08:26:34', '', NULL, NULL);
 INSERT INTO `iot_device_user` VALUES (109, 8, 1, 'admin', '★网关设备', '15752221201', 'shadow', 0, NULL, '0', '', '2023-08-24 08:25:44', '', NULL, NULL);
 INSERT INTO `iot_device_user` VALUES (140, 1, 1, 'admin', '￥视频监控', '15888888888', 'admin', 1, NULL, '0', '', '2023-04-11 21:12:37', '', NULL, NULL);
+INSERT INTO `iot_device_user` VALUES (141, 1, 1, 'admin', '★小米电视A50', '15888888888', 'admin', 1, NULL, '0', '', '2024-05-31 13:38:24', '', NULL, NULL);
+INSERT INTO `iot_device_user` VALUES (142, 1, 1, 'admin', '★小米台灯', '15888888888', 'admin', 1, NULL, '0', '', '2024-06-01 15:20:06', '', NULL, NULL);
+INSERT INTO `iot_device_user` VALUES (143, 1, 1, 'admin', '★小度音箱', '15888888888', 'admin', 1, NULL, '0', '', '2024-06-01 17:18:35', '', NULL, NULL);
+INSERT INTO `iot_device_user` VALUES (144, 13, 1, 'admin', 'test', '15518441162', 'cyqcw', 1, NULL, '0', '', '2024-06-01 22:19:47', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for iot_event_log
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_event_log`;
 CREATE TABLE `iot_event_log`  (
-  `log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备事件日志ID',
-  `identity` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
-  `model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物模型名称',
+  `log_id` bigint NOT NULL AUTO_INCREMENT COMMENT '设备事件日志ID',
+  `identity` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '标识符',
+  `model_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '物模型名称',
   `log_type` tinyint(1) NOT NULL COMMENT '类型（3=事件上报，5=设备上线，6=设备离线）',
-  `log_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志值',
-  `device_id` bigint(20) NULL DEFAULT NULL COMMENT '设备ID',
-  `device_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备名称',
-  `serial_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备编号',
+  `log_value` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '日志值',
+  `device_id` bigint NULL DEFAULT NULL COMMENT '设备ID',
+  `device_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '设备名称',
+  `serial_number` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '设备编号',
   `is_monitor` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否监测数据（1=是，0=否）',
   `mode` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '模式(1=影子模式，2=在线模式，3=其他)',
-  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
-  `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '用户昵称',
-  `tenant_id` bigint(20) NULL DEFAULT NULL COMMENT '租户ID',
-  `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '租户名称',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `user_id` bigint NULL DEFAULT NULL COMMENT '用户ID',
+  `user_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '用户昵称',
+  `tenant_id` bigint NULL DEFAULT NULL COMMENT '租户ID',
+  `tenant_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '租户名称',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `remark` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '事件日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '事件日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_event_log
@@ -353,50 +363,60 @@ CREATE TABLE `iot_event_log`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_function_log`;
 CREATE TABLE `iot_function_log`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备功能日志ID',
-  `identify` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '标识符',
-  `fun_type` int(2) NOT NULL COMMENT '1==服务下发，2=属性获取，3.OTA升级',
-  `fun_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '日志值',
-  `message_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '消息id',
-  `device_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '设备名称',
-  `serial_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '设备编号',
-  `mode` int(2) NULL DEFAULT NULL COMMENT '模式(1=影子模式，2=在线模式，3=其他)',
-  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
-  `result_msg` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '下发结果描述',
-  `result_code` int(3) NULL DEFAULT NULL COMMENT '下发结果代码',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `remark` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '备注',
-  `show_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '显示值',
-  `model_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '物模型名称',
-  `reply_time` datetime(0) NULL DEFAULT NULL COMMENT '设备回复时间',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '设备功能日志ID',
+  `identify` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '标识符',
+  `fun_type` int NOT NULL COMMENT '1==服务下发，2=属性获取，3.OTA升级',
+  `fun_value` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '日志值',
+  `message_id` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '消息id',
+  `device_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '设备名称',
+  `serial_number` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '设备编号',
+  `mode` int NULL DEFAULT NULL COMMENT '模式(1=影子模式，2=在线模式，3=其他)',
+  `user_id` bigint NULL DEFAULT NULL COMMENT '用户id',
+  `result_msg` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '下发结果描述',
+  `result_code` int NULL DEFAULT NULL COMMENT '下发结果代码',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `remark` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '备注',
+  `show_value` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '显示值',
+  `model_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '物模型名称',
+  `reply_time` datetime NULL DEFAULT NULL COMMENT '设备回复时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `iot_function_log_id_uindex`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '设备服务下发日志' ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `iot_function_log_id_uindex`(`id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '设备服务下发日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_function_log
 -- ----------------------------
+INSERT INTO `iot_function_log` VALUES (1, 'switch', 1, '1', '584706143440347136', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 11:33:28', NULL, NULL, '设备开关', NULL);
+INSERT INTO `iot_function_log` VALUES (2, 'gear', 1, '1', '584706177292574720', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 11:33:36', NULL, NULL, '运行档位', NULL);
+INSERT INTO `iot_function_log` VALUES (3, 'message', 1, '78', '584706207344762880', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 11:33:43', NULL, NULL, '屏显消息', NULL);
+INSERT INTO `iot_function_log` VALUES (4, 'status', 1, 'update_status', '584706300412174336', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 11:34:05', NULL, NULL, '上报状态', NULL);
+INSERT INTO `iot_function_log` VALUES (5, 'status', 1, 'update_status', '584706402149212160', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 11:34:30', NULL, NULL, '上报状态', NULL);
+INSERT INTO `iot_function_log` VALUES (6, 'report_monitor', 1, '4', '584706446277484544', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 11:34:40', NULL, NULL, '上报数据', NULL);
+INSERT INTO `iot_function_log` VALUES (7, 'status', 1, 'update_status', '584706522219552768', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 11:34:58', NULL, NULL, '上报状态', NULL);
+INSERT INTO `iot_function_log` VALUES (8, 'status', 1, 'update_status', '584706933106155520', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 11:36:36', NULL, NULL, '上报状态', NULL);
+INSERT INTO `iot_function_log` VALUES (9, 'message', 1, '你好', '584728865176297472', NULL, 'D18B75Y99KS9', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 13:03:45', NULL, NULL, '屏显消息', NULL);
+INSERT INTO `iot_function_log` VALUES (10, 'status', 1, 'update_status', '584792429933109248', NULL, 'D1O0EF819K4S', NULL, NULL, '指令下发成功', 203, NULL, '2024-06-01 17:16:20', NULL, NULL, '上报状态', NULL);
 
 -- ----------------------------
 -- Table structure for iot_group
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_group`;
 CREATE TABLE `iot_group`  (
-  `group_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '分组ID',
-  `group_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分组名称',
-  `group_order` tinyint(11) NOT NULL DEFAULT 0 COMMENT '分组排序',
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `group_id` bigint NOT NULL AUTO_INCREMENT COMMENT '分组ID',
+  `group_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '分组名称',
+  `group_order` tinyint NOT NULL DEFAULT 0 COMMENT '分组排序',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `user_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`group_id`) USING BTREE,
-  INDEX `iot_group_index_user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备分组' ROW_FORMAT = Dynamic;
+  INDEX `iot_group_index_user_id`(`user_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备分组' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_group
@@ -412,91 +432,100 @@ INSERT INTO `iot_group` VALUES (6, '走道', 6, 1, 'admin', '0', '', '2021-12-29
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_product`;
 CREATE TABLE `iot_product`  (
-  `product_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '产品ID',
-  `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品名称',
-  `protocol_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '协议编号',
-  `category_id` bigint(20) NOT NULL COMMENT '产品分类ID',
-  `category_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品分类名称',
-  `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
-  `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
+  `product_id` bigint NOT NULL AUTO_INCREMENT COMMENT '产品ID',
+  `product_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '产品名称',
+  `protocol_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '协议编号',
+  `category_id` bigint NOT NULL COMMENT '产品分类ID',
+  `category_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '产品分类名称',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `tenant_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
   `is_sys` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否系统通用（0-否，1-是）',
   `is_authorize` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否启用授权码（0-否，1-是）',
-  `mqtt_account` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'mqtt账号',
-  `mqtt_password` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'mqtt密码',
-  `mqtt_secret` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产品秘钥',
+  `mqtt_account` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'mqtt账号',
+  `mqtt_password` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'mqtt密码',
+  `mqtt_secret` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '产品秘钥',
   `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态（1-未发布，2-已发布）',
   `things_models_json` json NULL COMMENT '物模型JSON（属性、功能、事件）',
   `device_type` tinyint(1) NULL DEFAULT 1 COMMENT '设备类型（1-直连设备、2-网关设备、3-监控设备）',
   `network_method` tinyint(1) NULL DEFAULT 1 COMMENT '联网方式（1=wifi、2=蜂窝(2G/3G/4G/5G)、3=以太网、4=其他）',
   `vertificate_method` tinyint(1) NULL DEFAULT 1 COMMENT '认证方式（1-简单认证、2-加密认证、3-简单+加密）',
-  `img_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片地址',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `transport` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产品支持的传输协议',
+  `img_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '图片地址',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `transport` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '产品支持的传输协议',
   PRIMARY KEY (`product_id`) USING BTREE,
-  INDEX `iot_product_index_category_id`(`category_id`) USING BTREE,
-  INDEX `iot_product_index_tenant_id`(`tenant_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 131 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '产品' ROW_FORMAT = Dynamic;
+  INDEX `iot_product_index_category_id`(`category_id` ASC) USING BTREE,
+  INDEX `iot_product_index_tenant_id`(`tenant_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 131 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '产品' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_product
 -- ----------------------------
 INSERT INTO `iot_product` VALUES (41, '★智能开关产品', 'JSON', 1, '电工照明', 1, 'admin', 1, 0, 'FastBee', 'P47T6OD5IPFWHUM6', 'KX3TSH4Q4OS835DO', 2, '{\"events\": [{\"id\": \"exception\", \"name\": \"设备发生异常\", \"type\": 3, \"order\": 0, \"regId\": \"exception\", \"isChart\": 0, \"datatype\": {\"type\": \"string\", \"maxLength\": 1024}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"height_temperature\", \"name\": \"环境温度过高\", \"type\": 3, \"order\": 0, \"regId\": \"height_temperature\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}], \"functions\": [{\"id\": \"report_monitor\", \"name\": \"上报数据\", \"type\": 2, \"order\": 10, \"regId\": \"report_monitor\", \"isChart\": 0, \"datatype\": {\"max\": 10, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"次数\"}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"type\": 2, \"order\": 7, \"regId\": \"message\", \"isChart\": 0, \"datatype\": {\"type\": \"string\", \"maxLength\": 1024}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"type\": 2, \"order\": 5, \"regId\": \"light_color\", \"isChart\": 0, \"datatype\": {\"type\": \"array\", \"arrayType\": \"integer\", \"arrayCount\": \"3\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"switch\", \"name\": \"设备开关\", \"type\": 2, \"order\": 9, \"regId\": \"switch\", \"isChart\": 0, \"datatype\": {\"type\": \"bool\", \"trueText\": \"打开\", \"falseText\": \"关闭\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"type\": 2, \"order\": 6, \"regId\": \"reset\", \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"重启\", \"value\": \"restart\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"irc\", \"name\": \"射频遥控\", \"type\": 2, \"order\": 11, \"regId\": \"irc\", \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"遥控学习\", \"value\": \"FFXX01\"}, {\"text\": \"遥控清码\", \"value\": \"FFXX02\"}, {\"text\": \"打开开关\", \"value\": \"FFXX03\"}, {\"text\": \"关闭开关\", \"value\": \"FFXX04\"}, {\"text\": \"暂停\", \"value\": \"FFXX05\"}, {\"text\": \"锁定\", \"value\": \"FFXX06\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"type\": 2, \"order\": 8, \"regId\": \"gear\", \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"showWay\": \"select\", \"enumList\": [{\"text\": \"低速档位\", \"value\": \"0\"}, {\"text\": \"中速档位\", \"value\": \"1\"}, {\"text\": \"中高速档位\", \"value\": \"2\"}, {\"text\": \"高速档位\", \"value\": \"3\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"status\", \"name\": \"上报状态\", \"type\": 2, \"order\": 12, \"regId\": \"status\", \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"更新状态\", \"value\": \"update_status\"}]}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}], \"properties\": [{\"id\": \"co2\", \"name\": \"二氧化碳\", \"type\": 1, \"order\": 2, \"regId\": \"co2\", \"isChart\": 1, \"datatype\": {\"max\": 6000, \"min\": 100, \"step\": 1, \"type\": \"integer\", \"unit\": \"ppm\"}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"brightness\", \"name\": \"室内亮度\", \"type\": 1, \"order\": 4, \"regId\": \"brightness\", \"isChart\": 1, \"datatype\": {\"max\": 10000, \"min\": 0, \"step\": 1, \"type\": \"integer\", \"unit\": \"cd/m2\"}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"temperature\", \"name\": \"空气温度\", \"type\": 1, \"order\": 1, \"regId\": \"temperature\", \"isChart\": 1, \"datatype\": {\"max\": 120, \"min\": -20, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\"}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"humidity\", \"name\": \"空气湿度\", \"type\": 1, \"order\": 3, \"regId\": \"humidity\", \"isChart\": 1, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"%\"}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}]}', 1, 1, 3, NULL, '0', '', '2025-08-14 00:06:33', '', '2023-09-25 22:58:17', NULL, 'MQTT');
-INSERT INTO `iot_product` VALUES (55, '★网关产品', 'JSON', 1, '电工照明', 1, 'admin', 1, 0, 'FastBee', 'P467433O1MT8MXS2', 'KWF32S3H95LH14LO', 2, '{\"events\": [{\"id\": \"exception\", \"name\": \"设备发生异常\", \"type\": 3, \"order\": 0, \"regId\": \"exception\", \"isChart\": 0, \"datatype\": {\"type\": \"string\", \"maxLength\": 1024}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"height_temperature\", \"name\": \"环境温度过高\", \"type\": 3, \"order\": 0, \"regId\": \"height_temperature\", \"isChart\": 0, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}], \"functions\": [{\"id\": \"report_monitor\", \"name\": \"上报监测数据\", \"type\": 2, \"order\": 11, \"regId\": \"report_monitor\", \"isChart\": 0, \"datatype\": {\"max\": 10, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"次数\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"reset\", \"name\": \"设备重启\", \"type\": 2, \"order\": 0, \"regId\": \"reset\", \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"重启\", \"value\": \"restart\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"message\", \"name\": \"屏显消息\", \"type\": 2, \"order\": 0, \"regId\": \"message\", \"isChart\": 0, \"datatype\": {\"type\": \"string\", \"maxLength\": 1024}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"light_color\", \"name\": \"灯光色值\", \"type\": 2, \"order\": 0, \"regId\": \"light_color\", \"isChart\": 0, \"datatype\": {\"type\": \"array\", \"arrayType\": \"integer\", \"arrayCount\": \"3\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"gear\", \"name\": \"运行档位\", \"type\": 2, \"order\": 7, \"regId\": \"gear\", \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"showWay\": \"select\", \"enumList\": [{\"text\": \"低速档位\", \"value\": \"0\"}, {\"text\": \"中速档位\", \"value\": \"1\"}, {\"text\": \"中高速档位\", \"value\": \"2\"}, {\"text\": \"高速档位\", \"value\": \"3\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"switch\", \"name\": \"设备开关\", \"type\": 2, \"order\": 8, \"regId\": \"switch\", \"isChart\": 0, \"datatype\": {\"type\": \"bool\", \"trueText\": \"打开\", \"falseText\": \"关闭\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0}], \"properties\": [{\"id\": \"brightness\", \"name\": \"室内亮度\", \"type\": 1, \"order\": 0, \"regId\": \"brightness\", \"isChart\": 1, \"datatype\": {\"max\": 10000, \"min\": 0, \"step\": 1, \"type\": \"integer\", \"unit\": \"cd/m2\"}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"temperature\", \"name\": \"空气温度\", \"type\": 1, \"order\": 0, \"regId\": \"temperature\", \"isChart\": 1, \"datatype\": {\"max\": 120, \"min\": -20, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\"}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"category\", \"name\": \"功能分组\", \"type\": 1, \"order\": 9, \"regId\": \"category\", \"isChart\": 0, \"datatype\": {\"type\": \"object\", \"params\": [{\"id\": \"category_light\", \"name\": \"光照\", \"order\": 1, \"isChart\": 1, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"decimal\", \"unit\": \"mm\"}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"category_humidity\", \"name\": \"空气湿度\", \"order\": 2, \"isChart\": 1, \"datatype\": {\"max\": 100, \"min\": 0, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"%\"}, \"isHistory\": 0, \"isMonitor\": 1, \"isReadonly\": 1}, {\"id\": \"category_temperature\", \"name\": \"空气温度-只读\", \"order\": 3, \"isChart\": 0, \"datatype\": {\"max\": 120, \"min\": -20, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 1}, {\"id\": \"category_report_monitor\", \"name\": \"上报监测数据\", \"order\": 7, \"isChart\": 0, \"datatype\": {\"max\": 10, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"次数\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0, \"isSharePerm\": 1}, {\"id\": \"category_gear\", \"name\": \"运行档位\", \"order\": 5, \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"enumList\": [{\"text\": \"低速档位\", \"value\": \"0\"}, {\"text\": \"中速档位\", \"value\": \"1\"}, {\"text\": \"中高速档位\", \"value\": \"2\"}, {\"text\": \"高速档位\", \"value\": \"3\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0, \"isSharePerm\": 1}, {\"id\": \"category_switch\", \"name\": \"设备开关\", \"order\": 4, \"isChart\": 0, \"datatype\": {\"type\": \"bool\", \"trueText\": \"打开\", \"falseText\": \"关闭\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0, \"isSharePerm\": 1}, {\"id\": \"category_irc\", \"name\": \"射频遥控\", \"order\": 6, \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"遥控配对\", \"value\": \"FFXX01\"}, {\"text\": \"遥控清码\", \"value\": \"FFXX02\"}, {\"text\": \"打开开关\", \"value\": \"FFXX03\"}, {\"text\": \"关闭开关\", \"value\": \"FFXX04\"}, {\"text\": \"暂停\", \"value\": \"FFXX05\"}, {\"text\": \"锁定\", \"value\": \"FFXX06\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0, \"isSharePerm\": 1}]}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}, {\"id\": \"device\", \"name\": \"子设备\", \"type\": 1, \"order\": 10, \"regId\": \"device\", \"isChart\": 0, \"datatype\": {\"type\": \"array\", \"params\": [{\"id\": \"device_co2\", \"name\": \"二氧化碳\", \"order\": 0, \"isChart\": 1, \"datatype\": {\"max\": 6000, \"min\": 100, \"step\": 1, \"type\": \"integer\", \"unit\": \"ppm\", \"enumList\": [{\"text\": \"\", \"value\": \"\"}], \"arrayType\": \"int\"}, \"isHistory\": 1, \"isMonitor\": 1, \"isReadonly\": 1, \"isSharePerm\": 0}, {\"id\": \"device_temperature\", \"name\": \"空气温度-只读\", \"order\": 4, \"datatype\": {\"max\": 120, \"min\": -20, \"step\": 0.1, \"type\": \"decimal\", \"unit\": \"℃\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 1}, {\"id\": \"device_gear\", \"name\": \"运行档位\", \"order\": 6, \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"enumList\": [{\"text\": \"低速档位\", \"value\": \"0\"}, {\"text\": \"中速档位\", \"value\": \"1\"}, {\"text\": \"中高速档位\", \"value\": \"2\"}, {\"text\": \"高速档位\", \"value\": \"3\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0, \"isSharePerm\": 1}, {\"id\": \"device_switch\", \"name\": \"设备开关\", \"order\": 5, \"isChart\": 0, \"datatype\": {\"type\": \"bool\", \"trueText\": \"打开\", \"falseText\": \"关闭\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0, \"isSharePerm\": 1}, {\"id\": \"device_report_monitor\", \"name\": \"上报监测数据\", \"order\": 9, \"isChart\": 0, \"datatype\": {\"max\": 10, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"次数\"}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0, \"isSharePerm\": 1}, {\"id\": \"device_irc\", \"name\": \"射频遥控\", \"order\": 1, \"isChart\": 0, \"datatype\": {\"type\": \"enum\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"遥控学习\", \"value\": \"FFXX01\"}, {\"text\": \"遥控清码\", \"value\": \"FFXX02\"}, {\"text\": \"打开开关\", \"value\": \"FFXX03\"}, {\"text\": \"关闭开关\", \"value\": \"FFXX04\"}, {\"text\": \"暂停\", \"value\": \"FFXX05\"}, {\"text\": \"锁定\", \"value\": \"FFXX06\"}]}, \"isHistory\": 1, \"isMonitor\": 0, \"isReadonly\": 0, \"isSharePerm\": 1}], \"arrayType\": \"object\", \"arrayCount\": \"5\"}, \"isHistory\": 0, \"isMonitor\": 0, \"isReadonly\": 0}]}', 2, 2, 3, NULL, '0', '', '2025-02-25 22:51:39', '', '2023-09-16 11:46:43', NULL, 'MQTT');
-INSERT INTO `iot_product` VALUES (88, '￥视频监控产品', NULL, 2, '家居安防', 1, 'admin', 1, 0, 'FastBee', 'P0IB9M8A7J4R056V', 'K69914VL8175ZY21', 2, '{}', 3, 1, 3, NULL, '0', '', '2023-04-11 21:11:54', '', NULL, NULL, 'GB28181');
+INSERT INTO `iot_product` VALUES (55, '★网关产品', 'JSON', 1, '电工照明', 1, 'admin', 1, 0, 'FastBee', 'P467433O1MT8MXS2', 'KWF32S3H95LH14LO', 2, '{}', 2, 2, 3, NULL, '0', '', '2025-02-25 22:51:39', '', '2023-09-16 11:46:43', NULL, 'MQTT');
 
 -- ----------------------------
 -- Table structure for iot_product_authorize
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_product_authorize`;
 CREATE TABLE `iot_product_authorize`  (
-  `authorize_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '授权码ID',
+  `authorize_id` bigint NOT NULL AUTO_INCREMENT COMMENT '授权码ID',
   `authorize_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '授权码',
-  `product_id` bigint(20) NOT NULL COMMENT '产品ID',
-  `device_id` bigint(20) NULL DEFAULT NULL COMMENT '设备ID',
+  `product_id` bigint NOT NULL COMMENT '产品ID',
+  `device_id` bigint NULL DEFAULT NULL COMMENT '设备ID',
   `serial_number` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备编号',
-  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
+  `user_id` bigint NULL DEFAULT NULL COMMENT '用户ID',
   `user_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名称',
   `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态（1-未使用，2-使用中）',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`authorize_id`) USING BTREE,
-  INDEX `iot_product_authorize_index_product_id`(`product_id`) USING BTREE,
-  INDEX `iot_product_authorize_index_device_id`(`device_id`) USING BTREE,
-  INDEX `iot_product_authorize_index_serial_number`(`serial_number`) USING BTREE,
-  INDEX `iot_product_authorize_index_user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '产品授权码表' ROW_FORMAT = Dynamic;
+  INDEX `iot_product_authorize_index_product_id`(`product_id` ASC) USING BTREE,
+  INDEX `iot_product_authorize_index_device_id`(`device_id` ASC) USING BTREE,
+  INDEX `iot_product_authorize_index_serial_number`(`serial_number` ASC) USING BTREE,
+  INDEX `iot_product_authorize_index_user_id`(`user_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '产品授权码表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_product_authorize
 -- ----------------------------
+INSERT INTO `iot_product_authorize` VALUES (1, 'C1343FAC3F844027875BCCBF301F4A4D', 41, 108, 'D1ELV3A5TOJS', 1, 'admin', 2, '0', 'admin', '2024-05-31 14:00:49', '', '2024-05-31 14:00:58', NULL);
+INSERT INTO `iot_product_authorize` VALUES (2, '9DE97322007E42DAAACB1C61EF16B3A5', 41, 141, 'D18B75Y99KS9', 1, 'admin', 2, '0', 'admin', '2024-05-31 14:00:49', '', '2024-05-31 23:02:08', NULL);
+INSERT INTO `iot_product_authorize` VALUES (3, '8A15488EA3A04286A9218C1DD292C711', 41, 144, 'D138QFH77I509', 1, 'cyqcw', 2, '0', 'admin', '2024-05-31 14:00:49', '', '2024-06-18 17:11:14', NULL);
+INSERT INTO `iot_product_authorize` VALUES (4, 'DE6342BF0EB64B719DD27B623BB3D9F4', 41, NULL, NULL, NULL, NULL, 1, '0', 'admin', '2024-05-31 14:00:49', '', NULL, NULL);
+INSERT INTO `iot_product_authorize` VALUES (5, 'F2615BC111484E779FDB5D6B99C5EC30', 41, NULL, NULL, NULL, NULL, 1, '0', 'admin', '2024-05-31 14:00:49', '', NULL, NULL);
+INSERT INTO `iot_product_authorize` VALUES (6, '2B1E6BCABB764A3781A3FA1388DFA3AE', 41, NULL, NULL, NULL, NULL, 1, '0', 'admin', '2024-05-31 14:00:49', '', NULL, NULL);
+INSERT INTO `iot_product_authorize` VALUES (7, 'D947CFA1D1474634ADAD6350CB758829', 41, NULL, NULL, NULL, NULL, 1, '0', 'admin', '2024-05-31 14:00:49', '', NULL, NULL);
+INSERT INTO `iot_product_authorize` VALUES (8, '4CC6BA02677D43DAACC1D5278DAD283B', 41, NULL, NULL, NULL, NULL, 1, '0', 'admin', '2024-05-31 14:00:49', '', NULL, NULL);
+INSERT INTO `iot_product_authorize` VALUES (9, 'C5EFF611E50C4D3E894941B15242CFB3', 41, NULL, NULL, NULL, NULL, 1, '0', 'admin', '2024-05-31 14:00:49', '', NULL, NULL);
+INSERT INTO `iot_product_authorize` VALUES (10, '4903C944CEB447009E53C0C055953727', 41, NULL, NULL, NULL, NULL, 1, '0', 'admin', '2024-05-31 14:00:49', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for iot_protocol
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_protocol`;
 CREATE TABLE `iot_protocol`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `protocol_code` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '协议编码',
   `protocol_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '协议名称',
   `protocol_file_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '协议jar包,js包，c程序上传地址',
-  `protocol_type` int(11) NOT NULL DEFAULT 0 COMMENT '协议类型 0:未知 1:jar，2.js,3.c',
+  `protocol_type` int NOT NULL DEFAULT 0 COMMENT '协议类型 0:未知 1:jar，2.js,3.c',
   `jar_sign` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '协议文件摘要(文件的md5)',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `protocol_status` int(11) NOT NULL DEFAULT 0 COMMENT '0:草稿 1:启用 2:停用',
-  `del_flag` int(11) NOT NULL DEFAULT 0 COMMENT '0:正常 1:删除',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `protocol_status` int NOT NULL DEFAULT 0 COMMENT '0:草稿 1:启用 2:停用',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '0:正常 1:删除',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `UNIQUE_CODE`(`protocol_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '协议表' ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `UNIQUE_CODE`(`protocol_code` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '协议表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_protocol
@@ -505,15 +534,11 @@ INSERT INTO `iot_protocol` VALUES (1, 'JSON', 'JSON协议', '/', 0, '系统内�
 INSERT INTO `iot_protocol` VALUES (5, '商业版非标协议', '商业版本支持更多非标协议', '', 0, '商业版本支持更多非标协议', '2023-08-23 01:31:39', '2023-08-23 01:31:39', 1, 0);
 
 -- ----------------------------
--- Records of iot_simulate_log
--- ----------------------------
-
--- ----------------------------
 -- Table structure for iot_social_platform
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_social_platform`;
 CREATE TABLE `iot_social_platform`  (
-  `social_platform_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '第三方登录平台主键',
+  `social_platform_id` int NOT NULL AUTO_INCREMENT COMMENT '第三方登录平台主键',
   `platform` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方登录平台',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT ' 0:启用 ,1:禁用',
   `client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方平台申请Id',
@@ -521,27 +546,31 @@ CREATE TABLE `iot_social_platform`  (
   `redirect_uri` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户认证后跳转地址',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记位(0代表存在，1代表删除)',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建者',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `bind_uri` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '绑定注册登录uri,http://localhost/login?bindId=',
   `redirect_login_uri` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '跳转登录uri,http://localhost/login?loginId=',
   `error_msg_uri` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '错误提示uri,http://localhost/login?errorId=',
   PRIMARY KEY (`social_platform_id`) USING BTREE,
-  UNIQUE INDEX `iot_social_platform_platform_uindex`(`platform`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方登录平台控制' ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `iot_social_platform_platform_uindex`(`platform` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方登录平台控制' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of iot_social_platform
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for iot_social_user
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_social_user`;
 CREATE TABLE `iot_social_user`  (
-  `social_user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '第三方系统用户表主键',
+  `social_user_id` int NOT NULL AUTO_INCREMENT COMMENT '第三方系统用户表主键',
   `uuid` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方系统的唯一ID',
   `source` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方用户来源',
   `access_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户的授权令牌',
-  `expire_in` int(11) NULL DEFAULT NULL COMMENT '第三方用户的授权令牌的有效期（部分平台可能没有）',
+  `expire_in` int NULL DEFAULT NULL COMMENT '第三方用户的授权令牌的有效期（部分平台可能没有）',
   `refresh_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '刷新令牌(部分平台可能没有)',
   `open_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方用户的 open id（部分平台可能没有）',
   `uid` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方用户的 ID(部分平台可能没有)',
@@ -555,69 +584,70 @@ CREATE TABLE `iot_social_user`  (
   `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户的授权code（部分平台可能没有）',
   `oauth_token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Twitter平台用户的附带属性(部分平台可能没有)',
   `oauth_token_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Twitter平台用户的附带属性(部分平台可能没有)',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记位(0代表存在,2代表删除)',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '绑定状态(0:未绑定,1:绑定)',
-  `sys_user_id` int(11) NULL DEFAULT NULL COMMENT '用户ID',
+  `sys_user_id` int NULL DEFAULT NULL COMMENT '用户ID',
   `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
   `nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户昵称',
   `avatar` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户头像',
-  `gender` tinyint(4) NULL DEFAULT NULL COMMENT '用户性别',
+  `gender` tinyint NULL DEFAULT NULL COMMENT '用户性别',
   `source_client` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方用户来源客户端（web、app、小程序）',
   PRIMARY KEY (`social_user_id`) USING BTREE,
-  UNIQUE INDEX `iot_social_user_pk`(`social_user_id`) USING BTREE,
-  UNIQUE INDEX `iot_social_user_unique_key`(`uuid`, `source`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 211 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方登录用户' ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `iot_social_user_pk`(`social_user_id` ASC) USING BTREE,
+  UNIQUE INDEX `iot_social_user_unique_key`(`uuid` ASC, `source` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 211 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方登录用户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_social_user
 -- ----------------------------
 INSERT INTO `iot_social_user` VALUES (1, 'ojefY6BdTpoXOLjdpsFQXWixAG_Q', 'WECHAT_OPEN', '71_7qVQ56lx6qdC7mmArXFwQD8Nl6BTjayw4HJdfHdPoXS0sEHDffiSYa4k8dIK7XG7puk2asZ0s0Rj_Pk8ahqdDQICL4FumjWmXHm3ql2si-M', 7200, '71_rh7a79t0eJmC0JyJrQjABF3zZdkNhP7oAUm3Jj6Rk1skL_i4V3ITlM3ViYO0PA_NCKn9ba85pz2vttdloreR0lWmUxK-VOm3XaMt33vZ9a0', 'ojefY6BdTpoXOLjdpsFQXWixAG_Q', NULL, NULL, 'oL1Fu5x1fapbFrUGWUStT0Vs6f4I', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-08-23 11:48:04', 'System', '2023-09-15 17:23:12', 'System', '1', '1', 8, 'shadow', 'shadow', 'https://thirdwx.qlogo.cn/mmopen/vi_32/dNibaEkibxjJZSffkH5gQKtCg0pqfz39PGbPcQ8IhADianIaEYqibvD2JhrxYLMeQexBGVR6VOl9MR4gtsYiaxEqPFA/132', NULL, 'wechat_open_web');
+
 -- ----------------------------
 -- Table structure for iot_things_model
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_things_model`;
 CREATE TABLE `iot_things_model`  (
-  `model_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '物模型ID',
-  `model_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '物模型名称',
-  `product_id` bigint(20) NOT NULL COMMENT '产品ID',
-  `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品名称',
-  `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
-  `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
-  `identifier` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符，产品下唯一',
+  `model_id` bigint NOT NULL AUTO_INCREMENT COMMENT '物模型ID',
+  `model_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '物模型名称',
+  `product_id` bigint NOT NULL COMMENT '产品ID',
+  `product_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '产品名称',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `tenant_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
+  `identifier` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '标识符，产品下唯一',
   `type` tinyint(1) NOT NULL COMMENT '模型类别（1-属性，2-功能，3-事件）',
-  `datatype` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据类型（integer、decimal、string、bool、array、enum）',
+  `datatype` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '数据类型（integer、decimal、string、bool、array、enum）',
   `specs` json NULL COMMENT '数据定义',
   `is_chart` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否图表展示（0-否，1-是）',
   `is_monitor` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否实时监测（0-否，1-是）',
   `is_history` tinyint(1) NULL DEFAULT 0 COMMENT '是否历史存储（0-否，1-是）',
   `is_readonly` tinyint(1) NULL DEFAULT 0 COMMENT '是否只读数据(0-否，1-是)',
   `is_share_perm` tinyint(1) NULL DEFAULT 0 COMMENT '是否设备分享权限(0-否，1-是)',
-  `model_order` int(10) NULL DEFAULT 0 COMMENT '排序，值越大，排序越靠前',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `temp_slave_id` bigint(20) NULL DEFAULT NULL COMMENT '从机id',
-  `formula` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '计算公式',
-  `reverse_formula` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '控制公式',
-  `reg_addr` int(255) NULL DEFAULT NULL COMMENT '寄存器地址值',
-  `bit_option` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '位定义选项',
-  `value_type` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '解析类型 1.数值 2.选项',
-  `is_params` int(1) NULL DEFAULT NULL COMMENT '是否是计算参数',
-  `quantity` int(2) NULL DEFAULT NULL COMMENT '读取寄存器数量',
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'modbus功能码',
-  `parse_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'modbus解析类型',
+  `model_order` int NULL DEFAULT 0 COMMENT '排序，值越大，排序越靠前',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `temp_slave_id` bigint NULL DEFAULT NULL COMMENT '从机id',
+  `formula` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '计算公式',
+  `reverse_formula` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '控制公式',
+  `reg_addr` int NULL DEFAULT NULL COMMENT '寄存器地址值',
+  `bit_option` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '位定义选项',
+  `value_type` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '解析类型 1.数值 2.选项',
+  `is_params` int NULL DEFAULT NULL COMMENT '是否是计算参数',
+  `quantity` int NULL DEFAULT NULL COMMENT '读取寄存器数量',
+  `code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'modbus功能码',
+  `parse_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'modbus解析类型',
   PRIMARY KEY (`model_id`) USING BTREE,
-  INDEX `iot_things_model_index_product_id`(`product_id`) USING BTREE,
-  INDEX `iot_things_model_index_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `iot_things_model_index_model_order`(`model_order`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 500 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '物模型' ROW_FORMAT = Dynamic;
+  INDEX `iot_things_model_index_product_id`(`product_id` ASC) USING BTREE,
+  INDEX `iot_things_model_index_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `iot_things_model_index_model_order`(`model_order` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 500 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '物模型' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_things_model
@@ -658,13 +688,13 @@ INSERT INTO `iot_things_model` VALUES (499, '上报状态', 130, 'TCP测试设�
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_things_model_template`;
 CREATE TABLE `iot_things_model_template`  (
-  `template_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '物模型ID',
-  `template_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '物模型名称',
-  `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
-  `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
-  `identifier` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符，产品下唯一',
+  `template_id` bigint NOT NULL AUTO_INCREMENT COMMENT '物模型ID',
+  `template_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '物模型名称',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `tenant_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
+  `identifier` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '标识符，产品下唯一',
   `type` tinyint(1) NOT NULL COMMENT '模型类别（1-属性，2-功能，3-事件）',
-  `datatype` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '数据类型（integer、decimal、string、bool、array、enum）',
+  `datatype` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '数据类型（integer、decimal、string、bool、array、enum）',
   `specs` json NULL COMMENT '数据定义',
   `is_sys` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否系统通用（0-否，1-是）',
   `is_chart` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否图表展示（0-否，1-是）',
@@ -672,29 +702,29 @@ CREATE TABLE `iot_things_model_template`  (
   `is_history` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否历史存储 (0-否，1-是）',
   `is_readonly` tinyint(1) NULL DEFAULT 0 COMMENT '是否只读数据(0-否，1-是)',
   `is_share_perm` tinyint(1) NULL DEFAULT 0 COMMENT '是否设备分享权限(0-否，1-是)',
-  `model_order` int(10) NULL DEFAULT 0 COMMENT '排序，值越大，排序越靠前',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `temp_slave_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '从机id',
-  `formula` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '计算公式',
-  `reverse_formula` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '控制公式',
-  `reg_addr` int(255) NULL DEFAULT NULL COMMENT '寄存器地址值',
-  `bit_option` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '位定义选项',
-  `value_type` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '解析类型 1.数值 2.选项',
+  `model_order` int NULL DEFAULT 0 COMMENT '排序，值越大，排序越靠前',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `temp_slave_id` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '从机id',
+  `formula` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '计算公式',
+  `reverse_formula` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '控制公式',
+  `reg_addr` int NULL DEFAULT NULL COMMENT '寄存器地址值',
+  `bit_option` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '位定义选项',
+  `value_type` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '解析类型 1.数值 2.选项',
   `is_params` int(1) UNSIGNED ZEROFILL NULL DEFAULT NULL COMMENT '是否是计算参数,默认否 0=否，1=是',
-  `quantity` int(2) NULL DEFAULT NULL COMMENT '读取寄存器数量',
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'modbus功能码',
-  `old_identifier` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '旧的标识符',
-  `old_temp_slave_id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '旧的从机id',
-  `parse_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'modbus解析类型',
+  `quantity` int NULL DEFAULT NULL COMMENT '读取寄存器数量',
+  `code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'modbus功能码',
+  `old_identifier` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '旧的标识符',
+  `old_temp_slave_id` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '旧的从机id',
+  `parse_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'modbus解析类型',
   PRIMARY KEY (`template_id`) USING BTREE,
-  INDEX `iot_things_model_template_index_tenant_id`(`tenant_id`) USING BTREE,
-  INDEX `iot_things_model_template_index_model_order`(`model_order`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 344 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '物模型模板' ROW_FORMAT = Dynamic;
+  INDEX `iot_things_model_template_index_tenant_id`(`tenant_id` ASC) USING BTREE,
+  INDEX `iot_things_model_template_index_model_order`(`model_order` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 345 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '物模型模板' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of iot_things_model_template
@@ -730,7 +760,7 @@ INSERT INTO `iot_things_model_template` VALUES (236, '射频遥控', 1, 'admin',
 INSERT INTO `iot_things_model_template` VALUES (250, '漏水值', 1, 'admin', '0', 1, 'integer', '{\"max\": 100, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"度\"}', 1, 0, 0, 1, 0, 0, 0, '0', '', '2023-04-11 22:35:36', '', '2023-09-13 23:32:34', NULL, '1#1', NULL, NULL, 0, NULL, NULL, NULL, 1, '3', NULL, NULL, 'ushort');
 INSERT INTO `iot_things_model_template` VALUES (251, '温度', 1, 'admin', '0', 1, 'integer', '{\"max\": 100, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"°\"}', 1, 0, 0, 1, 0, 0, 0, '0', '', '2023-04-11 22:36:10', '', '2023-09-13 23:32:51', NULL, '1#2', NULL, NULL, 0, NULL, NULL, NULL, 1, '3', NULL, NULL, 'ushort');
 INSERT INTO `iot_things_model_template` VALUES (252, '电量', 1, 'admin', '1', 1, 'integer', '{\"max\": 100, \"min\": 1, \"step\": 1, \"type\": \"integer\", \"unit\": \"\"}', 1, 0, 0, 1, 0, 0, 0, '0', '', '2023-04-11 22:36:27', '', '2023-09-13 23:33:11', NULL, '1#11', NULL, NULL, 1, NULL, NULL, NULL, 1, '3', NULL, NULL, 'ushort');
-INSERT INTO `iot_things_model_template` VALUES (323, '上报状态', 1, 'admin', 'status', 2, 'enum', '{\"type\": \"enum\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"更新状态\", \"value\": \"update_status\"}]}', 1, 0, 0, 0, 0, 1, 0, '0', 'admin', '2023-04-13 01:35:42', 'admin', '2023-09-03 10:50:16', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `iot_things_model_template` VALUES (323, '上报状态', 1, 'admin', 'status', 2, 'enum', '{\"type\": \"enum\", \"showWay\": \"button\", \"enumList\": [{\"text\": \"更新状态\", \"value\": \"update_status\"}]}', 1, 0, 0, 0, 0, 1, 0, '0', 'admin', '2023-04-13 01:35:42', 'cyqcw', '2024-06-18 17:07:20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `iot_things_model_template` VALUES (324, 'X位移', 1, 'admin', 'x-shift', 1, 'decimal', '{\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"decimal\", \"unit\": \"mm\"}', 1, 1, 1, 1, 1, 0, 0, '0', '', '2023-08-26 19:36:58', '', NULL, NULL, '2#1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `iot_things_model_template` VALUES (325, 'Y位移', 1, 'admin', 'y-shift', 1, 'decimal', '{\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"decimal\", \"unit\": \"mm\"}', 1, 1, 1, 1, 1, 0, 0, '0', '', '2023-08-26 19:37:23', '', '2023-08-26 19:37:32', NULL, '2#1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `iot_things_model_template` VALUES (326, 'X位移', 1, 'admin', 'x-shift', 1, 'decimal', '{\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"decimal\", \"unit\": \"mm\"}', 1, 1, 1, 1, 1, 0, 0, '0', '', '2023-08-26 19:38:31', '', NULL, NULL, '2#2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -751,25 +781,25 @@ INSERT INTO `iot_things_model_template` VALUES (343, '状态', 1, 'admin', 'stat
 -- ----------------------------
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news`  (
-  `news_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '新闻ID',
-  `title` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标题',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
-  `img_url` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '封面',
+  `news_id` bigint NOT NULL AUTO_INCREMENT COMMENT '新闻ID',
+  `title` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '标题',
+  `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '内容',
+  `img_url` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '封面',
   `is_top` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否置顶(0-置顶 1-置顶)',
   `is_banner` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否banner(0-是banner 1-不是banner)',
-  `category_id` bigint(20) NOT NULL COMMENT '分类ID',
-  `category_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类名称',
+  `category_id` bigint NOT NULL COMMENT '分类ID',
+  `category_name` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '分类名称',
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '新闻状态（0-未发布，1-已发布）',
-  `author` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '作者',
+  `author` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '作者',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`news_id`) USING BTREE,
-  INDEX `news_index_category_id`(`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '新闻资讯' ROW_FORMAT = Dynamic;
+  INDEX `news_index_category_id`(`category_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '新闻资讯' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of news
@@ -788,17 +818,17 @@ INSERT INTO `news` VALUES (8, '物联网赛道观察之无源物联网', '<p>无
 -- ----------------------------
 DROP TABLE IF EXISTS `news_category`;
 CREATE TABLE `news_category`  (
-  `category_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '分类ID',
-  `category_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类名称',
-  `order_num` int(2) NOT NULL COMMENT '显示顺序',
-  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `category_id` bigint NOT NULL AUTO_INCREMENT COMMENT '分类ID',
+  `category_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '分类名称',
+  `order_num` int NOT NULL COMMENT '显示顺序',
+  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '新闻分类' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '新闻分类' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of news_category
@@ -818,7 +848,7 @@ CREATE TABLE `oauth_access_token`  (
   `client_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `authentication` blob NULL,
   `refresh_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of oauth_access_token
@@ -834,9 +864,9 @@ CREATE TABLE `oauth_approvals`  (
   `clientId` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `scope` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `expiresAt` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  `lastModifiedAt` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  `expiresAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `lastModifiedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of oauth_approvals
@@ -856,13 +886,13 @@ CREATE TABLE `oauth_client_details`  (
   `authorized_grant_types` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '授权模式，可选值包括authorization_code,password,refresh_token,implicit,client_credentials, 若支持多个grant_type用逗号(,)分隔',
   `web_server_redirect_uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '回调地址',
   `authorities` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限',
-  `access_token_validity` int(11) NULL DEFAULT NULL COMMENT '设定客户端的access_token的有效时间值(单位:秒)',
-  `refresh_token_validity` int(11) NULL DEFAULT NULL COMMENT '设定客户端的refresh_token的有效时间值(单位:秒)',
+  `access_token_validity` int NULL DEFAULT NULL COMMENT '设定客户端的access_token的有效时间值(单位:秒)',
+  `refresh_token_validity` int NULL DEFAULT NULL COMMENT '设定客户端的refresh_token的有效时间值(单位:秒)',
   `additional_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '预留的字段,在Oauth的流程中没有实际的使用,可选,但若设置值,必须是JSON格式的数据',
   `autoapprove` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设置用户是否自动Approval操作, 默认值为 \'false\', 可选值包括 \'true\',\'false\', \'read\',\'write\'. \n该字段只适用于grant_type=\"authorization_code\"的情况,当用户登录成功后,若该值为\'true\'或支持的scope值,则会跳过用户Approve的页面, 直接授权. ',
   `type` tinyint(1) NULL DEFAULT NULL COMMENT '1=小度(DuerOS),2=天猫精灵(ALiGenie),3=小米小爱',
   PRIMARY KEY (`client_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of oauth_client_details
@@ -884,7 +914,7 @@ CREATE TABLE `oauth_client_token`  (
   `authentication_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `client_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of oauth_client_token
@@ -897,7 +927,7 @@ DROP TABLE IF EXISTS `oauth_code`;
 CREATE TABLE `oauth_code`  (
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `authentication` blob NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of oauth_code
@@ -914,13 +944,12 @@ CREATE TABLE `oauth_refresh_token`  (
   `token_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `token` blob NULL,
   `authentication` blob NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of oauth_refresh_token
 -- ----------------------------
 INSERT INTO `oauth_refresh_token` VALUES ('4cabc0e9bcfa34131342209bdaf275eb', 0xACED00057372004C6F72672E737072696E676672616D65776F726B2E73656375726974792E6F61757468322E636F6D6D6F6E2E44656661756C744578706972696E674F417574683252656672657368546F6B656E2FDF47639DD0C9B70200014C000A65787069726174696F6E7400104C6A6176612F7574696C2F446174653B787200446F72672E737072696E676672616D65776F726B2E73656375726974792E6F61757468322E636F6D6D6F6E2E44656661756C744F417574683252656672657368546F6B656E73E10E0A6354D45E0200014C000576616C75657400124C6A6176612F6C616E672F537472696E673B787074001B56452D377744386D70414A34497A662D49345F456450316F31626F7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000018AA760D12D78, 0xACED0005737200416F72672E737072696E676672616D65776F726B2E73656375726974792E6F61757468322E70726F76696465722E4F417574683241757468656E7469636174696F6EBD400B02166252130200024C000D73746F7265645265717565737474003C4C6F72672F737072696E676672616D65776F726B2F73656375726974792F6F61757468322F70726F76696465722F4F4175746832526571756573743B4C00127573657241757468656E7469636174696F6E7400324C6F72672F737072696E676672616D65776F726B2F73656375726974792F636F72652F41757468656E7469636174696F6E3B787200476F72672E737072696E676672616D65776F726B2E73656375726974792E61757468656E7469636174696F6E2E416273747261637441757468656E7469636174696F6E546F6B656ED3AA287E6E47640E0200035A000D61757468656E746963617465644C000B617574686F7269746965737400164C6A6176612F7574696C2F436F6C6C656374696F6E3B4C000764657461696C737400124C6A6176612F6C616E672F4F626A6563743B787000737200266A6176612E7574696C2E436F6C6C656374696F6E7324556E6D6F6469666961626C654C697374FC0F2531B5EC8E100200014C00046C6973747400104C6A6176612F7574696C2F4C6973743B7872002C6A6176612E7574696C2E436F6C6C656374696F6E7324556E6D6F6469666961626C65436F6C6C656374696F6E19420080CB5EF71E0200014C00016371007E00047870737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007871007E000C707372003A6F72672E737072696E676672616D65776F726B2E73656375726974792E6F61757468322E70726F76696465722E4F41757468325265717565737400000000000000010200075A0008617070726F7665644C000B617574686F72697469657371007E00044C000A657874656E73696F6E7374000F4C6A6176612F7574696C2F4D61703B4C000B72656469726563745572697400124C6A6176612F6C616E672F537472696E673B4C00077265667265736874003B4C6F72672F737072696E676672616D65776F726B2F73656375726974792F6F61757468322F70726F76696465722F546F6B656E526571756573743B4C000B7265736F7572636549647374000F4C6A6176612F7574696C2F5365743B4C000D726573706F6E7365547970657371007E0011787200386F72672E737072696E676672616D65776F726B2E73656375726974792E6F61757468322E70726F76696465722E426173655265717565737436287A3EA37169BD0200034C0008636C69656E74496471007E000F4C001172657175657374506172616D657465727371007E000E4C000573636F706571007E0011787074000C61646D696E2D647565726F73737200256A6176612E7574696C2E436F6C6C656374696F6E7324556E6D6F6469666961626C654D6170F1A5A8FE74F507420200014C00016D71007E000E7870737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C77080000001000000009740004636F6465740006536C4B4F684C74000A6772616E745F74797065740012617574686F72697A6174696F6E5F636F646574000573636F706574000A7265616420777269746574000D726573706F6E73655F74797065740004636F646574000C72656469726563745F75726974004468747470733A2F2F7869616F64752E62616964752E636F6D2F73616979612F617574682F65326566636666663936383964633462366166363764373865313039363934647400057374617465740020346635653763303462313731306262653836376535376431373434613534373874000D636C69656E745F7365637265747400225332456E65487864745E4D48684276384E253233245E7479366E71244E5159324E6474000A647565726F735F7569647400203466356537633034623137313062626538363765353764313734346135343738740009636C69656E745F696474000C61646D696E2D647565726F7378737200256A6176612E7574696C2E436F6C6C656374696F6E7324556E6D6F6469666961626C65536574801D92D18F9B80550200007871007E0009737200176A6176612E7574696C2E4C696E6B656448617368536574D86CD75A95DD2A1E020000787200116A6176612E7574696C2E48617368536574BA44859596B8B7340300007870770C000000103F4000000000000274000472656164740005777269746578017371007E002E770C000000103F40000000000001737200426F72672E737072696E676672616D65776F726B2E73656375726974792E636F72652E617574686F726974792E53696D706C654772616E746564417574686F7269747900000000000002260200014C0004726F6C6571007E000F787074000A524F4C455F41444D494E787371007E00173F40000000000000770800000010000000007874004468747470733A2F2F7869616F64752E62616964752E636F6D2F73616979612F617574682F6532656663666666393638396463346236616636376437386531303936393464707371007E002E770C000000103F4000000000000174000F737065616B65722D73657276696365787371007E002E770C000000103F4000000000000171007E0020787372004F6F72672E737072696E676672616D65776F726B2E73656375726974792E61757468656E7469636174696F6E2E557365726E616D6550617373776F726441757468656E7469636174696F6E546F6B656E00000000000002260200024C000B63726564656E7469616C7371007E00054C00097072696E636970616C71007E00057871007E0003017372001F6A6176612E7574696C2E436F6C6C656374696F6E7324456D7074794C6973747AB817B43CA79EDE0200007870737200486F72672E737072696E676672616D65776F726B2E73656375726974792E7765622E61757468656E7469636174696F6E2E57656241757468656E7469636174696F6E44657461696C7300000000000002260200024C000D72656D6F74654164647265737371007E000F4C000973657373696F6E496471007E000F787074000F303A303A303A303A303A303A303A3170707372002E636F6D2E666173746265652E636F6D6D6F6E2E636F72652E646F6D61696E2E6D6F64656C2E4C6F67696E55736572000000000000000102000B4C000762726F7773657271007E000F4C00066465707449647400104C6A6176612F6C616E672F4C6F6E673B4C000A65787069726554696D6571007E00434C000669706164647271007E000F4C000D6C6F67696E4C6F636174696F6E71007E000F4C00096C6F67696E54696D6571007E00434C00026F7371007E000F4C000B7065726D697373696F6E7371007E00114C0005746F6B656E71007E000F4C00047573657274002F4C636F6D2F666173746265652F636F6D6D6F6E2F636F72652F646F6D61696E2F656E746974792F537973557365723B4C000675736572496471007E004378707400094368726F6D652031317372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000000000000677371007E00470000018AAC097C437400093132372E302E302E31740008E58685E7BD9149507371007E00470000018AA6E3204374000A57696E646F77732031307371007E002E770C000000023F400000000000017400052A3A2A3A2A7874002439326462396566652D656438662D343965392D613839392D3664393431633333393237637372002D636F6D2E666173746265652E636F6D6D6F6E2E636F72652E646F6D61696E2E656E746974792E5379735573657200000000000000010200124C000661766174617271007E000F4C000764656C466C616771007E000F4C00046465707474002F4C636F6D2F666173746265652F636F6D6D6F6E2F636F72652F646F6D61696E2F656E746974792F537973446570743B4C000664657074496471007E00434C0005656D61696C71007E000F4C00096C6F67696E446174657400104C6A6176612F7574696C2F446174653B4C00076C6F67696E497071007E000F4C00086E69636B4E616D6571007E000F4C000870617373776F726471007E000F4C000B70686F6E656E756D62657271007E000F5B0007706F73744964737400115B4C6A6176612F6C616E672F4C6F6E673B4C0006726F6C65496471007E00435B0007726F6C6549647371007E00554C0005726F6C657371007E00084C000373657871007E000F4C000673746174757371007E000F4C000675736572496471007E00434C0008757365724E616D6571007E000F78720029636F6D2E666173746265652E636F6D6D6F6E2E636F72652E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E000F4C000A63726561746554696D6571007E00544C0006706172616D7371007E000E4C000672656D61726B71007E000F4C000B73656172636856616C756571007E000F4C0008757064617465427971007E000F4C000A75706461746554696D6571007E0054787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017DBE4ED850787371007E00173F400000000000007708000000100000000078740009E7AEA1E79086E59198707070740000740001307372002D636F6D2E666173746265652E636F6D6D6F6E2E636F72652E646F6D61696E2E656E746974792E53797344657074000000000000000102000C4C0009616E636573746F727371007E000F4C00086368696C6472656E71007E00084C000764656C466C616771007E000F4C000664657074496471007E00434C0008646570744E616D6571007E000F4C0005656D61696C71007E000F4C00066C656164657271007E000F4C00086F726465724E756D7400134C6A6176612F6C616E672F496E74656765723B4C0008706172656E74496471007E00434C000A706172656E744E616D6571007E000F4C000570686F6E6571007E000F4C000673746174757371007E000F7871007E005670707371007E00173F40000000000000770800000010000000007870707070740009302C3130302C3130317371007E000B00000000770400000000787071007E004974000CE7A094E58F91E983A8E997A870740006E789A9E7BE8E737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C75657871007E0048000000017371007E0047000000000000006570707400013171007E00497400103136343737303730374071712E636F6D7371007E005977080000018AA651C3B8787400093132372E302E302E3174000FE89C82E4BFA1E7AEA1E79086E5919874003C2432612431302451416F77377962733734666B53574A444A6B56544E656F6746376D686E69684637535445727437385078446848694E6E6F3449557574000B31353838383838383838387070707371007E000B000000017704000000017372002D636F6D2E666173746265652E636F6D6D6F6E2E636F72652E646F6D61696E2E656E746974792E537973526F6C65000000000000000102000D5A001164657074436865636B5374726963746C795A0004666C61675A00116D656E75436865636B5374726963746C794C00096461746153636F706571007E000F4C000764656C466C616771007E000F5B00076465707449647371007E00555B00076D656E7549647371007E00554C000B7065726D697373696F6E7371007E00114C0006726F6C65496471007E00434C0007726F6C654B657971007E000F4C0008726F6C654E616D6571007E000F4C0008726F6C65536F727471007E00604C000673746174757371007E000F7871007E005670707371007E00173F4000000000000077080000001000000000787070707000000074000131707070707371007E0047000000000000000174000561646D696E74000FE8B685E7BAA7E7AEA1E79086E5919871007E00687400013078740001307400013071007E007674000561646D696E71007E0076);
-
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -933,7 +962,7 @@ CREATE TABLE `qrtz_blob_triggers`  (
   `blob_data` blob NULL COMMENT '存放持久化Trigger对象',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `QRTZ_BLOB_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Blob类型的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Blob类型的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_blob_triggers
@@ -948,7 +977,7 @@ CREATE TABLE `qrtz_calendars`  (
   `calendar_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日历名称',
   `calendar` blob NOT NULL COMMENT '存放持久化calendar对象',
   PRIMARY KEY (`sched_name`, `calendar_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '日历信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '日历信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_calendars
@@ -966,7 +995,7 @@ CREATE TABLE `qrtz_cron_triggers`  (
   `time_zone_id` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '时区',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `QRTZ_CRON_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Cron类型的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Cron类型的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_cron_triggers
@@ -987,16 +1016,16 @@ CREATE TABLE `qrtz_fired_triggers`  (
   `trigger_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
   `trigger_group` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
   `instance_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调度器实例名',
-  `fired_time` bigint(13) NOT NULL COMMENT '触发的时间',
-  `sched_time` bigint(13) NOT NULL COMMENT '定时器制定的时间',
-  `priority` int(11) NOT NULL COMMENT '优先级',
+  `fired_time` bigint NOT NULL COMMENT '触发的时间',
+  `sched_time` bigint NOT NULL COMMENT '定时器制定的时间',
+  `priority` int NOT NULL COMMENT '优先级',
   `state` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态',
   `job_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '任务名称',
   `job_group` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '任务组名',
   `is_nonconcurrent` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否并发',
   `requests_recovery` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否接受恢复执行',
   PRIMARY KEY (`sched_name`, `entry_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '已触发的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '已触发的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_fired_triggers
@@ -1018,7 +1047,7 @@ CREATE TABLE `qrtz_job_details`  (
   `requests_recovery` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '是否接受恢复执行',
   `job_data` blob NULL COMMENT '存放持久化job对象',
   PRIMARY KEY (`sched_name`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '任务详细信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '任务详细信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_job_details
@@ -1037,7 +1066,7 @@ CREATE TABLE `qrtz_locks`  (
   `sched_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调度名称',
   `lock_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '悲观锁名称',
   PRIMARY KEY (`sched_name`, `lock_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存储的悲观锁信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存储的悲观锁信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_locks
@@ -1053,7 +1082,7 @@ CREATE TABLE `qrtz_paused_trigger_grps`  (
   `sched_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调度名称',
   `trigger_group` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
   PRIMARY KEY (`sched_name`, `trigger_group`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '暂停的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '暂停的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_paused_trigger_grps
@@ -1066,10 +1095,10 @@ DROP TABLE IF EXISTS `qrtz_scheduler_state`;
 CREATE TABLE `qrtz_scheduler_state`  (
   `sched_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调度名称',
   `instance_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '实例名称',
-  `last_checkin_time` bigint(13) NOT NULL COMMENT '上次检查时间',
-  `checkin_interval` bigint(13) NOT NULL COMMENT '检查间隔时间',
+  `last_checkin_time` bigint NOT NULL COMMENT '上次检查时间',
+  `checkin_interval` bigint NOT NULL COMMENT '检查间隔时间',
   PRIMARY KEY (`sched_name`, `instance_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '调度器状态表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '调度器状态表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_scheduler_state
@@ -1084,12 +1113,12 @@ CREATE TABLE `qrtz_simple_triggers`  (
   `sched_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调度名称',
   `trigger_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
   `trigger_group` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
-  `repeat_count` bigint(7) NOT NULL COMMENT '重复的次数统计',
-  `repeat_interval` bigint(12) NOT NULL COMMENT '重复的间隔时间',
-  `times_triggered` bigint(10) NOT NULL COMMENT '已经触发的次数',
+  `repeat_count` bigint NOT NULL COMMENT '重复的次数统计',
+  `repeat_interval` bigint NOT NULL COMMENT '重复的间隔时间',
+  `times_triggered` bigint NOT NULL COMMENT '已经触发的次数',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `QRTZ_SIMPLE_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '简单触发器的信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '简单触发器的信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_simple_triggers
@@ -1106,17 +1135,17 @@ CREATE TABLE `qrtz_simprop_triggers`  (
   `str_prop_1` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'String类型的trigger的第一个参数',
   `str_prop_2` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'String类型的trigger的第二个参数',
   `str_prop_3` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'String类型的trigger的第三个参数',
-  `int_prop_1` int(11) NULL DEFAULT NULL COMMENT 'int类型的trigger的第一个参数',
-  `int_prop_2` int(11) NULL DEFAULT NULL COMMENT 'int类型的trigger的第二个参数',
-  `long_prop_1` bigint(20) NULL DEFAULT NULL COMMENT 'long类型的trigger的第一个参数',
-  `long_prop_2` bigint(20) NULL DEFAULT NULL COMMENT 'long类型的trigger的第二个参数',
+  `int_prop_1` int NULL DEFAULT NULL COMMENT 'int类型的trigger的第一个参数',
+  `int_prop_2` int NULL DEFAULT NULL COMMENT 'int类型的trigger的第二个参数',
+  `long_prop_1` bigint NULL DEFAULT NULL COMMENT 'long类型的trigger的第一个参数',
+  `long_prop_2` bigint NULL DEFAULT NULL COMMENT 'long类型的trigger的第二个参数',
   `dec_prop_1` decimal(13, 4) NULL DEFAULT NULL COMMENT 'decimal类型的trigger的第一个参数',
   `dec_prop_2` decimal(13, 4) NULL DEFAULT NULL COMMENT 'decimal类型的trigger的第二个参数',
   `bool_prop_1` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Boolean类型的trigger的第一个参数',
   `bool_prop_2` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Boolean类型的trigger的第二个参数',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `QRTZ_SIMPROP_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '同步机制的行锁表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '同步机制的行锁表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_simprop_triggers
@@ -1133,20 +1162,20 @@ CREATE TABLE `qrtz_triggers`  (
   `job_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'qrtz_job_details表job_name的外键',
   `job_group` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'qrtz_job_details表job_group的外键',
   `description` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '相关介绍',
-  `next_fire_time` bigint(13) NULL DEFAULT NULL COMMENT '上一次触发时间（毫秒）',
-  `prev_fire_time` bigint(13) NULL DEFAULT NULL COMMENT '下一次触发时间（默认为-1表示不触发）',
-  `priority` int(11) NULL DEFAULT NULL COMMENT '优先级',
+  `next_fire_time` bigint NULL DEFAULT NULL COMMENT '上一次触发时间（毫秒）',
+  `prev_fire_time` bigint NULL DEFAULT NULL COMMENT '下一次触发时间（默认为-1表示不触发）',
+  `priority` int NULL DEFAULT NULL COMMENT '优先级',
   `trigger_state` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '触发器状态',
   `trigger_type` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '触发器的类型',
-  `start_time` bigint(13) NOT NULL COMMENT '开始时间',
-  `end_time` bigint(13) NULL DEFAULT NULL COMMENT '结束时间',
+  `start_time` bigint NOT NULL COMMENT '开始时间',
+  `end_time` bigint NULL DEFAULT NULL COMMENT '结束时间',
   `calendar_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '日程表名称',
-  `misfire_instr` smallint(2) NULL DEFAULT NULL COMMENT '补偿执行的策略',
+  `misfire_instr` smallint NULL DEFAULT NULL COMMENT '补偿执行的策略',
   `job_data` blob NULL COMMENT '存放持久化job对象',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
-  INDEX `sched_name`(`sched_name`, `job_name`, `job_group`) USING BTREE,
+  INDEX `sched_name`(`sched_name` ASC, `job_name` ASC, `job_group` ASC) USING BTREE,
   CONSTRAINT `QRTZ_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `job_name`, `job_group`) REFERENCES `qrtz_job_details` (`sched_name`, `job_name`, `job_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '触发器详细信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '触发器详细信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_triggers
@@ -1157,23 +1186,22 @@ INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAU
 INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME4', 'SYSTEM', 'TASK_CLASS_NAME4', 'SYSTEM', NULL, 1680024000000, -1, 5, 'WAITING', 'CRON', 1680023950000, 0, NULL, -1, '');
 INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME5', 'SYSTEM', 'TASK_CLASS_NAME5', 'SYSTEM', NULL, 1680024000000, -1, 5, 'WAITING', 'CRON', 1680023951000, 0, NULL, -1, '');
 
-
 -- ----------------------------
 -- Table structure for sys_auth_user
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_auth_user`;
 CREATE TABLE `sys_auth_user`  (
-  `auth_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '授权ID',
+  `auth_id` bigint NOT NULL AUTO_INCREMENT COMMENT '授权ID',
   `uuid` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方平台用户唯一ID',
-  `user_id` bigint(20) NOT NULL COMMENT '系统用户ID',
+  `user_id` bigint NOT NULL COMMENT '系统用户ID',
   `login_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登录账号',
   `user_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户昵称',
   `avatar` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '头像地址',
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户邮箱',
   `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户来源',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`auth_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方授权表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方授权表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_auth_user
@@ -1184,18 +1212,18 @@ CREATE TABLE `sys_auth_user`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_config`;
 CREATE TABLE `sys_config`  (
-  `config_id` int(5) NOT NULL AUTO_INCREMENT COMMENT '参数主键',
+  `config_id` int NOT NULL AUTO_INCREMENT COMMENT '参数主键',
   `config_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '参数名称',
   `config_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '参数键名',
   `config_value` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '参数键值',
   `config_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '参数配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_config
@@ -1211,44 +1239,44 @@ INSERT INTO `sys_config` VALUES (6, '账号自助-验证码开关', 'sys.account
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept`  (
-  `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
-  `parent_id` bigint(20) NULL DEFAULT 0 COMMENT '父部门id',
+  `dept_id` bigint NOT NULL AUTO_INCREMENT COMMENT '部门id',
+  `parent_id` bigint NULL DEFAULT 0 COMMENT '父部门id',
   `ancestors` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '祖级列表',
   `dept_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '部门名称',
-  `order_num` int(4) NULL DEFAULT 0 COMMENT '显示顺序',
+  `order_num` int NULL DEFAULT 0 COMMENT '显示顺序',
   `leader` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '负责人',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系电话',
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 110 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 110 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (100, 0, '0', '蜂信物联', 0, 'FastBee', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2023-02-26 23:06:24');
-INSERT INTO `sys_dept` VALUES (101, 100, '0,100', '北京总公司', 1, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2022-03-09 16:49:53');
-INSERT INTO `sys_dept` VALUES (102, 100, '0,100', '深圳分公司', 2, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2023-02-26 23:06:07');
-INSERT INTO `sys_dept` VALUES (103, 101, '0,100,101', '研发部门', 1, '物美', '15888888888', '164770707@qq.com', '1', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2022-02-01 23:12:40');
-INSERT INTO `sys_dept` VALUES (104, 101, '0,100,101', '市场部门', 2, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
-INSERT INTO `sys_dept` VALUES (105, 101, '0,100,101', '测试部门', 3, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
-INSERT INTO `sys_dept` VALUES (106, 101, '0,100,101', '财务部门', 4, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
-INSERT INTO `sys_dept` VALUES (107, 101, '0,100,101', '运维部门', 5, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
-INSERT INTO `sys_dept` VALUES (108, 102, '0,100,102', '市场部门', 1, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
-INSERT INTO `sys_dept` VALUES (109, 102, '0,100,102', '财务部门', 2, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
+INSERT INTO `sys_dept` VALUES (100, 0, '0', '厦门大学', 0, 'FastBee', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2023-02-26 23:06:24');
+INSERT INTO `sys_dept` VALUES (101, 100, '0,100', '翔安校区', 1, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2022-03-09 16:49:53');
+INSERT INTO `sys_dept` VALUES (102, 100, '0,100', '思明校区', 2, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2023-02-26 23:06:07');
+INSERT INTO `sys_dept` VALUES (103, 101, '0,100,101', '信息学院', 1, '物美', '15888888888', '164770707@qq.com', '1', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2022-02-01 23:12:40');
+INSERT INTO `sys_dept` VALUES (104, 101, '0,100,101', '生命科学学院', 2, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
+INSERT INTO `sys_dept` VALUES (105, 101, '0,100,101', '公共卫生学院', 3, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
+INSERT INTO `sys_dept` VALUES (106, 101, '0,100,101', '海洋与地球学院', 4, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
+INSERT INTO `sys_dept` VALUES (107, 101, '0,100,101', '电子科学与技术学院', 5, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
+INSERT INTO `sys_dept` VALUES (108, 102, '0,100,102', '经济学院', 1, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
+INSERT INTO `sys_dept` VALUES (109, 102, '0,100,102', '管理学院', 2, '物美', '15888888888', '164770707@qq.com', '0', '0', 'admin', '2021-12-15 21:36:18', '', NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_data
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_data`;
 CREATE TABLE `sys_dict_data`  (
-  `dict_code` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典编码',
-  `dict_sort` int(4) NULL DEFAULT 0 COMMENT '字典排序',
+  `dict_code` bigint NOT NULL AUTO_INCREMENT COMMENT '字典编码',
+  `dict_sort` int NULL DEFAULT 0 COMMENT '字典排序',
   `dict_label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典标签',
   `dict_value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典键值',
   `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典类型',
@@ -1257,12 +1285,12 @@ CREATE TABLE `sys_dict_data`  (
   `is_default` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'N' COMMENT '是否默认（Y是 N否）',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 408 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 409 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -1535,24 +1563,25 @@ INSERT INTO `sys_dict_data` VALUES (404, 0, '打开灶眼', 'turnOnBurner', 'due
 INSERT INTO `sys_dict_data` VALUES (405, 0, '关闭灶眼', 'turnOffBurner', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', '2023-09-22 10:35:15', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (406, 0, '定时打开灶眼', 'timingTurnOnBurner', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', '2023-09-22 10:35:15', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (407, 0, '定时关闭灶眼', 'timingTurnOffBurner', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', '2023-09-22 10:35:15', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (408, 7, '微信开放平台网站应用个人中心绑定', 'wechat_open_web_bind', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', '2023-10-09 11:28:15', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_type
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_type`;
 CREATE TABLE `sys_dict_type`  (
-  `dict_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典主键',
+  `dict_id` bigint NOT NULL AUTO_INCREMENT COMMENT '字典主键',
   `dict_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典名称',
   `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典类型',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_id`) USING BTREE,
-  UNIQUE INDEX `dict_type`(`dict_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `dict_type`(`dict_type` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -1606,7 +1635,7 @@ INSERT INTO `sys_dict_type` VALUES (133, '小度音箱操作类型', 'dueros_ope
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_job`;
 CREATE TABLE `sys_job`  (
-  `job_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务ID',
+  `job_id` bigint NOT NULL AUTO_INCREMENT COMMENT '任务ID',
   `job_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '任务名称',
   `job_group` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'DEFAULT' COMMENT '任务组名',
   `invoke_target` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调用目标字符串',
@@ -1615,12 +1644,12 @@ CREATE TABLE `sys_job`  (
   `concurrent` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1' COMMENT '是否并发执行（0允许 1禁止）',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0正常 1暂停）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注信息',
   PRIMARY KEY (`job_id`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
@@ -1632,16 +1661,16 @@ INSERT INTO `sys_job` VALUES (2, '系统默认（有参）', 'DEFAULT', 'ryTask.
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_job_log`;
 CREATE TABLE `sys_job_log`  (
-  `job_log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务日志ID',
+  `job_log_id` bigint NOT NULL AUTO_INCREMENT COMMENT '任务日志ID',
   `job_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务名称',
   `job_group` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务组名',
   `invoke_target` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调用目标字符串',
   `job_message` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '日志信息',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '异常信息',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job_log
@@ -1649,13 +1678,19 @@ CREATE TABLE `sys_job_log`  (
 INSERT INTO `sys_job_log` VALUES (1, 'modbus云端轮询', 'SYSTEM', 'propGetServiceImpl.fetchProperty', 'modbus云端轮询 总共耗时：2毫秒', '0', '', '2023-09-26 22:22:00');
 INSERT INTO `sys_job_log` VALUES (2, '监控在线状态更新', 'SYSTEM', 'deviceJob.updateSipDeviceOnlineStatus(90)', '监控在线状态更新 总共耗时：8毫秒', '0', '', '2023-09-26 22:22:00');
 INSERT INTO `sys_job_log` VALUES (3, 'modbus云端轮询', 'SYSTEM', 'propGetServiceImpl.fetchProperty', 'modbus云端轮询 总共耗时：1毫秒', '0', '', '2023-09-26 22:23:00');
+INSERT INTO `sys_job_log` VALUES (5, '告警定时触发', 'DEFAULT', '告警定时触发', '告警定时触发 总共耗时：15毫秒', '0', '', '2024-05-31 12:56:46');
+INSERT INTO `sys_job_log` VALUES (6, 'P', 'DEFAULT', '★温湿度开关', 'P 总共耗时：10047毫秒', '1', 'org.springframework.dao.QueryTimeoutException: Redis command timed out; nested exception is io.lettuce.core.RedisCommandTimeoutException: Command timed out after 10 second(s)\r\n	at org.springframework.data.redis.connection.lettuce.LettuceExceptionConverter.convert(LettuceExceptionConverter.java:70)\r\n	at org.springframework.data.redis.connection.lettuce.LettuceExceptionConverter.convert(LettuceExceptionConverter.java:41)\r\n	at org.springframework.data.redis.PassThroughExceptionTranslationStrategy.translate(PassThroughExceptionTranslationStrategy.java:44)\r\n	at org.springframework.data.redis.FallbackExceptionTranslationStrategy.translate(FallbackExceptionTranslationStrategy.java:42)\r\n	at org.springframework.data.redis.connection.lettuce.LettuceConnection.convertLettuceAccessException(LettuceConnection.java:271)\r\n	at org.springframework.data.redis.connection.lettuce.LettuceConnection.await(LettuceConnection.java:1062)\r\n	at org.springframework.data.redis.connection.lettuce.LettuceConnection.lambda$doInvoke$4(LettuceConnection.java:919)\r\n	at org.springframework.data.redis.connection.lettuce.LettuceInvoker$Synchronizer.invoke(LettuceInvoker.java:665)\r\n	at org.springframework.data.redis.connection.lettuce.LettuceInvoker.just(LettuceInvoker.java:109)\r\n	at org.springframework.data.redis.connection.lettuce.LettuceStringCommands.setNX(LettuceStringCommands.java:126)\r\n	at org.springframework.data.redis.connection.DefaultedRedisConnection.setNX(DefaultedRedisConnection.java:302)\r\n	at org.springframework.data.redis.core.DefaultValueOperations.lambda$setIfAbsent$10(DefaultValueOperations.java:296)\r\n	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:222)\r\n	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:189)\r\n	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:96)\r\n	at org.springframework.data.redis.core.DefaultValueOperations.setIfAbsent(DefaultValueOperations.java:296)\r\n	at org.sprin', '2024-05-31 12:56:56');
+INSERT INTO `sys_job_log` VALUES (7, 'P', 'DEFAULT', '★温湿度开关', 'P 总共耗时：129毫秒', '0', '', '2024-06-01 11:08:00');
+INSERT INTO `sys_job_log` VALUES (8, '告警定时触发', 'DEFAULT', '告警定时触发', '告警定时触发 总共耗时：0毫秒', '0', '', '2024-06-01 11:13:00');
+INSERT INTO `sys_job_log` VALUES (9, 'P', 'DEFAULT', '★温湿度开关', 'P 总共耗时：242毫秒', '0', '', '2024-06-18 11:08:01');
+INSERT INTO `sys_job_log` VALUES (10, '告警定时触发', 'DEFAULT', '告警定时触发', '告警定时触发 总共耗时：0毫秒', '0', '', '2024-06-18 11:13:00');
 
 -- ----------------------------
 -- Table structure for sys_logininfor
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_logininfor`;
 CREATE TABLE `sys_logininfor`  (
-  `info_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '访问ID',
+  `info_id` bigint NOT NULL AUTO_INCREMENT COMMENT '访问ID',
   `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户账号',
   `ipaddr` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '登录IP地址',
   `login_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '登录地点',
@@ -1663,40 +1698,172 @@ CREATE TABLE `sys_logininfor`  (
   `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '操作系统',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '登录状态（0成功 1失败）',
   `msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '提示消息',
-  `login_time` datetime(0) NULL DEFAULT NULL COMMENT '访问时间',
+  `login_time` datetime NULL DEFAULT NULL COMMENT '访问时间',
   PRIMARY KEY (`info_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 133 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统访问记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_logininfor
 -- ----------------------------
+INSERT INTO `sys_logininfor` VALUES (1, 'fastbee', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-05-31 01:14:11');
+INSERT INTO `sys_logininfor` VALUES (2, 'fastbee', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 01:14:16');
+INSERT INTO `sys_logininfor` VALUES (3, 'fastbee', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-05-31 01:16:33');
+INSERT INTO `sys_logininfor` VALUES (4, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '密码输入错误1次', '2024-05-31 01:16:44');
+INSERT INTO `sys_logininfor` VALUES (5, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '用户不存在/密码错误', '2024-05-31 01:16:44');
+INSERT INTO `sys_logininfor` VALUES (6, 'fastbee', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 13:00:34');
+INSERT INTO `sys_logininfor` VALUES (7, 'fastbee', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-05-31 13:01:51');
+INSERT INTO `sys_logininfor` VALUES (8, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '密码输入错误1次', '2024-05-31 13:02:06');
+INSERT INTO `sys_logininfor` VALUES (9, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '用户不存在/密码错误', '2024-05-31 13:02:06');
+INSERT INTO `sys_logininfor` VALUES (10, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 13:02:37');
+INSERT INTO `sys_logininfor` VALUES (11, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 13:33:00');
+INSERT INTO `sys_logininfor` VALUES (12, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 16:17:57');
+INSERT INTO `sys_logininfor` VALUES (13, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 17:01:17');
+INSERT INTO `sys_logininfor` VALUES (14, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码已失效', '2024-05-31 22:34:18');
+INSERT INTO `sys_logininfor` VALUES (15, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 22:34:22');
+INSERT INTO `sys_logininfor` VALUES (16, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-05-31 22:50:44');
+INSERT INTO `sys_logininfor` VALUES (17, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 22:50:53');
+INSERT INTO `sys_logininfor` VALUES (18, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-05-31 22:59:01');
+INSERT INTO `sys_logininfor` VALUES (19, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 23:01:07');
+INSERT INTO `sys_logininfor` VALUES (20, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-05-31 23:07:25');
+INSERT INTO `sys_logininfor` VALUES (21, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-05-31 23:07:35');
+INSERT INTO `sys_logininfor` VALUES (22, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 00:14:23');
+INSERT INTO `sys_logininfor` VALUES (23, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 00:26:15');
+INSERT INTO `sys_logininfor` VALUES (24, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 00:26:19');
+INSERT INTO `sys_logininfor` VALUES (25, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 01:01:22');
+INSERT INTO `sys_logininfor` VALUES (26, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 01:01:27');
+INSERT INTO `sys_logininfor` VALUES (27, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-01 11:02:30');
+INSERT INTO `sys_logininfor` VALUES (28, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 11:02:34');
+INSERT INTO `sys_logininfor` VALUES (29, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 16:54:04');
+INSERT INTO `sys_logininfor` VALUES (30, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-01 16:54:10');
+INSERT INTO `sys_logininfor` VALUES (31, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 16:54:14');
+INSERT INTO `sys_logininfor` VALUES (32, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 18:01:27');
+INSERT INTO `sys_logininfor` VALUES (33, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 18:01:36');
+INSERT INTO `sys_logininfor` VALUES (34, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 18:49:22');
+INSERT INTO `sys_logininfor` VALUES (35, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 18:56:20');
+INSERT INTO `sys_logininfor` VALUES (36, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 21:39:20');
+INSERT INTO `sys_logininfor` VALUES (37, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 21:50:45');
+INSERT INTO `sys_logininfor` VALUES (38, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 21:50:51');
+INSERT INTO `sys_logininfor` VALUES (39, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 21:53:22');
+INSERT INTO `sys_logininfor` VALUES (40, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 21:53:34');
+INSERT INTO `sys_logininfor` VALUES (41, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 21:57:11');
+INSERT INTO `sys_logininfor` VALUES (42, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 21:57:18');
+INSERT INTO `sys_logininfor` VALUES (43, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 22:00:16');
+INSERT INTO `sys_logininfor` VALUES (44, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 22:00:24');
+INSERT INTO `sys_logininfor` VALUES (45, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 22:04:36');
+INSERT INTO `sys_logininfor` VALUES (46, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-01 22:06:21');
+INSERT INTO `sys_logininfor` VALUES (47, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 22:06:26');
+INSERT INTO `sys_logininfor` VALUES (48, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 22:08:52');
+INSERT INTO `sys_logininfor` VALUES (49, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-01 22:08:57');
+INSERT INTO `sys_logininfor` VALUES (50, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 22:09:01');
+INSERT INTO `sys_logininfor` VALUES (51, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 22:10:26');
+INSERT INTO `sys_logininfor` VALUES (52, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 22:10:34');
+INSERT INTO `sys_logininfor` VALUES (53, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 22:11:33');
+INSERT INTO `sys_logininfor` VALUES (54, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-01 22:18:13');
+INSERT INTO `sys_logininfor` VALUES (55, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 22:19:19');
+INSERT INTO `sys_logininfor` VALUES (56, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 00:17:26');
+INSERT INTO `sys_logininfor` VALUES (57, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-02 00:17:59');
+INSERT INTO `sys_logininfor` VALUES (58, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 00:28:13');
+INSERT INTO `sys_logininfor` VALUES (59, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 00:38:24');
+INSERT INTO `sys_logininfor` VALUES (60, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 00:54:41');
+INSERT INTO `sys_logininfor` VALUES (61, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 00:57:02');
+INSERT INTO `sys_logininfor` VALUES (62, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 00:59:48');
+INSERT INTO `sys_logininfor` VALUES (63, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 01:00:35');
+INSERT INTO `sys_logininfor` VALUES (64, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-16 00:33:01');
+INSERT INTO `sys_logininfor` VALUES (65, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-16 00:33:30');
+INSERT INTO `sys_logininfor` VALUES (66, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-16 00:33:39');
+INSERT INTO `sys_logininfor` VALUES (67, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-16 00:54:56');
+INSERT INTO `sys_logininfor` VALUES (68, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-16 01:02:45');
+INSERT INTO `sys_logininfor` VALUES (69, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-16 01:05:31');
+INSERT INTO `sys_logininfor` VALUES (70, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-16 01:44:11');
+INSERT INTO `sys_logininfor` VALUES (71, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-16 01:44:11');
+INSERT INTO `sys_logininfor` VALUES (72, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-16 01:44:11');
+INSERT INTO `sys_logininfor` VALUES (73, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-16 01:45:46');
+INSERT INTO `sys_logininfor` VALUES (74, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-16 02:29:09');
+INSERT INTO `sys_logininfor` VALUES (75, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-16 02:29:09');
+INSERT INTO `sys_logininfor` VALUES (76, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-16 02:29:14');
+INSERT INTO `sys_logininfor` VALUES (77, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-16 02:29:17');
+INSERT INTO `sys_logininfor` VALUES (78, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-16 02:30:06');
+INSERT INTO `sys_logininfor` VALUES (79, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 19:05:43');
+INSERT INTO `sys_logininfor` VALUES (80, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-17 19:08:39');
+INSERT INTO `sys_logininfor` VALUES (81, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 19:09:00');
+INSERT INTO `sys_logininfor` VALUES (82, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 20:45:43');
+INSERT INTO `sys_logininfor` VALUES (83, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-17 20:56:13');
+INSERT INTO `sys_logininfor` VALUES (84, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 20:56:18');
+INSERT INTO `sys_logininfor` VALUES (85, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-17 20:57:33');
+INSERT INTO `sys_logininfor` VALUES (86, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 20:57:38');
+INSERT INTO `sys_logininfor` VALUES (87, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-17 21:07:53');
+INSERT INTO `sys_logininfor` VALUES (88, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 21:08:08');
+INSERT INTO `sys_logininfor` VALUES (89, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-17 21:08:45');
+INSERT INTO `sys_logininfor` VALUES (90, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-17 21:11:42');
+INSERT INTO `sys_logininfor` VALUES (91, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-17 21:11:45');
+INSERT INTO `sys_logininfor` VALUES (92, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 21:11:48');
+INSERT INTO `sys_logininfor` VALUES (93, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 21:33:52');
+INSERT INTO `sys_logininfor` VALUES (94, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 21:41:58');
+INSERT INTO `sys_logininfor` VALUES (95, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '密码输入错误1次', '2024-06-17 22:32:41');
+INSERT INTO `sys_logininfor` VALUES (96, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '用户不存在/密码错误', '2024-06-17 22:32:41');
+INSERT INTO `sys_logininfor` VALUES (97, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-17 22:32:46');
+INSERT INTO `sys_logininfor` VALUES (98, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 22:32:48');
+INSERT INTO `sys_logininfor` VALUES (99, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-17 23:12:14');
+INSERT INTO `sys_logininfor` VALUES (100, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 23:12:24');
+INSERT INTO `sys_logininfor` VALUES (101, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-17 23:25:54');
+INSERT INTO `sys_logininfor` VALUES (102, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 23:26:05');
+INSERT INTO `sys_logininfor` VALUES (103, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-17 23:26:19');
+INSERT INTO `sys_logininfor` VALUES (104, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 23:26:26');
+INSERT INTO `sys_logininfor` VALUES (105, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 23:35:54');
+INSERT INTO `sys_logininfor` VALUES (106, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-17 23:38:35');
+INSERT INTO `sys_logininfor` VALUES (107, 'admin', '192.168.43.40', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 00:07:21');
+INSERT INTO `sys_logininfor` VALUES (108, 'admin', '192.168.43.40', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-18 00:25:51');
+INSERT INTO `sys_logininfor` VALUES (109, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 00:31:17');
+INSERT INTO `sys_logininfor` VALUES (110, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 00:53:18');
+INSERT INTO `sys_logininfor` VALUES (111, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 00:58:12');
+INSERT INTO `sys_logininfor` VALUES (112, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-18 01:02:10');
+INSERT INTO `sys_logininfor` VALUES (113, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 01:02:19');
+INSERT INTO `sys_logininfor` VALUES (114, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 01:12:06');
+INSERT INTO `sys_logininfor` VALUES (115, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 09:50:32');
+INSERT INTO `sys_logininfor` VALUES (116, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-18 09:50:37');
+INSERT INTO `sys_logininfor` VALUES (117, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 09:51:14');
+INSERT INTO `sys_logininfor` VALUES (118, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 13:10:34');
+INSERT INTO `sys_logininfor` VALUES (119, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 13:25:15');
+INSERT INTO `sys_logininfor` VALUES (120, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-18 15:32:05');
+INSERT INTO `sys_logininfor` VALUES (121, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 15:33:03');
+INSERT INTO `sys_logininfor` VALUES (122, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 15:44:53');
+INSERT INTO `sys_logininfor` VALUES (123, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-18 15:52:43');
+INSERT INTO `sys_logininfor` VALUES (124, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 15:54:46');
+INSERT INTO `sys_logininfor` VALUES (125, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-18 15:56:29');
+INSERT INTO `sys_logininfor` VALUES (126, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 15:56:36');
+INSERT INTO `sys_logininfor` VALUES (127, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 16:52:13');
+INSERT INTO `sys_logininfor` VALUES (128, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-18 17:19:04');
+INSERT INTO `sys_logininfor` VALUES (129, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 17:19:11');
+INSERT INTO `sys_logininfor` VALUES (130, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-18 17:19:36');
+INSERT INTO `sys_logininfor` VALUES (131, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 17:19:43');
+INSERT INTO `sys_logininfor` VALUES (132, 'cyqcw', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-18 19:36:45');
 
 -- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
-  `menu_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+  `menu_id` bigint NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
   `menu_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称',
-  `parent_id` bigint(20) NULL DEFAULT 0 COMMENT '父菜单ID',
-  `order_num` int(4) NULL DEFAULT 0 COMMENT '显示顺序',
+  `parent_id` bigint NULL DEFAULT 0 COMMENT '父菜单ID',
+  `order_num` int NULL DEFAULT 0 COMMENT '显示顺序',
   `path` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '路由地址',
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组件路径',
   `query` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由参数',
-  `is_frame` int(1) NULL DEFAULT 1 COMMENT '是否为外链（0是 1否）',
-  `is_cache` int(1) NULL DEFAULT 0 COMMENT '是否缓存（0缓存 1不缓存）',
+  `is_frame` int NULL DEFAULT 1 COMMENT '是否为外链（0是 1否）',
+  `is_cache` int NULL DEFAULT 0 COMMENT '是否缓存（0缓存 1不缓存）',
   `menu_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
   `visible` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '菜单状态（0正常 1停用）',
   `perms` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限标识',
   `icon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '#' COMMENT '菜单图标',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3050 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3050 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -1704,7 +1871,7 @@ CREATE TABLE `sys_menu`  (
 INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 4, 'system', NULL, '', 1, 0, 'M', '0', '0', '', 'system', 'admin', '2021-12-15 21:36:18', 'admin', '2023-09-16 16:42:52', '系统管理目录');
 INSERT INTO `sys_menu` VALUES (2, '系统监控', 0, 5, 'monitor', NULL, '', 1, 0, 'M', '0', '0', '', 'monitor', 'admin', '2021-12-15 21:36:18', 'admin', '2023-08-24 17:21:20', '系统监控目录');
 INSERT INTO `sys_menu` VALUES (3, '系统工具', 0, 6, 'tool', NULL, '', 1, 0, 'M', '0', '0', '', 'tool', 'admin', '2021-12-15 21:36:18', 'admin', '2023-08-24 17:21:28', '系统工具目录');
-INSERT INTO `sys_menu` VALUES (4, '蜂信物联', 0, 9, 'http://fastbee.cn', NULL, '', 0, 0, 'M', '0', '0', '', 'guide', 'admin', '2021-12-15 21:36:18', 'admin', '2023-08-24 17:21:59', '若依官网地址');
+INSERT INTO `sys_menu` VALUES (4, 'github记录', 0, 9, 'https://github.com/cyqcw/FastBee', NULL, '', 0, 0, 'M', '0', '0', '', 'connect', 'admin', '2021-12-15 21:36:18', 'admin', '2024-06-01 21:51:46', '若依官网地址');
 INSERT INTO `sys_menu` VALUES (100, '用户管理', 1, 1, 'user', 'system/user/index', '', 1, 0, 'C', '0', '0', 'system:user:list', 'user', 'admin', '2021-12-15 21:36:18', '', NULL, '用户管理菜单');
 INSERT INTO `sys_menu` VALUES (101, '角色管理', 1, 2, 'role', 'system/role/index', '', 1, 0, 'C', '0', '0', 'system:role:list', 'peoples', 'admin', '2021-12-15 21:36:18', '', NULL, '角色管理菜单');
 INSERT INTO `sys_menu` VALUES (102, '菜单管理', 1, 3, 'menu', 'system/menu/index', '', 1, 0, 'C', '0', '0', 'system:menu:list', 'tree-table', 'admin', '2021-12-15 21:36:18', '', NULL, '菜单管理菜单');
@@ -1787,42 +1954,36 @@ INSERT INTO `sys_menu` VALUES (1059, '预览代码', 115, 4, '#', '', '', 1, 0, 
 INSERT INTO `sys_menu` VALUES (1060, '生成代码', 115, 5, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin', '2021-12-15 21:36:18', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1065, '账户解锁', 501, 4, '#', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:unlock', '#', 'admin', '2023-03-10 23:23:04', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2000, '设备管理', 0, 0, 'iot', NULL, NULL, 1, 0, 'M', '0', '0', '', 'iot', 'admin', '2021-12-15 23:57:06', 'admin', '2021-12-26 23:55:54', '');
-INSERT INTO `sys_menu` VALUES (2049, '通用物模型', 2000, 1, 'template', 'iot/template/index', NULL, 1, 0, 'C', '0', '0', 'iot:template:list', 'model', 'admin', '2021-12-16 00:41:28', 'admin', '2021-12-26 23:56:09', '通用物模型菜单');
-INSERT INTO `sys_menu` VALUES (2050, '通用物模型查询', 2049, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:query', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2051, '通用物模型新增', 2049, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:add', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2052, '通用物模型修改', 2049, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:edit', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2053, '通用物模型删除', 2049, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:remove', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2054, '通用物模型导出', 2049, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:export', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2001, '产品分类', 2000, 2, 'category', 'iot/category/index', NULL, 1, 0, 'C', '0', '0', 'iot:category:list', 'category', 'admin', '2021-12-16 00:40:02', 'admin', '2021-12-26 23:56:20', '产品分类菜单');
 INSERT INTO `sys_menu` VALUES (2002, '产品分类查询', 2001, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:category:query', '#', 'admin', '2021-12-16 00:40:02', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2003, '产品分类新增', 2001, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:category:add', '#', 'admin', '2021-12-16 00:40:02', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2004, '产品分类修改', 2001, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:category:edit', '#', 'admin', '2021-12-16 00:40:02', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2005, '产品分类删除', 2001, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:category:remove', '#', 'admin', '2021-12-16 00:40:02', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2006, '产品分类导出', 2001, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:category:export', '#', 'admin', '2021-12-16 00:40:02', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2043, '产品管理', 2000, 3, 'product', 'iot/product/index', NULL, 1, 0, 'C', '0', '0', 'iot:product:list', 'product', 'admin', '2021-12-16 00:41:18', 'admin', '2021-12-26 23:58:44', '产品菜单');
-INSERT INTO `sys_menu` VALUES (2044, '产品查询', 2043, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:query', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2045, '产品新增', 2043, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:add', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2046, '产品修改', 2043, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:edit', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2047, '产品删除', 2043, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:remove', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2048, '产品导出', 2043, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:export', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2019, '设备分组', 2000, 4, 'group', 'iot/group/index', NULL, 1, 0, 'C', '0', '0', 'iot:group:list', 'group', 'admin', '2021-12-16 00:40:31', 'admin', '2021-12-26 23:56:54', '设备分组菜单');
-INSERT INTO `sys_menu` VALUES (2020, '设备分组查询', 2019, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:query', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2021, '设备分组新增', 2019, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:add', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2022, '设备分组修改', 2019, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:edit', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2023, '设备分组删除', 2019, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:remove', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2024, '设备分组导出', 2019, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:export', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2007, '设备管理', 2000, 5, 'device', 'iot/device/index', NULL, 1, 0, 'C', '0', '0', 'iot:device:list', 'device', 'admin', '2021-12-16 00:40:12', 'admin', '2022-01-08 15:47:14', '设备菜单');
 INSERT INTO `sys_menu` VALUES (2008, '设备查询', 2007, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:device:query', '#', 'admin', '2021-12-16 00:40:12', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2009, '设备新增', 2007, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:device:add', '#', 'admin', '2021-12-16 00:40:12', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2010, '设备修改', 2007, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:device:edit', '#', 'admin', '2021-12-16 00:40:12', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2011, '设备删除', 2007, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:device:remove', '#', 'admin', '2021-12-16 00:40:12', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2012, '设备导出', 2007, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:device:export', '#', 'admin', '2021-12-16 00:40:12', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (3007, '协议管理', 2000, 6, 'protocol', 'iot/protocol/index', NULL, 1, 0, 'C', '0', '0', 'iot:protocol:list', 'connect', 'admin', '2023-02-28 11:26:54', 'admin', '2023-04-12 22:02:14', '协议菜单');
-INSERT INTO `sys_menu` VALUES (3008, '协议查询', 3007, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:query', '#', 'admin', '2023-02-28 11:26:54', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (3009, '协议新增', 3007, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:add', '#', 'admin', '2023-02-28 11:26:54', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (3010, '协议修改', 3007, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:edit', '#', 'admin', '2023-02-28 11:26:54', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (3011, '协议删除', 3007, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:remove', '#', 'admin', '2023-02-28 11:26:54', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (3012, '协议导出', 3007, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:export', '#', 'admin', '2023-02-28 11:26:55', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2019, '设备分组', 2000, 4, 'group', 'iot/group/index', NULL, 1, 0, 'C', '0', '0', 'iot:group:list', 'group', 'admin', '2021-12-16 00:40:31', 'admin', '2021-12-26 23:56:54', '设备分组菜单');
+INSERT INTO `sys_menu` VALUES (2020, '设备分组查询', 2019, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:query', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2021, '设备分组新增', 2019, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:add', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2022, '设备分组修改', 2019, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:edit', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2023, '设备分组删除', 2019, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:remove', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2024, '设备分组导出', 2019, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:group:export', '#', 'admin', '2021-12-16 00:40:31', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2043, '产品类型管理', 2000, 3, 'product', 'iot/product/index', NULL, 1, 0, 'C', '0', '0', 'iot:product:list', 'product', 'admin', '2021-12-16 00:41:18', 'admin', '2021-12-26 23:58:44', '产品菜单');
+INSERT INTO `sys_menu` VALUES (2044, '产品查询', 2043, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:query', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2045, '产品新增', 2043, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:add', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2046, '产品修改', 2043, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:edit', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2047, '产品删除', 2043, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:remove', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2048, '产品导出', 2043, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:product:export', '#', 'admin', '2021-12-16 00:41:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2049, '参数配置', 2000, 1, 'template', 'iot/template/index', NULL, 1, 0, 'C', '0', '0', 'iot:template:list', 'model', 'admin', '2021-12-16 00:41:28', 'admin', '2021-12-26 23:56:09', '通用物模型菜单');
+INSERT INTO `sys_menu` VALUES (2050, '通用物模型查询', 2049, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:query', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2051, '通用物模型新增', 2049, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:add', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2052, '通用物模型修改', 2049, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:edit', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2053, '通用物模型删除', 2049, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:remove', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2054, '通用物模型导出', 2049, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:template:export', '#', 'admin', '2021-12-16 00:41:28', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2123, '新闻分类', 1, 10, 'newsCategory', 'iot/newsCategory/index', NULL, 1, 0, 'C', '0', '0', 'iot:newsCategory:list', 'category', 'admin', '2022-04-11 16:47:27', 'admin', '2022-05-12 17:20:51', '新闻分类菜单');
 INSERT INTO `sys_menu` VALUES (2124, '新闻分类查询', 2123, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:newsCategory:query', '#', 'admin', '2022-04-11 16:47:27', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2125, '新闻分类新增', 2123, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:newsCategory:add', '#', 'admin', '2022-04-11 16:47:27', '', NULL, '');
@@ -1843,6 +2004,12 @@ INSERT INTO `sys_menu` VALUES (2140, '产品授权码导出', 2043, 5, '#', '', 
 INSERT INTO `sys_menu` VALUES (2142, '平台查询', 2142, 1, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:platform:query', '#', 'admin', '2022-04-11 19:10:28', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2147, '设备分享', 2007, 6, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:device:share', '#', 'admin', '2022-06-10 01:08:40', 'admin', '2022-06-10 01:10:46', '');
 INSERT INTO `sys_menu` VALUES (2148, '设备定时', 2007, 7, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:device:timer', '#', 'admin', '2022-06-10 01:10:30', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (3007, '协议管理', 2000, 6, 'protocol', 'iot/protocol/index', NULL, 1, 0, 'C', '0', '0', 'iot:protocol:list', 'connect', 'admin', '2023-02-28 11:26:54', 'admin', '2023-04-12 22:02:14', '协议菜单');
+INSERT INTO `sys_menu` VALUES (3008, '协议查询', 3007, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:query', '#', 'admin', '2023-02-28 11:26:54', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (3009, '协议新增', 3007, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:add', '#', 'admin', '2023-02-28 11:26:54', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (3010, '协议修改', 3007, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:edit', '#', 'admin', '2023-02-28 11:26:54', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (3011, '协议删除', 3007, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:remove', '#', 'admin', '2023-02-28 11:26:54', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (3012, '协议导出', 3007, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'iot:protocol:export', '#', 'admin', '2023-02-28 11:26:55', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3031, 'Netty管理', 0, 3, 'netty', NULL, NULL, 1, 0, 'M', '0', '0', '', 'mq', 'admin', '2022-02-26 00:42:12', 'admin', '2023-09-26 00:11:57', '');
 INSERT INTO `sys_menu` VALUES (3032, '客户端', 3031, 1, 'client', 'iot/netty/clients', NULL, 1, 0, 'C', '0', '0', 'monitor:server:list', 'client', 'admin', '2022-02-26 00:45:39', 'admin', '2023-08-23 23:38:08', '');
 INSERT INTO `sys_menu` VALUES (3033, '事件日志', 2000, 1, 'log', 'iot/log/index', NULL, 1, 0, 'F', '0', '0', 'iot:event:list', '#', 'admin', '2023-03-28 14:23:52', '', NULL, '事件日志菜单');
@@ -1858,36 +2025,37 @@ INSERT INTO `sys_menu` VALUES (3048, 'Mqtt统计', 3031, 2, 'mqtt', 'iot/netty/m
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_notice`;
 CREATE TABLE `sys_notice`  (
-  `notice_id` int(4) NOT NULL AUTO_INCREMENT COMMENT '公告ID',
+  `notice_id` int NOT NULL AUTO_INCREMENT COMMENT '公告ID',
   `notice_title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公告标题',
   `notice_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公告类型（1通知 2公告）',
   `notice_content` longblob NULL COMMENT '公告内容',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '公告状态（0正常 1关闭）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`notice_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '通知公告表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '通知公告表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_notice
 -- ----------------------------
-INSERT INTO `sys_notice` VALUES (1, 'FastBeeV1.2版本发布', '2', 0x3C703EE8BF99E698AFE6B58BE8AF95E58685E5AEB9EFBC8CE696B0E78988E69CACE58A9FE883BDEFBC9A3C2F703E3C6F6C3E3C6C693EE694AFE68C81E5A49AE7A79FE688B73C2F6C693E3C6C693EE694AFE68C81E8AEBEE5A487E58886E4BAAB3C2F6C693E3C6C693EE694AFE68C81E697B6E5BA8FE695B0E68DAEE5BA933C2F6C693E3C6C693EE7AE80E58D95E8AEA4E8AF81E5928CE58AA0E5AF86E8AEA4E8AF81E7BB9FE4B8803C2F6C693E3C2F6F6C3E, '0', 'admin', '2021-12-15 21:36:18', 'admin', '2023-09-26 21:21:30', '管理员');
-INSERT INTO `sys_notice` VALUES (2, 'FastBee sdk支持树莓派', '1', 0x3C703EE8BF99E698AFE6B58BE8AF95E58685E5AEB9EFBC8CE79BAEE5898D73646BE694AFE68C81E79A84E78988E69CAC3A3C2F703E3C703E3C62723E3C2F703E3C703E3C62723E3C2F703E3C6F6C3E3C6C693E41726475696E6F20657370383236363C2F6C693E3C6C693E41726475696E6F2065737033323C2F6C693E3C6C693E6573702D6964663C2F6C693E3C6C693E72617370626572727920E6A091E88E93E6B4BE3C2F6C693E3C2F6F6C3E, '0', 'admin', '2021-12-15 21:36:18', 'admin', '2023-09-26 21:21:41', '管理员');
+INSERT INTO `sys_notice` VALUES (1, '后端TODO', '2', 0x3C703E312E20E58F91E5B883E695B0E68DAEE5BA94E8AFA5E8AEB0E5BD95E4B88BE69DA5E588B06C6F67E8A1A8E4B8AD3C2F703E0A3C703E322E20E79B91E68EA7E695B0E68DAEE8A681E794A8E588B0E58E86E58FB2E695B0E68DAE6C6F67E8A1A8EFBC8CE68EA5E58FA3E99C80E8A681E4BFAEE694B93C2F703E0A3C703E332E20E5BC82E5B8B8E695B0E68DAEE8A681E789B9E6AE8AE5A484E79086EFBC8CE68F90E98692E68896E585B6E4BB96E5B195E7A4BA3C2F703E, '0', 'admin', '2024-06-01 21:47:27', 'admin', '2023-09-26 21:21:30', '管理员');
+INSERT INTO `sys_notice` VALUES (2, '前端TODO', '1', 0x3C703E312E20E58AA8E68081E5A4A7E5B18F3C2F703E0A3C703E322E20E588A0E999A4E697A0E794A8E58E9FE9A1B9E79BAEE4BFA1E681AF3C2F703E0A, '0', 'admin', '2024-06-01 21:47:28', 'admin', '2023-09-06 21:21:41', '管理员');
+INSERT INTO `sys_notice` VALUES (3, '页面需要调整的东西', '2', 0xEFBBBF3C703E312E2066617374626565E79A84E58E9FE59BBEE5838FE588A0E999A43C2F703E0A3C703E312E20E588A0E999A4E8AEBFE997AEE794A8E688B7E999A4E4BA86E8AEBEE5A487E7AEA1E79086E79A84E585B6E4BB96E88F9CE58D953C2F703E, '0', 'cyqcw', '2024-06-03 19:53:43', 'cyqcw', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_oper_log
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_oper_log`;
 CREATE TABLE `sys_oper_log`  (
-  `oper_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '操作日志ID',
+  `oper_id` bigint NOT NULL AUTO_INCREMENT COMMENT '操作日志ID',
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '模块标题',
-  `business_type` int(2) NULL DEFAULT 0 COMMENT '业务类型（0其它 1新增 2修改 3删除）',
+  `business_type` int NULL DEFAULT 0 COMMENT '业务类型（0其它 1新增 2修改 3删除）',
   `method` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '方法名称',
   `request_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '请求方式',
-  `operator_type` int(1) NULL DEFAULT 0 COMMENT '操作类别（0其它 1后台用户 2手机端用户）',
+  `operator_type` int NULL DEFAULT 0 COMMENT '操作类别（0其它 1后台用户 2手机端用户）',
   `oper_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '操作人员',
   `dept_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '部门名称',
   `oper_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '请求URL',
@@ -1895,63 +2063,151 @@ CREATE TABLE `sys_oper_log`  (
   `oper_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '操作地点',
   `oper_param` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '请求参数',
   `json_result` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '返回参数',
-  `status` int(1) NULL DEFAULT 0 COMMENT '操作状态（0正常 1异常）',
+  `status` int NULL DEFAULT 0 COMMENT '操作状态（0正常 1异常）',
   `error_msg` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '错误消息',
-  `oper_time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
+  `oper_time` datetime NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`oper_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 89 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
+INSERT INTO `sys_oper_log` VALUES (1, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2023-02-26 00:00:00\",\"createTime\":\"2025-02-25 23:15:56\",\"deviceId\":108,\"deviceName\":\"★温湿度开关\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":1,\"isSimulate\":1,\"latitude\":23.027759,\"locationWay\":1,\"longitude\":113.128512,\"networkAddress\":\" 本机地址\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":-51,\"serialNumber\":\"D1ELV3A5TOJS\",\"status\":4,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"wumei-smart\\\", \\\"author\\\": \\\"kerwincui\\\", \\\"create\\\": \\\"2022-06-06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":6000,\\\"maxLength\\\":1024,\\\"min\\\":100,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"ppm\\\"},\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"二氧化碳\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10000,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"cd/m2\\\"},\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"室内亮度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":120,\\\"maxLength\\\":1024,\\\"min\\\":-20,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"℃\\\"},\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气温度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"%\\\"},\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气湿度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10,\\\"maxLength\\\":1024,\\\"min\\\":1,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"次数\\\"},\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\"},{\\\"datatype\\\":{\\\"arrayCount\\', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-05-31 13:34:01');
+INSERT INTO `sys_oper_log` VALUES (2, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2023-02-26 00:00:00\",\"createTime\":\"2025-02-25 23:15:56\",\"deviceId\":108,\"deviceName\":\"★温湿度开关\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":1,\"isSimulate\":0,\"latitude\":23.027759,\"locationWay\":1,\"longitude\":113.128512,\"networkAddress\":\" 本机地址\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":-51,\"serialNumber\":\"D1ELV3A5TOJS\",\"status\":4,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"wumei-smart\\\", \\\"author\\\": \\\"kerwincui\\\", \\\"create\\\": \\\"2022-06-06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":6000,\\\"maxLength\\\":1024,\\\"min\\\":100,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"ppm\\\"},\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"二氧化碳\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10000,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"cd/m2\\\"},\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"室内亮度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":120,\\\"maxLength\\\":1024,\\\"min\\\":-20,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"℃\\\"},\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气温度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"%\\\"},\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气湿度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10,\\\"maxLength\\\":1024,\\\"min\\\":1,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"次数\\\"},\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\"},{\\\"datatype\\\":{\\\"arrayCount\\', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-05-31 13:34:11');
+INSERT INTO `sys_oper_log` VALUES (3, '添加设备', 1, 'com.fastbee.data.controller.DeviceController.add()', 'POST', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-05-31 13:38:24.085\",\"deviceId\":141,\"deviceName\":\"小米电视A50\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":1,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D18B75Y99KS9\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"userId\":1,\"userName\":\"admin', '{\"msg\":\"操作成功\",\"code\":200,\"data\":{\"createTime\":\"2024-05-31 13:38:24.085\",\"deviceId\":141,\"deviceName\":\"小米电视A50\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":1,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D18B75Y99KS9\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"', 0, NULL, '2024-05-31 13:38:24');
+INSERT INTO `sys_oper_log` VALUES (4, '产品分类', 2, 'com.fastbee.data.controller.CategoryController.edit()', 'PUT', 1, 'admin', NULL, '/iot/category', '127.0.0.1', '内网IP', '{\"categoryId\":1,\"categoryName\":\"电工照明\",\"createTime\":\"2022-03-01 11:44:37\",\"isSys\":1,\"orderNum\":1,\"params\":{},\"remark\":\"例如：通断器、开关、插座、窗帘、灯\",\"tenantId\":1,\"tenantName\":\"admin\",\"updateTime\":\"2024-05-31 13:40:58.504\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-31 13:40:58');
+INSERT INTO `sys_oper_log` VALUES (5, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-05-31 13:38:24\",\"deviceId\":141,\"deviceName\":\"小米电视A50\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":1,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D18B75Y99KS9\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"updateTime\":\"2024-05-31 13:41:5', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-05-31 13:41:56');
+INSERT INTO `sys_oper_log` VALUES (6, '根据数量批量新增产品授权码', 1, 'com.fastbee.data.controller.ProductAuthorizeController.addProductAuthorizeByNum()', 'POST', 1, 'admin', NULL, '/iot/authorize/addProductAuthorizeByNum', '127.0.0.1', '内网IP', '{\"createNum\":10,\"productId\":41}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-31 14:00:49');
+INSERT INTO `sys_oper_log` VALUES (7, '产品授权码', 2, 'com.fastbee.data.controller.ProductAuthorizeController.edit()', 'PUT', 1, 'admin', NULL, '/iot/authorize', '127.0.0.1', '内网IP', '{\"authorizeCode\":\"C1343FAC3F844027875BCCBF301F4A4D\",\"authorizeId\":1,\"createBy\":\"admin\",\"createTime\":\"2024-05-31 14:00:49\",\"delFlag\":\"0\",\"deviceId\":108,\"params\":{},\"productId\":41,\"serialNumber\":\"D1ELV3A5TOJS\",\"status\":2,\"updateBy\":\"\",\"updateTime\":\"2024-05-31 14:00:57.89\",\"userId\":1,\"userName\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-31 14:00:57');
+INSERT INTO `sys_oper_log` VALUES (8, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-05-31 13:38:24\",\"deviceId\":141,\"deviceName\":\"小米电视A50\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":1,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D18B75Y99KS9\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"update_status\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"updateTime\":\"2024-', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-05-31 22:37:09');
+INSERT INTO `sys_oper_log` VALUES (9, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-05-31 13:38:24\",\"deviceId\":141,\"deviceName\":\"★小米电视A50\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":1,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D18B75Y99KS9\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"update_status\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"updateTime\":\"2024', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-05-31 22:37:26');
+INSERT INTO `sys_oper_log` VALUES (10, '产品授权码', 2, 'com.fastbee.data.controller.ProductAuthorizeController.edit()', 'PUT', 1, 'admin', NULL, '/iot/authorize', '127.0.0.1', '内网IP', '{\"authorizeCode\":\"9DE97322007E42DAAACB1C61EF16B3A5\",\"authorizeId\":2,\"createBy\":\"admin\",\"createTime\":\"2024-05-31 14:00:49\",\"delFlag\":\"0\",\"deviceId\":141,\"params\":{},\"productId\":41,\"serialNumber\":\"D18B75Y99KS9\",\"status\":2,\"updateBy\":\"\",\"updateTime\":\"2024-05-31 23:02:08.461\",\"userId\":1,\"userName\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-31 23:02:08');
+INSERT INTO `sys_oper_log` VALUES (11, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-05-31 13:38:24\",\"deviceId\":141,\"deviceName\":\"★小米电视A50\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D18B75Y99KS9\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"13.76\\\",\\\"ts\\\":\\\"2024-06-01 11:17:58.6\\\",\\\"value\\\":\\\"13.76\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"1\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"41.18\\\",\\\"ts\\\":\\\"2024-06-01 11:17:58.641\\\",\\\"value\\\":\\\"41.18\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"10\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"9339\\\",\\\"ts\\\":\\\"2024-06-01 11:17:58.724\\\",\\\"value\\\":\\\"9339\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"560\\\",\\\"ts\\\":\\\"2024-06-01 11:17:58.683\\\",\\\"value\\\":\\\"560\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"valu', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-01 11:18:25');
+INSERT INTO `sys_oper_log` VALUES (12, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2024-06-01 00:00:00\",\"createTime\":\"2024-05-31 13:38:24\",\"deviceId\":141,\"deviceName\":\"★小米电视A50\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"locationWay\":2,\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":0,\"serialNumber\":\"D18B75Y99KS9\",\"status\":3,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"29.75\\\",\\\"ts\\\":\\\"2024-06-01 13:03:57.434\\\",\\\"value\\\":\\\"29.75\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"35.69\\\",\\\"ts\\\":\\\"2024-06-01 13:03:57.475\\\",\\\"value\\\":\\\"35.69\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"4\\\",\\\"ts\\\":\\\"2024-06-01 11:34:40.475\\\",\\\"value\\\":\\\"4\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"5137\\\",\\\"ts\\\":\\\"2024-06-01 13:03:57.559\\\",\\\"value\\\":\\\"5137\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"423\\\",\\\"ts\\\":\\\"2024-06-01 13:03:57.519\\\",\\\"value\\\":\\\"423\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"你好\\\",\\\"ts\\\":\\\"2024-06-01 13:03:45.368\\\",\\\"value\\\":\\\"你好\\\"},{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-01 13:04:13');
+INSERT INTO `sys_oper_log` VALUES (13, '添加设备', 1, 'com.fastbee.data.controller.DeviceController.add()', 'POST', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-06-01 15:20:06.368\",\"deviceId\":142,\"deviceName\":\"★小米台灯\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D1O0EF819K4S\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"userId\":1,\"userName\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":{\"createTime\":\"2024-06-01 15:20:06.368\",\"deviceId\":142,\"deviceName\":\"★小米台灯\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D1O0EF819K4S\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]', 0, NULL, '2024-06-01 15:20:06');
+INSERT INTO `sys_oper_log` VALUES (14, '设备分组', 2, 'com.fastbee.data.controller.GroupController.updateDeviceGroups()', 'PUT', 1, 'admin', NULL, '/iot/group/updateDeviceGroups', '127.0.0.1', '内网IP', '{\"deviceIds\":[142,141],\"groupId\":2}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 17:15:49');
+INSERT INTO `sys_oper_log` VALUES (15, '添加设备', 1, 'com.fastbee.data.controller.DeviceController.add()', 'POST', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-06-01 17:18:35.198\",\"deviceId\":143,\"deviceName\":\"★小度音箱\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"latitude\":116.85270339399879,\"locationWay\":3,\"longitude\":116.5477139973903,\"networkAddress\":\"北京\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D1VK48K0Q334\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,', '{\"msg\":\"操作成功\",\"code\":200,\"data\":{\"createTime\":\"2024-06-01 17:18:35.198\",\"deviceId\":143,\"deviceName\":\"★小度音箱\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"latitude\":116.85270339399879,\"locationWay\":3,\"longitude\":116.5477139973903,\"networkAddress\":\"北京\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D1VK48K0Q334\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\', 0, NULL, '2024-06-01 17:18:35');
+INSERT INTO `sys_oper_log` VALUES (16, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'admin', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-06-01 17:18:35\",\"deviceId\":143,\"deviceName\":\"★小度音箱\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"latitude\":116.85,\"locationWay\":3,\"longitude\":116.54,\"networkAddress\":\"北京\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D1VK48K0Q334\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-01 17:18:54');
+INSERT INTO `sys_oper_log` VALUES (17, '用户头像', 2, 'com.fastbee.web.controller.system.SysProfileController.avatar()', 'POST', 1, 'admin', NULL, '/system/user/profile/avatar', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"imgUrl\":\"/profile/avatar/2024/06/01/blob_20240601182051A001.png\",\"code\":200}', 0, NULL, '2024-06-01 18:20:51');
+INSERT INTO `sys_oper_log` VALUES (18, '用户头像', 2, 'com.fastbee.web.controller.system.SysProfileController.avatar()', 'POST', 1, 'admin', NULL, '/system/user/profile/avatar', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"imgUrl\":\"/profile/avatar/2024/06/01/blob_20240601182115A002.png\",\"code\":200}', 0, NULL, '2024-06-01 18:21:15');
+INSERT INTO `sys_oper_log` VALUES (19, '菜单管理', 2, 'com.fastbee.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"createTime\":\"2021-12-15 21:36:18\",\"icon\":\"connect\",\"isCache\":\"0\",\"isFrame\":\"0\",\"menuId\":4,\"menuName\":\"github记录\",\"menuType\":\"M\",\"orderNum\":9,\"params\":{},\"parentId\":0,\"path\":\"https://github.com/cyqcw/FastBee\",\"perms\":\"\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 21:51:46');
+INSERT INTO `sys_oper_log` VALUES (20, '用户管理', 1, 'com.fastbee.web.controller.system.SysUserController.add()', 'POST', 1, 'admin', NULL, '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"createBy\":\"admin\",\"deptId\":100,\"email\":\"cyqcw@foxmail.com\",\"nickName\":\"cyqcw\",\"params\":{},\"phonenumber\":\"15518441162\",\"postIds\":[1],\"roleIds\":[5],\"sex\":\"0\",\"status\":\"0\",\"userId\":13,\"userName\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 21:52:59');
+INSERT INTO `sys_oper_log` VALUES (21, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2022-06-10 13:54:29\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,3007,3008,3009,3010,3011,3012,3031,3032,3048,1,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,103,1017,1018,1019,1020,104,1021,1022,1023,1024,1025,105,1026,1027,1028,1029,1030,106,1031,1032,1033,1034,1035,107,1036,1037,1038,1039,108,500,1040,1041,1042,501,1043,1044,1045,1065,2123,2124,2125,2126,2127,2128,2129,2130,2131,2132,2133,2134,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124],\"params\":{},\"remark\":\"普通管理员\",\"roleId\":5,\"roleKey\":\"manager\",\"roleName\":\"管理员\",\"roleSort\":5,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 21:58:19');
+INSERT INTO `sys_oper_log` VALUES (22, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2022-06-10 13:54:29\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[1,2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,3007,3008,3009,3010,3011,3012,3031,3032,3048,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,103,1017,1018,1019,1020,104,1021,1022,1023,1024,1025,105,1026,1027,1028,1029,1030,106,1031,1032,1033,1034,1035,107,1036,1037,1038,1039,108,500,1040,1041,1042,501,1043,1044,1045,1065,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124],\"params\":{},\"remark\":\"普通管理员\",\"roleId\":5,\"roleKey\":\"manager\",\"roleName\":\"管理员\",\"roleSort\":5,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 21:58:58');
+INSERT INTO `sys_oper_log` VALUES (23, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2022-06-10 13:54:29\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[1,2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,3007,3008,3009,3010,3011,3012,3031,3032,3048,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,105,1026,1027,1028,1029,1030,107,1036,1037,1038,1039,108,500,1040,1041,1042,501,1043,1044,1045,1065,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124],\"params\":{},\"remark\":\"普通管理员\",\"roleId\":5,\"roleKey\":\"manager\",\"roleName\":\"管理员\",\"roleSort\":5,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 22:00:11');
+INSERT INTO `sys_oper_log` VALUES (24, '角色管理', 1, 'com.fastbee.web.controller.system.SysRoleController.add()', 'POST', 1, 'cyqcw', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createBy\":\"cyqcw\",\"deptCheckStrictly\":true,\"deptIds\":[],\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,105,1026,1027,1028,1029,1030,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":0,\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 22:02:08');
+INSERT INTO `sys_oper_log` VALUES (25, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'cyqcw', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,105,1026,1027,1028,1029,1030,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 22:02:23');
+INSERT INTO `sys_oper_log` VALUES (26, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'cyqcw', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 22:03:01');
+INSERT INTO `sys_oper_log` VALUES (27, '用户管理', 2, 'com.fastbee.web.controller.system.SysUserController.edit()', 'PUT', 1, 'cyqcw', NULL, '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-06-01 21:52:59\",\"delFlag\":\"0\",\"dept\":{\"ancestors\":\"0\",\"children\":[],\"deptId\":100,\"deptName\":\"蜂信物联\",\"leader\":\"FastBee\",\"orderNum\":0,\"params\":{},\"parentId\":0,\"status\":\"0\"},\"deptId\":100,\"email\":\"cyqcw@foxmail.com\",\"loginDate\":\"2024-06-01 22:00:25\",\"loginIp\":\"127.0.0.1\",\"nickName\":\"cyqcw\",\"params\":{},\"phonenumber\":\"15518441162\",\"postIds\":[1],\"roleIds\":[6],\"roles\":[{\"admin\":false,\"dataScope\":\"1\",\"deptCheckStrictly\":false,\"flag\":false,\"menuCheckStrictly\":false,\"params\":{},\"roleId\":5,\"roleKey\":\"manager\",\"roleName\":\"管理员\",\"roleSort\":5,\"status\":\"0\"}],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"cyqcw\",\"userId\":13,\"userName\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 22:03:17');
+INSERT INTO `sys_oper_log` VALUES (28, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,107,1036,1037,1038,1039,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-01 22:10:59');
+INSERT INTO `sys_oper_log` VALUES (29, '添加设备', 1, 'com.fastbee.data.controller.DeviceController.add()', 'POST', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-06-01 22:19:47.383\",\"deviceId\":144,\"deviceName\":\"test\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D138QFH77I509\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"userId\":13,\"userName\":\"cyqcw\"', '{\"msg\":\"操作成功\",\"code\":200,\"data\":{\"createTime\":\"2024-06-01 22:19:47.383\",\"deviceId\":144,\"deviceName\":\"test\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D138QFH77I509\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]', 0, NULL, '2024-06-01 22:19:47');
+INSERT INTO `sys_oper_log` VALUES (30, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2024-06-01 00:00:00\",\"createTime\":\"2024-06-01 22:19:47\",\"deviceId\":144,\"deviceName\":\"★海尔空气检测器\",\"deviceType\":1,\"firmwareVersion\":1.2,\"isShadow\":0,\"isSimulate\":0,\"latitude\":39.740986355883564,\"locationWay\":3,\"longitude\":116.6440424323082,\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":1,\"serialNumber\":\"D138QFH77I509\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"device\\\", \\\"author\\\": \\\"cyqcw\\\", \\\"create\\\": \\\"2022 - 06 - 06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"19.62\\\",\\\"ts\\\":\\\"2024-06-02 00:28:32.279\\\",\\\"value\\\":\\\"19.62\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"36.45\\\",\\\"ts\\\":\\\"2024-06-02 00:28:32.319\\\",\\\"value\\\":\\\"36.45\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"4458\\\",\\\"ts\\\":\\\"2024-06-02 00:28:32.401\\\",\\\"value\\\":\\\"4458\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"416\\\",\\\"ts\\\":\\\"2024-06-02 00:28:32.36\\\",\\\"value\\\":\\\"416\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-02 00:31:53');
+INSERT INTO `sys_oper_log` VALUES (31, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2024-06-01 00:00:00\",\"createTime\":\"2024-06-01 17:18:35\",\"deviceId\":143,\"deviceName\":\"★小度音箱\",\"deviceType\":1,\"firmwareVersion\":1.2,\"isShadow\":0,\"isSimulate\":0,\"latitude\":118.03271491080523,\"locationWay\":3,\"longitude\":24.332080886310013,\"networkAddress\":\"北京\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":1,\"serialNumber\":\"D1VK48K0Q334\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"device\\\", \\\"author\\\": \\\"cyqcw\\\", \\\"create\\\": \\\"2022 - 06 - 06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":120,\\\"maxLength\\\":1024,\\\"min\\\":-20,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"℃\\\"},\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气温度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"%\\\"},\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气湿度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10000,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"cd/m2\\\"},\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"室内亮度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":6000,\\\"maxLength\\\":1024,\\\"min\\\":100,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"ppm\\\"},\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"二氧化碳\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"关闭\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"打开\\\",\\\"type\\\":\\\"bool\\\",\\\"unit\\\":\\\"\\\"},\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":1,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\"},{\\\"datatype\\\":{\\\"arrayCount\\', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-02 00:32:38');
+INSERT INTO `sys_oper_log` VALUES (32, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2024-06-01 00:00:00\",\"createTime\":\"2024-06-01 17:18:35\",\"deviceId\":143,\"deviceName\":\"★小度音箱\",\"deviceType\":1,\"firmwareVersion\":1.2,\"isShadow\":0,\"isSimulate\":0,\"latitude\":24.332080886310013,\"locationWay\":3,\"longitude\":118.3271491080523,\"networkAddress\":\"北京\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":1,\"serialNumber\":\"D1VK48K0Q334\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"device\\\", \\\"author\\\": \\\"cyqcw\\\", \\\"create\\\": \\\"2022 - 06 - 06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":120,\\\"maxLength\\\":1024,\\\"min\\\":-20,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"℃\\\"},\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气温度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"%\\\"},\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气湿度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10000,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"cd/m2\\\"},\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"室内亮度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":6000,\\\"maxLength\\\":1024,\\\"min\\\":100,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"ppm\\\"},\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"二氧化碳\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"关闭\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"打开\\\",\\\"type\\\":\\\"bool\\\",\\\"unit\\\":\\\"\\\"},\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":1,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\"', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-02 00:33:10');
+INSERT INTO `sys_oper_log` VALUES (33, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2024-06-01 00:00:00\",\"createTime\":\"2024-06-01 17:18:35\",\"deviceId\":143,\"deviceName\":\"★小度音箱\",\"deviceType\":1,\"firmwareVersion\":1.2,\"isShadow\":0,\"isSimulate\":0,\"latitude\":25.130364473249134,\"locationWay\":3,\"longitude\":117.48889166861773,\"networkAddress\":\"北京\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":1,\"serialNumber\":\"D1VK48K0Q334\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"device\\\", \\\"author\\\": \\\"cyqcw\\\", \\\"create\\\": \\\"2022 - 06 - 06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":120,\\\"maxLength\\\":1024,\\\"min\\\":-20,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"℃\\\"},\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气温度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"%\\\"},\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气湿度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10000,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"cd/m2\\\"},\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"室内亮度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":6000,\\\"maxLength\\\":1024,\\\"min\\\":100,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"ppm\\\"},\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"二氧化碳\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"关闭\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"打开\\\",\\\"type\\\":\\\"bool\\\",\\\"unit\\\":\\\"\\\"},\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":1,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\"},{\\\"datatype\\\":{\\\"arrayCount\\', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-02 00:33:36');
+INSERT INTO `sys_oper_log` VALUES (34, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2024-06-01 00:00:00\",\"createTime\":\"2024-06-01 15:20:06\",\"deviceId\":142,\"deviceName\":\"★小米台灯\",\"deviceType\":1,\"firmwareVersion\":1.2,\"isShadow\":0,\"isSimulate\":0,\"latitude\":34.29806890494564,\"locationWay\":3,\"longitude\":108.9755854010582,\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":-43,\"serialNumber\":\"D1O0EF819K4S\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":120,\\\"maxLength\\\":1024,\\\"min\\\":-20,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"℃\\\"},\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气温度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"%\\\"},\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气湿度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10000,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"cd/m2\\\"},\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"室内亮度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":6000,\\\"maxLength\\\":1024,\\\"min\\\":100,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"ppm\\\"},\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"二氧化碳\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"关闭\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"打开\\\",\\\"type\\\":\\\"bool\\\",\\\"unit\\\":\\\"\\\"},\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":1,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"enumList\\\":[{\\\"text\\\":\\\"低速档位\\\",\\\"value\\\":\\\"0\\\"},{\\\"text\\\":\\\"中速档位\\\",\\\"value\\\":\\\"1\\\"},{\\\"text\\\":\\\"中高速档位\\\",\\\"value\\\"', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-02 00:34:20');
+INSERT INTO `sys_oper_log` VALUES (35, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2024-06-01 00:00:00\",\"createTime\":\"2024-05-31 13:38:24\",\"deviceId\":141,\"deviceName\":\"★小米电视A50\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"latitude\":36.80928684952786,\"locationWay\":3,\"longitude\":92.95312285423279,\"networkAddress\":\"青海省\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":0,\"serialNumber\":\"D18B75Y99KS9\",\"status\":3,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":120,\\\"maxLength\\\":1024,\\\"min\\\":-20,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"℃\\\"},\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气温度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":0.1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"decimal\\\",\\\"unit\\\":\\\"%\\\"},\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"空气湿度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":10000,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"cd/m2\\\"},\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"室内亮度\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"\\\",\\\"max\\\":6000,\\\"maxLength\\\":1024,\\\"min\\\":100,\\\"step\\\":1,\\\"trueText\\\":\\\"\\\",\\\"type\\\":\\\"integer\\\",\\\"unit\\\":\\\"ppm\\\"},\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":1,\\\"isHistory\\\":1,\\\"isMonitor\\\":1,\\\"isReadonly\\\":1,\\\"name\\\":\\\"二氧化碳\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"falseText\\\":\\\"关闭\\\",\\\"max\\\":100,\\\"maxLength\\\":1024,\\\"min\\\":0,\\\"step\\\":1,\\\"trueText\\\":\\\"打开\\\",\\\"type\\\":\\\"bool\\\",\\\"unit\\\":\\\"\\\"},\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":1,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\"},{\\\"datatype\\\":{\\\"arrayCount\\\":0,\\\"arrayType\\\":\\\"\\\",\\\"enumList\\\":[{\\\"text\\\":\\\"低速档位\\\",\\\"value\\\":\\\"0\\\"},{\\\"text\\\":\\\"中速档位\\\",\\\"value\\\":\\\"1\\\"},{\\\"text\\\":\\\"中高速档位\\\",\\\"', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-02 00:34:54');
+INSERT INTO `sys_oper_log` VALUES (36, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2024-06-01 00:00:00\",\"createTime\":\"2024-06-01 15:20:06\",\"deviceId\":142,\"deviceName\":\"★小米台灯\",\"deviceType\":1,\"firmwareVersion\":1.2,\"isShadow\":0,\"isSimulate\":0,\"latitude\":34.298069,\"locationWay\":3,\"longitude\":108.975585,\"networkAddress\":\"西安\",\"networkIp\":\"127.0.0.1\",\"params\":{},\"rssi\":-43,\"serialNumber\":\"D1O0EF819K4S\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"nam', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-02 00:35:10');
+INSERT INTO `sys_oper_log` VALUES (37, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,107,1036,1037,1038,1039,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-02 00:39:48');
+INSERT INTO `sys_oper_log` VALUES (38, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,107,1036,1037,1038,1039,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-02 00:42:58');
+INSERT INTO `sys_oper_log` VALUES (39, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,103,104,105,106,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,1017,1021,1026,1031,107,1036,1037,1038,1039,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 01:06:42');
+INSERT INTO `sys_oper_log` VALUES (40, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2019,1,107,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2020,2007,2008,2009,2010,2011,2012,2147,2148,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,1036,1039,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 01:08:40');
+INSERT INTO `sys_oper_log` VALUES (41, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2019,1,107,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2020,2007,2008,2009,2010,2011,2012,2147,2148,1036,1039,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 01:09:15');
+INSERT INTO `sys_oper_log` VALUES (42, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2019,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2020,2007,2008,2009,2010,2011,2012,2147,2148,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 01:09:35');
+INSERT INTO `sys_oper_log` VALUES (43, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2001,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2002,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 01:10:10');
+INSERT INTO `sys_oper_log` VALUES (44, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 01:12:10');
+INSERT INTO `sys_oper_log` VALUES (45, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 01:12:55');
+INSERT INTO `sys_oper_log` VALUES (46, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"admin\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\"}', '{\"msg\":\"修改角色\'演示用户\'失败，角色权限已存在\",\"code\":500}', 0, NULL, '2024-06-16 01:59:18');
+INSERT INTO `sys_oper_log` VALUES (47, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:00:10');
+INSERT INTO `sys_oper_log` VALUES (48, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:00:23');
+INSERT INTO `sys_oper_log` VALUES (49, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,107,1036,1037,1038,1039,108,500,1040,1041,1042,501,1043,1044,1045,1065,109,1046,1047,1048,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:02:47');
+INSERT INTO `sys_oper_log` VALUES (50, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,106,1031,1032,1033,1034,1035,107,1036,1037,1038,1039],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:04:06');
+INSERT INTO `sys_oper_log` VALUES (51, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:04:34');
+INSERT INTO `sys_oper_log` VALUES (52, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":false,\"menuIds\":[2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2043,2019,2007],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:05:08');
+INSERT INTO `sys_oper_log` VALUES (53, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":false,\"menuIds\":[2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2043,2019,2007],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:05:29');
+INSERT INTO `sys_oper_log` VALUES (54, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2043,2019,2007],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:05:47');
+INSERT INTO `sys_oper_log` VALUES (55, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:07:12');
+INSERT INTO `sys_oper_log` VALUES (56, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:07:43');
+INSERT INTO `sys_oper_log` VALUES (57, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2023-02-26 00:00:00\",\"createTime\":\"2025-02-25 23:17:31\",\"deviceId\":109,\"deviceName\":\"★网关设备\",\"deviceType\":2,\"firmwareVersion\":1,\"isShadow\":1,\"latitude\":26.496407,\"locationWay\":3,\"longitude\":104.802435,\"networkAddress\":\"云南省曲靖市 移通\",\"networkIp\":\"183.225.206.92\",\"params\":{},\"rssi\":-73,\"serialNumber\":\"D1PGLPG58KZ2\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"wumei-smart\\\", \\\"author\\\": \\\"kerwincui\\\", \\\"create\\\": \\\"2022-06-06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\": \\\"category_gear\\\", \\\"name\\\": \\\"运行档位\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"switch\\\", \\\"name\\\": \\\"设备开关\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"category_switch\\\", \\\"name\\\": \\\"设备开关\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"category_light\\\", \\\"ts\\\": \\\"2023-09-25 17:56:08.848\\\", \\\"name\\\": \\\"光照\\\", \\\"value\\\": \\\"68\\\", \\\"shadow\\\": \\\"68\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"device_report_monitor\\\", \\\"name\\\": \\\"上报监测数据\\\", \\\"value\\\": \\\" , , , , , , \\\", \\\"shadow\\\": \\\" , , , , , , \\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"light_color\\\", \\\"name\\\": \\\"灯光色值\\\", \\\"value\\\": \\\" , , , \\\", \\\"shadow\\\": \\\" , , , \\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"gear\\\", \\\"name\\\": \\\"运行档位\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"message\\\", \\\"name\\\": \\\"屏显消息\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"temperature\\\", \\\"ts\\\": \\\"2023-09-25 17:56:08.582\\\", \\\"name\\\": \\\"空气温度\\\", \\\"value\\\": \\\"23.69\\\", \\\"shadow\\\": \\\"23.69\\\", \\\"isChart\\\": 0, \\', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-16 02:08:26');
+INSERT INTO `sys_oper_log` VALUES (58, '用户管理', 2, 'com.fastbee.web.controller.system.SysUserController.edit()', 'PUT', 1, 'admin', NULL, '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-06-01 21:52:59\",\"delFlag\":\"0\",\"dept\":{\"ancestors\":\"0\",\"children\":[],\"deptId\":100,\"deptName\":\"蜂信物联\",\"leader\":\"FastBee\",\"orderNum\":0,\"params\":{},\"parentId\":0,\"status\":\"0\"},\"deptId\":100,\"email\":\"cyqcw@foxmail.com\",\"loginDate\":\"2024-06-16 01:45:46\",\"loginIp\":\"127.0.0.1\",\"nickName\":\"cyqcw\",\"params\":{},\"phonenumber\":\"15518441162\",\"postIds\":[1],\"roleIds\":[2],\"roles\":[{\"admin\":false,\"dataScope\":\"1\",\"deptCheckStrictly\":false,\"flag\":false,\"menuCheckStrictly\":false,\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\"}],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":13,\"userName\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:10:54');
+INSERT INTO `sys_oper_log` VALUES (59, '用户管理', 2, 'com.fastbee.web.controller.system.SysUserController.edit()', 'PUT', 1, 'admin', NULL, '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-06-01 21:52:59\",\"delFlag\":\"0\",\"dept\":{\"ancestors\":\"0\",\"children\":[],\"deptId\":100,\"deptName\":\"蜂信物联\",\"leader\":\"FastBee\",\"orderNum\":0,\"params\":{},\"parentId\":0,\"status\":\"0\"},\"deptId\":100,\"email\":\"cyqcw@foxmail.com\",\"loginDate\":\"2024-06-16 01:45:46\",\"loginIp\":\"127.0.0.1\",\"nickName\":\"cyqcw\",\"params\":{},\"phonenumber\":\"15518441162\",\"postIds\":[1],\"roleIds\":[6],\"roles\":[{\"admin\":false,\"dataScope\":\"5\",\"deptCheckStrictly\":false,\"flag\":false,\"menuCheckStrictly\":false,\"params\":{},\"roleId\":2,\"roleKey\":\"tenant\",\"roleName\":\"设备租户\",\"roleSort\":2,\"status\":\"0\"}],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":13,\"userName\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:11:56');
+INSERT INTO `sys_oper_log` VALUES (60, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,107,1036,1037,1038,1039,108,500,1040,1041,1042,501,1043,1044,1045,1065,109,1046,1047,1048,111,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:14:46');
+INSERT INTO `sys_oper_log` VALUES (61, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,3007,3008,3009,3010,3011,3012,3031,3032,3048,1,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,103,1017,1018,1019,1020,104,1021,1022,1023,1024,1025,105,1026,1027,1028,1029,1030,106,1031,1032,1033,1034,1035,107,1036,1037,1038,1039,108,500,1040,1041,1042,501,1043,1044,1045,1065,2123,2124,2125,2126,2127,2128,2129,2130,2131,2132,2133,2134,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124,3,114,115,1055,1056,1058,1057,1059,1060,116,4],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:15:07');
+INSERT INTO `sys_oper_log` VALUES (62, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2001,2002,2003,2004,2005,2006,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2019,2020,2021,2022,2023,2024,2007,2008,2009,2010,2011,2012,2147,2148,3007,3008,3009,3010,3011,3012],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:15:51');
+INSERT INTO `sys_oper_log` VALUES (63, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:16:46');
+INSERT INTO `sys_oper_log` VALUES (64, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2001,2019,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2002,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2020,2007,2008,2009,2010,2011,2012,2147,2148],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:19:48');
+INSERT INTO `sys_oper_log` VALUES (65, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:20:23');
+INSERT INTO `sys_oper_log` VALUES (66, '添加设备', 1, 'com.fastbee.data.controller.DeviceController.add()', 'POST', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-06-16 02:21:00.122\",\"deviceId\":145,\"deviceName\":\"Ah\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D133811368Z97\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"userId\":13,\"userName\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":{\"createTime\":\"2024-06-16 02:21:00.122\",\"deviceId\":145,\"deviceName\":\"Ah\",\"deviceType\":1,\"firmwareVersion\":1,\"isShadow\":0,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D133811368Z97\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",', 0, NULL, '2024-06-16 02:21:01');
+INSERT INTO `sys_oper_log` VALUES (67, '删除设备', 3, 'com.fastbee.data.controller.DeviceController.remove()', 'DELETE', 1, 'cyqcw', NULL, '/iot/device/145', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:21:11');
+INSERT INTO `sys_oper_log` VALUES (68, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,107,2,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,1036,111],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:31:39');
+INSERT INTO `sys_oper_log` VALUES (69, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,1,100,1001,1002,1003,1004,1005,1006,1007,101,1008,1009,1010,1011,1012,102,1013,1014,1015,1016,103,1017,1018,1019,1020,104,1021,1022,1023,1024,1025,105,1026,1027,1028,1029,1030,106,1031,1032,1033,1034,1035,107,1036,1037,1038,1039,108,500,1040,1041,1042,501,1043,1044,1045,1065,2123,2124,2125,2126,2127,2128,2129,2130,2131,2132,2133,2134,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,124],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:31:59');
+INSERT INTO `sys_oper_log` VALUES (70, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:32:17');
+INSERT INTO `sys_oper_log` VALUES (71, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,1,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148,107,1036,1037,1038,1039],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:32:41');
+INSERT INTO `sys_oper_log` VALUES (72, '角色管理', 2, 'com.fastbee.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-06-01 22:02:08\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2000,2049,2050,2051,2052,2053,2054,3033,3034,3035,3036,3037,3038,2043,2044,2045,2046,2047,2048,2140,2136,2137,2138,2139,2007,2008,2009,2010,2011,2012,2147,2148],\"params\":{},\"roleId\":6,\"roleKey\":\"show\",\"roleName\":\"演示用户\",\"roleSort\":7,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-16 02:33:26');
+INSERT INTO `sys_oper_log` VALUES (73, '在线用户', 7, 'com.fastbee.web.controller.monitor.SysUserOnlineController.forceLogout()', 'DELETE', 1, 'admin', NULL, '/monitor/online/97fd9367-47e2-4bdc-897f-54bf5ba63414', '192.168.43.40', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-18 00:08:04');
+INSERT INTO `sys_oper_log` VALUES (74, '更新产品状态', 2, 'com.fastbee.data.controller.ProductController.changeProductStatus()', 'PUT', 1, 'cyqcw', NULL, '/iot/product/status/', '127.0.0.1', '内网IP', '{\"deviceType\":3,\"productId\":88,\"status\":1}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-18 15:12:02');
+INSERT INTO `sys_oper_log` VALUES (75, '产品', 3, 'com.fastbee.data.controller.ProductController.remove()', 'DELETE', 1, 'cyqcw', NULL, '/iot/product/88', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"删除失败，请先删除对应产品下的设备\",\"code\":500}', 0, NULL, '2024-06-18 15:12:11');
+INSERT INTO `sys_oper_log` VALUES (76, '产品', 3, 'com.fastbee.data.controller.ProductController.remove()', 'DELETE', 1, 'cyqcw', NULL, '/iot/product/88', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"删除成功\",\"code\":200}', 0, NULL, '2024-06-18 15:14:53');
+INSERT INTO `sys_oper_log` VALUES (77, '添加设备', 1, 'com.fastbee.data.controller.DeviceController.add()', 'POST', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-06-18 17:02:46.342\",\"deviceId\":146,\"deviceName\":\"数码台灯\",\"deviceType\":1,\"firmwareVersion\":1,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"remark\":\"无\",\"rssi\":0,\"serialNumber\":\"D13J342G2E73I\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"userId\":13,\"userName\":\"cyqcw\"', '{\"msg\":\"操作成功\",\"code\":200,\"data\":{\"createTime\":\"2024-06-18 17:02:46.342\",\"deviceId\":146,\"deviceName\":\"数码台灯\",\"deviceType\":1,\"firmwareVersion\":1,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"remark\":\"无\",\"rssi\":0,\"serialNumber\":\"D13J342G2E73I\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]', 0, NULL, '2024-06-18 17:02:47');
+INSERT INTO `sys_oper_log` VALUES (78, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-06-18 17:02:46\",\"deviceId\":146,\"deviceName\":\"数码台灯\",\"deviceType\":1,\"firmwareVersion\":1,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"remark\":\"无\",\"rssi\":0,\"serialNumber\":\"D13J342G2E73I\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"updateTime\":\"2024-06-18 17:06:15.', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-18 17:06:15');
+INSERT INTO `sys_oper_log` VALUES (79, '通用物模型', 2, 'com.fastbee.data.controller.ThingsModelTemplateController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/template', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2023-04-13 01:35:42\",\"datatype\":\"enum\",\"delFlag\":\"0\",\"identifier\":\"status\",\"isChart\":0,\"isHistory\":0,\"isMonitor\":0,\"isReadonly\":0,\"isSharePerm\":1,\"isSys\":1,\"modelOrder\":0,\"params\":{},\"specs\":\"{\\\"type\\\":\\\"enum\\\",\\\"showWay\\\":\\\"button\\\",\\\"enumList\\\":[{\\\"text\\\":\\\"更新状态\\\",\\\"value\\\":\\\"update_status\\\"}]}\",\"templateId\":323,\"templateName\":\"上报状态\",\"tenantId\":1,\"tenantName\":\"admin\",\"type\":2,\"updateBy\":\"cyqcw\",\"updateTime\":\"2024-06-18 17:07:20.258\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-18 17:07:20');
+INSERT INTO `sys_oper_log` VALUES (80, '通用物模型', 1, 'com.fastbee.data.controller.ThingsModelTemplateController.add()', 'POST', 1, 'cyqcw', NULL, '/iot/template', '127.0.0.1', '内网IP', '{\"createBy\":\"cyqcw\",\"createTime\":\"2024-06-18 17:07:54.327\",\"datatype\":\"integer\",\"identifier\":\"random\",\"isChart\":1,\"isHistory\":1,\"isMonitor\":1,\"isReadonly\":1,\"isSharePerm\":1,\"isSys\":1,\"modelOrder\":0,\"params\":{},\"specs\":\"{\\\"type\\\":\\\"integer\\\",\\\"min\\\":0,\\\"max\\\":100,\\\"unit\\\":\\\"\\\",\\\"step\\\":1}\",\"templateId\":344,\"templateName\":\"随机数\",\"tenantId\":13,\"tenantName\":\"cyqcw\",\"type\":1}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-18 17:07:54');
+INSERT INTO `sys_oper_log` VALUES (81, '通用物模型', 3, 'com.fastbee.data.controller.ThingsModelTemplateController.remove()', 'DELETE', 1, 'cyqcw', NULL, '/iot/template/344', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-18 17:09:39');
+INSERT INTO `sys_oper_log` VALUES (82, '产品授权码', 2, 'com.fastbee.data.controller.ProductAuthorizeController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/authorize', '127.0.0.1', '内网IP', '{\"authorizeCode\":\"8A15488EA3A04286A9218C1DD292C711\",\"authorizeId\":3,\"createBy\":\"admin\",\"createTime\":\"2024-05-31 14:00:49\",\"delFlag\":\"0\",\"deviceId\":144,\"params\":{},\"productId\":41,\"serialNumber\":\"D138QFH77I509\",\"status\":2,\"updateBy\":\"\",\"updateTime\":\"2024-06-18 17:11:13.8\",\"userId\":1,\"userName\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-18 17:11:14');
+INSERT INTO `sys_oper_log` VALUES (83, '删除设备', 3, 'com.fastbee.data.controller.DeviceController.remove()', 'DELETE', 1, 'cyqcw', NULL, '/iot/device/146', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-18 17:11:25');
+INSERT INTO `sys_oper_log` VALUES (84, '产品授权码', 5, 'com.fastbee.data.controller.ProductAuthorizeController.export()', 'POST', 1, 'cyqcw', NULL, '/iot/authorize/export', '127.0.0.1', '内网IP', '{\"params\":{},\"productId\":41}', NULL, 0, NULL, '2024-06-18 17:12:06');
+INSERT INTO `sys_oper_log` VALUES (85, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2023-02-26 00:00:00\",\"createTime\":\"2025-02-25 23:17:31\",\"deviceId\":109,\"deviceName\":\"★网关设备\",\"deviceType\":2,\"firmwareVersion\":1,\"isShadow\":1,\"latitude\":26.496407,\"locationWay\":3,\"longitude\":104.802435,\"networkAddress\":\"云南省曲靖市 移通\",\"networkIp\":\"183.225.206.92\",\"params\":{},\"rssi\":-73,\"serialNumber\":\"D1PGLPG58KZ2\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"wumei-smart\\\", \\\"author\\\": \\\"kerwincui\\\", \\\"create\\\": \\\"2022-06-06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\": \\\"category_gear\\\", \\\"name\\\": \\\"运行档位\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"switch\\\", \\\"name\\\": \\\"设备开关\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"category_switch\\\", \\\"name\\\": \\\"设备开关\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"category_light\\\", \\\"ts\\\": \\\"2023-09-25 17:56:08.848\\\", \\\"name\\\": \\\"光照\\\", \\\"value\\\": \\\"68\\\", \\\"shadow\\\": \\\"68\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"device_report_monitor\\\", \\\"name\\\": \\\"上报监测数据\\\", \\\"value\\\": \\\" , , , , , , \\\", \\\"shadow\\\": \\\" , , , , , , \\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"light_color\\\", \\\"name\\\": \\\"灯光色值\\\", \\\"value\\\": \\\" , , , \\\", \\\"shadow\\\": \\\" , , , \\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"gear\\\", \\\"name\\\": \\\"运行档位\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"message\\\", \\\"name\\\": \\\"屏显消息\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"temperature\\\", \\\"ts\\\": \\\"2023-09-25 17:56:08.582\\\", \\\"name\\\": \\\"空气温度\\\", \\\"value\\\": \\\"23.69\\\", \\\"shadow\\\": \\\"23.69\\\", \\\"isChart\\\": 0, \\', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-18 17:12:53');
+INSERT INTO `sys_oper_log` VALUES (86, '添加设备', 1, 'com.fastbee.data.controller.DeviceController.add()', 'POST', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"createTime\":\"2024-06-18 17:14:58.598\",\"deviceId\":147,\"deviceName\":\"dasdasds\",\"deviceType\":1,\"firmwareVersion\":1,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D131TLENIO394\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"userId\":13,\"userName\":\"cyqcw\"}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":{\"createTime\":\"2024-06-18 17:14:58.598\",\"deviceId\":147,\"deviceName\":\"dasdasds\",\"deviceType\":1,\"firmwareVersion\":1,\"isSimulate\":0,\"locationWay\":1,\"networkIp\":\"127.0.0.1\",\"params\":{},\"productId\":41,\"productName\":\"★智能开关产品\",\"rssi\":0,\"serialNumber\":\"D131TLENIO394\",\"status\":1,\"subDeviceList\":[],\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\":\\\"irc\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"射频遥控\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"humidity\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气湿度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"report_monitor\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报数据\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"brightness\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"室内亮度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"temperature\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"空气温度\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"switch\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备开关\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"gear\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"运行档位\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"light_color\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"灯光色值\\\",\\\"shadow\\\":\\\" , , , \\\",\\\"value\\\":\\\" , , , \\\"},{\\\"id\\\":\\\"co2\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"二氧化碳\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"reset\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"设备重启\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"message\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"屏显消息\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"},{\\\"id\\\":\\\"status\\\",\\\"isChart\\\":0,\\\"isHistory\\\":0,\\\"isMonitor\\\":0,\\\"isReadonly\\\":0,\\\"name\\\":\\\"上报状态\\\",\\\"shadow\\\":\\\"\\\",\\\"value\\\":\\\"\\\"}]\",\"userId', 0, NULL, '2024-06-18 17:14:59');
+INSERT INTO `sys_oper_log` VALUES (87, '删除设备', 3, 'com.fastbee.data.controller.DeviceController.remove()', 'DELETE', 1, 'cyqcw', NULL, '/iot/device/147', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-06-18 17:18:04');
+INSERT INTO `sys_oper_log` VALUES (88, '修改设备', 2, 'com.fastbee.data.controller.DeviceController.edit()', 'PUT', 1, 'cyqcw', NULL, '/iot/device', '127.0.0.1', '内网IP', '{\"activeTime\":\"2023-02-26 00:00:00\",\"createTime\":\"2025-02-25 23:17:31\",\"deviceId\":109,\"deviceName\":\"★网关设备\",\"deviceType\":2,\"firmwareVersion\":1,\"isShadow\":1,\"latitude\":26.496407,\"locationWay\":3,\"longitude\":104.802435,\"networkAddress\":\"云南省曲靖市 移通\",\"networkIp\":\"183.225.206.92\",\"params\":{},\"rssi\":-73,\"serialNumber\":\"D1PGLPG58KZ2\",\"status\":3,\"subDeviceList\":[],\"summary\":\"{\\\"chip\\\": \\\"esp8266\\\", \\\"name\\\": \\\"wumei-smart\\\", \\\"author\\\": \\\"kerwincui\\\", \\\"create\\\": \\\"2022-06-06\\\", \\\"version\\\": 1.6}\",\"tenantId\":1,\"tenantName\":\"admin\",\"thingsModelValue\":\"[{\\\"id\\\": \\\"category_gear\\\", \\\"name\\\": \\\"运行档位\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"switch\\\", \\\"name\\\": \\\"设备开关\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"category_switch\\\", \\\"name\\\": \\\"设备开关\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"category_light\\\", \\\"ts\\\": \\\"2023-09-25 17:56:08.848\\\", \\\"name\\\": \\\"光照\\\", \\\"value\\\": \\\"68\\\", \\\"shadow\\\": \\\"68\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"device_report_monitor\\\", \\\"name\\\": \\\"上报监测数据\\\", \\\"value\\\": \\\" , , , , , , \\\", \\\"shadow\\\": \\\" , , , , , , \\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"light_color\\\", \\\"name\\\": \\\"灯光色值\\\", \\\"value\\\": \\\" , , , \\\", \\\"shadow\\\": \\\" , , , \\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"gear\\\", \\\"name\\\": \\\"运行档位\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"message\\\", \\\"name\\\": \\\"屏显消息\\\", \\\"value\\\": \\\"\\\", \\\"shadow\\\": \\\"\\\", \\\"isChart\\\": 0, \\\"isHistory\\\": 0, \\\"isMonitor\\\": 0, \\\"isReadonly\\\": 0}, {\\\"id\\\": \\\"temperature\\\", \\\"ts\\\": \\\"2023-09-25 17:56:08.582\\\", \\\"name\\\": \\\"空气温度\\\", \\\"value\\\": \\\"23.69\\\", \\\"shadow\\\": \\\"23.69\\\", \\\"isChart\\\": 0, \\', '{\"msg\":\"操作成功\",\"total\":1,\"code\":200,\"data\":\"修改成功\"}', 0, NULL, '2024-06-18 17:18:30');
 
 -- ----------------------------
 -- Table structure for sys_post
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_post`;
 CREATE TABLE `sys_post`  (
-  `post_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
+  `post_id` bigint NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
   `post_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
   `post_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位名称',
-  `post_sort` int(4) NOT NULL COMMENT '显示顺序',
+  `post_sort` int NOT NULL COMMENT '显示顺序',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态（0正常 1停用）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_post
 -- ----------------------------
-INSERT INTO `sys_post` VALUES (1, 'ceo', '董事长', 1, '0', 'admin', '2021-12-15 21:36:18', '', NULL, '');
-INSERT INTO `sys_post` VALUES (2, 'se', '项目经理', 2, '0', 'admin', '2021-12-15 21:36:18', '', NULL, '');
-INSERT INTO `sys_post` VALUES (3, 'hr', '人力资源', 3, '0', 'admin', '2021-12-15 21:36:18', '', NULL, '');
-INSERT INTO `sys_post` VALUES (4, 'user', '普通员工', 4, '0', 'admin', '2021-12-15 21:36:18', '', NULL, '');
+INSERT INTO `sys_post` VALUES (1, 'ceo', '校长', 1, '0', 'admin', '2021-12-15 21:36:18', '', NULL, '');
+INSERT INTO `sys_post` VALUES (2, 'se', '院长', 2, '0', 'admin', '2021-12-15 21:36:18', '', NULL, '');
+INSERT INTO `sys_post` VALUES (3, 'hr', '系主任', 3, '0', 'admin', '2021-12-15 21:36:18', '', NULL, '');
+INSERT INTO `sys_post` VALUES (4, 'user', '学生', 4, '0', 'admin', '2021-12-15 21:36:18', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
-  `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+  `role_id` bigint NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `role_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色名称',
   `role_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色权限字符串',
-  `role_sort` int(4) NOT NULL COMMENT '显示顺序',
+  `role_sort` int NOT NULL COMMENT '显示顺序',
   `data_scope` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1' COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）',
   `menu_check_strictly` tinyint(1) NULL DEFAULT 1 COMMENT '菜单树选择项是否关联显示',
   `dept_check_strictly` tinyint(1) NULL DEFAULT 1 COMMENT '部门树选择项是否关联显示',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色状态（0正常 1停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -1960,17 +2216,18 @@ INSERT INTO `sys_role` VALUES (1, '超级管理员', 'admin', 1, '1', 1, 1, '0',
 INSERT INTO `sys_role` VALUES (2, '设备租户', 'tenant', 2, '5', 1, 1, '0', '0', 'admin', '2021-12-16 16:41:30', 'admin', '2023-04-12 19:53:34', '管理产品和设备');
 INSERT INTO `sys_role` VALUES (3, '普通用户', 'general', 3, '5', 1, 1, '0', '0', 'admin', '2021-12-15 21:36:18', 'admin', '2023-02-22 08:17:37', '设备的最终用户，只能管理设备和分组');
 INSERT INTO `sys_role` VALUES (4, '游客', 'visitor', 4, '1', 1, 1, '0', '0', 'admin', '2021-12-16 16:44:30', 'admin', '2023-04-12 22:11:46', '只能查询和新增系统数据');
-INSERT INTO `sys_role` VALUES (5, '管理员', 'manager', 5, '1', 1, 1, '0', '0', 'admin', '2022-06-10 13:54:29', 'admin', '2023-04-12 19:50:29', '普通管理员');
+INSERT INTO `sys_role` VALUES (5, '管理员', 'manager', 5, '1', 1, 1, '0', '0', 'admin', '2022-06-10 13:54:29', 'admin', '2024-06-01 22:00:11', '普通管理员');
+INSERT INTO `sys_role` VALUES (6, '演示用户', 'show', 7, '1', 1, 1, '0', '0', 'cyqcw', '2024-06-01 22:02:08', 'admin', '2024-06-16 02:33:25', NULL);
 
 -- ----------------------------
 -- Table structure for sys_role_dept
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_dept`;
 CREATE TABLE `sys_role_dept`  (
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
-  `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
+  `role_id` bigint NOT NULL COMMENT '角色ID',
+  `dept_id` bigint NOT NULL COMMENT '部门ID',
   PRIMARY KEY (`role_id`, `dept_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和部门关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和部门关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_dept
@@ -1981,327 +2238,313 @@ CREATE TABLE `sys_role_dept`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_menu`;
 CREATE TABLE `sys_role_menu`  (
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
-  `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
+  `role_id` bigint NOT NULL COMMENT '角色ID',
+  `menu_id` bigint NOT NULL COMMENT '菜单ID',
   PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO sys_role_menu VALUES (2, 1);
-INSERT INTO sys_role_menu VALUES (2, 4);
-INSERT INTO sys_role_menu VALUES (2, 107);
-INSERT INTO sys_role_menu VALUES (2, 1036);
-INSERT INTO sys_role_menu VALUES (2, 2000);
-INSERT INTO sys_role_menu VALUES (2, 2001);
-INSERT INTO sys_role_menu VALUES (2, 2002);
-INSERT INTO sys_role_menu VALUES (2, 2003);
-INSERT INTO sys_role_menu VALUES (2, 2004);
-INSERT INTO sys_role_menu VALUES (2, 2005);
-INSERT INTO sys_role_menu VALUES (2, 2006);
-INSERT INTO sys_role_menu VALUES (2, 2007);
-INSERT INTO sys_role_menu VALUES (2, 2008);
-INSERT INTO sys_role_menu VALUES (2, 2009);
-INSERT INTO sys_role_menu VALUES (2, 2010);
-INSERT INTO sys_role_menu VALUES (2, 2011);
-INSERT INTO sys_role_menu VALUES (2, 2012);
-INSERT INTO sys_role_menu VALUES (2, 2019);
-INSERT INTO sys_role_menu VALUES (2, 2020);
-INSERT INTO sys_role_menu VALUES (2, 2021);
-INSERT INTO sys_role_menu VALUES (2, 2022);
-INSERT INTO sys_role_menu VALUES (2, 2023);
-INSERT INTO sys_role_menu VALUES (2, 2024);
-INSERT INTO sys_role_menu VALUES (2, 2043);
-INSERT INTO sys_role_menu VALUES (2, 2044);
-INSERT INTO sys_role_menu VALUES (2, 2045);
-INSERT INTO sys_role_menu VALUES (2, 2046);
-INSERT INTO sys_role_menu VALUES (2, 2047);
-INSERT INTO sys_role_menu VALUES (2, 2048);
-INSERT INTO sys_role_menu VALUES (2, 2049);
-INSERT INTO sys_role_menu VALUES (2, 2050);
-INSERT INTO sys_role_menu VALUES (2, 2051);
-INSERT INTO sys_role_menu VALUES (2, 2052);
-INSERT INTO sys_role_menu VALUES (2, 2053);
-INSERT INTO sys_role_menu VALUES (2, 2054);
-INSERT INTO sys_role_menu VALUES (2, 2129);
-INSERT INTO sys_role_menu VALUES (2, 2130);
-INSERT INTO sys_role_menu VALUES (2, 2136);
-INSERT INTO sys_role_menu VALUES (2, 2137);
-INSERT INTO sys_role_menu VALUES (2, 2138);
-INSERT INTO sys_role_menu VALUES (2, 2139);
-INSERT INTO sys_role_menu VALUES (2, 2140);
-INSERT INTO sys_role_menu VALUES (2, 2147);
-INSERT INTO sys_role_menu VALUES (2, 2148);
-INSERT INTO sys_role_menu VALUES (3, 1);
-INSERT INTO sys_role_menu VALUES (3, 4);
-INSERT INTO sys_role_menu VALUES (3, 107);
-INSERT INTO sys_role_menu VALUES (3, 1036);
-INSERT INTO sys_role_menu VALUES (3, 2000);
-INSERT INTO sys_role_menu VALUES (3, 2007);
-INSERT INTO sys_role_menu VALUES (3, 2008);
-INSERT INTO sys_role_menu VALUES (3, 2009);
-INSERT INTO sys_role_menu VALUES (3, 2010);
-INSERT INTO sys_role_menu VALUES (3, 2011);
-INSERT INTO sys_role_menu VALUES (3, 2012);
-INSERT INTO sys_role_menu VALUES (3, 2019);
-INSERT INTO sys_role_menu VALUES (3, 2020);
-INSERT INTO sys_role_menu VALUES (3, 2021);
-INSERT INTO sys_role_menu VALUES (3, 2022);
-INSERT INTO sys_role_menu VALUES (3, 2023);
-INSERT INTO sys_role_menu VALUES (3, 2024);
-INSERT INTO sys_role_menu VALUES (3, 2067);
-INSERT INTO sys_role_menu VALUES (3, 2068);
-INSERT INTO sys_role_menu VALUES (3, 2085);
-INSERT INTO sys_role_menu VALUES (3, 2086);
-INSERT INTO sys_role_menu VALUES (3, 2087);
-INSERT INTO sys_role_menu VALUES (3, 2088);
-INSERT INTO sys_role_menu VALUES (3, 2089);
-INSERT INTO sys_role_menu VALUES (3, 2090);
-INSERT INTO sys_role_menu VALUES (3, 2129);
-INSERT INTO sys_role_menu VALUES (3, 2130);
-INSERT INTO sys_role_menu VALUES (3, 2147);
-INSERT INTO sys_role_menu VALUES (3, 2148);
-INSERT INTO sys_role_menu VALUES (3, 2168);
-INSERT INTO sys_role_menu VALUES (3, 2169);
-INSERT INTO sys_role_menu VALUES (3, 2170);
-INSERT INTO sys_role_menu VALUES (3, 2171);
-INSERT INTO sys_role_menu VALUES (3, 2172);
-INSERT INTO sys_role_menu VALUES (4, 1);
-INSERT INTO sys_role_menu VALUES (4, 2);
-INSERT INTO sys_role_menu VALUES (4, 3);
-INSERT INTO sys_role_menu VALUES (4, 4);
-INSERT INTO sys_role_menu VALUES (4, 100);
-INSERT INTO sys_role_menu VALUES (4, 101);
-INSERT INTO sys_role_menu VALUES (4, 102);
-INSERT INTO sys_role_menu VALUES (4, 103);
-INSERT INTO sys_role_menu VALUES (4, 104);
-INSERT INTO sys_role_menu VALUES (4, 105);
-INSERT INTO sys_role_menu VALUES (4, 106);
-INSERT INTO sys_role_menu VALUES (4, 107);
-INSERT INTO sys_role_menu VALUES (4, 108);
-INSERT INTO sys_role_menu VALUES (4, 109);
-INSERT INTO sys_role_menu VALUES (4, 110);
-INSERT INTO sys_role_menu VALUES (4, 111);
-INSERT INTO sys_role_menu VALUES (4, 112);
-INSERT INTO sys_role_menu VALUES (4, 113);
-INSERT INTO sys_role_menu VALUES (4, 114);
-INSERT INTO sys_role_menu VALUES (4, 115);
-INSERT INTO sys_role_menu VALUES (4, 116);
-INSERT INTO sys_role_menu VALUES (4, 500);
-INSERT INTO sys_role_menu VALUES (4, 501);
-INSERT INTO sys_role_menu VALUES (4, 1001);
-INSERT INTO sys_role_menu VALUES (4, 1008);
-INSERT INTO sys_role_menu VALUES (4, 1013);
-INSERT INTO sys_role_menu VALUES (4, 1017);
-INSERT INTO sys_role_menu VALUES (4, 1021);
-INSERT INTO sys_role_menu VALUES (4, 1026);
-INSERT INTO sys_role_menu VALUES (4, 1031);
-INSERT INTO sys_role_menu VALUES (4, 1036);
-INSERT INTO sys_role_menu VALUES (4, 1040);
-INSERT INTO sys_role_menu VALUES (4, 1043);
-INSERT INTO sys_role_menu VALUES (4, 1046);
-INSERT INTO sys_role_menu VALUES (4, 1049);
-INSERT INTO sys_role_menu VALUES (4, 1055);
-INSERT INTO sys_role_menu VALUES (4, 2000);
-INSERT INTO sys_role_menu VALUES (4, 2001);
-INSERT INTO sys_role_menu VALUES (4, 2002);
-INSERT INTO sys_role_menu VALUES (4, 2003);
-INSERT INTO sys_role_menu VALUES (4, 2007);
-INSERT INTO sys_role_menu VALUES (4, 2008);
-INSERT INTO sys_role_menu VALUES (4, 2009);
-INSERT INTO sys_role_menu VALUES (4, 2019);
-INSERT INTO sys_role_menu VALUES (4, 2020);
-INSERT INTO sys_role_menu VALUES (4, 2021);
-INSERT INTO sys_role_menu VALUES (4, 2043);
-INSERT INTO sys_role_menu VALUES (4, 2044);
-INSERT INTO sys_role_menu VALUES (4, 2045);
-INSERT INTO sys_role_menu VALUES (4, 2049);
-INSERT INTO sys_role_menu VALUES (4, 2050);
-INSERT INTO sys_role_menu VALUES (4, 2051);
-INSERT INTO sys_role_menu VALUES (4, 2104);
-INSERT INTO sys_role_menu VALUES (4, 2123);
-INSERT INTO sys_role_menu VALUES (4, 2124);
-INSERT INTO sys_role_menu VALUES (4, 2125);
-INSERT INTO sys_role_menu VALUES (4, 2129);
-INSERT INTO sys_role_menu VALUES (4, 2130);
-INSERT INTO sys_role_menu VALUES (4, 2131);
-INSERT INTO sys_role_menu VALUES (4, 2136);
-INSERT INTO sys_role_menu VALUES (4, 2137);
-INSERT INTO sys_role_menu VALUES (4, 2141);
-INSERT INTO sys_role_menu VALUES (4, 2147);
-INSERT INTO sys_role_menu VALUES (4, 2148);
-INSERT INTO sys_role_menu VALUES (4, 2149);
-INSERT INTO sys_role_menu VALUES (4, 3007);
-INSERT INTO sys_role_menu VALUES (4, 3008);
-INSERT INTO sys_role_menu VALUES (4, 3009);
-INSERT INTO sys_role_menu VALUES (4, 3031);
-INSERT INTO sys_role_menu VALUES (4, 3032);
-INSERT INTO sys_role_menu VALUES (4, 3033);
-INSERT INTO sys_role_menu VALUES (4, 3034);
-INSERT INTO sys_role_menu VALUES (4, 3035);
-INSERT INTO sys_role_menu VALUES (4, 3047);
-INSERT INTO sys_role_menu VALUES (5, 1);
-INSERT INTO sys_role_menu VALUES (5, 2);
-INSERT INTO sys_role_menu VALUES (5, 3);
-INSERT INTO sys_role_menu VALUES (5, 4);
-INSERT INTO sys_role_menu VALUES (5, 100);
-INSERT INTO sys_role_menu VALUES (5, 101);
-INSERT INTO sys_role_menu VALUES (5, 102);
-INSERT INTO sys_role_menu VALUES (5, 103);
-INSERT INTO sys_role_menu VALUES (5, 104);
-INSERT INTO sys_role_menu VALUES (5, 105);
-INSERT INTO sys_role_menu VALUES (5, 106);
-INSERT INTO sys_role_menu VALUES (5, 107);
-INSERT INTO sys_role_menu VALUES (5, 108);
-INSERT INTO sys_role_menu VALUES (5, 109);
-INSERT INTO sys_role_menu VALUES (5, 110);
-INSERT INTO sys_role_menu VALUES (5, 111);
-INSERT INTO sys_role_menu VALUES (5, 112);
-INSERT INTO sys_role_menu VALUES (5, 113);
-INSERT INTO sys_role_menu VALUES (5, 114);
-INSERT INTO sys_role_menu VALUES (5, 115);
-INSERT INTO sys_role_menu VALUES (5, 116);
-INSERT INTO sys_role_menu VALUES (5, 124);
-INSERT INTO sys_role_menu VALUES (5, 500);
-INSERT INTO sys_role_menu VALUES (5, 501);
-INSERT INTO sys_role_menu VALUES (5, 1001);
-INSERT INTO sys_role_menu VALUES (5, 1002);
-INSERT INTO sys_role_menu VALUES (5, 1003);
-INSERT INTO sys_role_menu VALUES (5, 1004);
-INSERT INTO sys_role_menu VALUES (5, 1005);
-INSERT INTO sys_role_menu VALUES (5, 1006);
-INSERT INTO sys_role_menu VALUES (5, 1007);
-INSERT INTO sys_role_menu VALUES (5, 1008);
-INSERT INTO sys_role_menu VALUES (5, 1009);
-INSERT INTO sys_role_menu VALUES (5, 1010);
-INSERT INTO sys_role_menu VALUES (5, 1011);
-INSERT INTO sys_role_menu VALUES (5, 1012);
-INSERT INTO sys_role_menu VALUES (5, 1013);
-INSERT INTO sys_role_menu VALUES (5, 1014);
-INSERT INTO sys_role_menu VALUES (5, 1015);
-INSERT INTO sys_role_menu VALUES (5, 1016);
-INSERT INTO sys_role_menu VALUES (5, 1017);
-INSERT INTO sys_role_menu VALUES (5, 1018);
-INSERT INTO sys_role_menu VALUES (5, 1019);
-INSERT INTO sys_role_menu VALUES (5, 1020);
-INSERT INTO sys_role_menu VALUES (5, 1021);
-INSERT INTO sys_role_menu VALUES (5, 1022);
-INSERT INTO sys_role_menu VALUES (5, 1023);
-INSERT INTO sys_role_menu VALUES (5, 1024);
-INSERT INTO sys_role_menu VALUES (5, 1025);
-INSERT INTO sys_role_menu VALUES (5, 1026);
-INSERT INTO sys_role_menu VALUES (5, 1027);
-INSERT INTO sys_role_menu VALUES (5, 1028);
-INSERT INTO sys_role_menu VALUES (5, 1029);
-INSERT INTO sys_role_menu VALUES (5, 1030);
-INSERT INTO sys_role_menu VALUES (5, 1031);
-INSERT INTO sys_role_menu VALUES (5, 1032);
-INSERT INTO sys_role_menu VALUES (5, 1033);
-INSERT INTO sys_role_menu VALUES (5, 1034);
-INSERT INTO sys_role_menu VALUES (5, 1035);
-INSERT INTO sys_role_menu VALUES (5, 1036);
-INSERT INTO sys_role_menu VALUES (5, 1037);
-INSERT INTO sys_role_menu VALUES (5, 1038);
-INSERT INTO sys_role_menu VALUES (5, 1039);
-INSERT INTO sys_role_menu VALUES (5, 1040);
-INSERT INTO sys_role_menu VALUES (5, 1041);
-INSERT INTO sys_role_menu VALUES (5, 1042);
-INSERT INTO sys_role_menu VALUES (5, 1043);
-INSERT INTO sys_role_menu VALUES (5, 1044);
-INSERT INTO sys_role_menu VALUES (5, 1045);
-INSERT INTO sys_role_menu VALUES (5, 1046);
-INSERT INTO sys_role_menu VALUES (5, 1047);
-INSERT INTO sys_role_menu VALUES (5, 1048);
-INSERT INTO sys_role_menu VALUES (5, 1049);
-INSERT INTO sys_role_menu VALUES (5, 1050);
-INSERT INTO sys_role_menu VALUES (5, 1051);
-INSERT INTO sys_role_menu VALUES (5, 1052);
-INSERT INTO sys_role_menu VALUES (5, 1053);
-INSERT INTO sys_role_menu VALUES (5, 1054);
-INSERT INTO sys_role_menu VALUES (5, 1055);
-INSERT INTO sys_role_menu VALUES (5, 1056);
-INSERT INTO sys_role_menu VALUES (5, 1057);
-INSERT INTO sys_role_menu VALUES (5, 1058);
-INSERT INTO sys_role_menu VALUES (5, 1059);
-INSERT INTO sys_role_menu VALUES (5, 1060);
-INSERT INTO sys_role_menu VALUES (5, 1065);
-INSERT INTO sys_role_menu VALUES (5, 2000);
-INSERT INTO sys_role_menu VALUES (5, 2001);
-INSERT INTO sys_role_menu VALUES (5, 2002);
-INSERT INTO sys_role_menu VALUES (5, 2003);
-INSERT INTO sys_role_menu VALUES (5, 2004);
-INSERT INTO sys_role_menu VALUES (5, 2005);
-INSERT INTO sys_role_menu VALUES (5, 2006);
-INSERT INTO sys_role_menu VALUES (5, 2007);
-INSERT INTO sys_role_menu VALUES (5, 2008);
-INSERT INTO sys_role_menu VALUES (5, 2009);
-INSERT INTO sys_role_menu VALUES (5, 2010);
-INSERT INTO sys_role_menu VALUES (5, 2011);
-INSERT INTO sys_role_menu VALUES (5, 2012);
-INSERT INTO sys_role_menu VALUES (5, 2019);
-INSERT INTO sys_role_menu VALUES (5, 2020);
-INSERT INTO sys_role_menu VALUES (5, 2021);
-INSERT INTO sys_role_menu VALUES (5, 2022);
-INSERT INTO sys_role_menu VALUES (5, 2023);
-INSERT INTO sys_role_menu VALUES (5, 2024);
-INSERT INTO sys_role_menu VALUES (5, 2043);
-INSERT INTO sys_role_menu VALUES (5, 2044);
-INSERT INTO sys_role_menu VALUES (5, 2045);
-INSERT INTO sys_role_menu VALUES (5, 2046);
-INSERT INTO sys_role_menu VALUES (5, 2047);
-INSERT INTO sys_role_menu VALUES (5, 2048);
-INSERT INTO sys_role_menu VALUES (5, 2049);
-INSERT INTO sys_role_menu VALUES (5, 2050);
-INSERT INTO sys_role_menu VALUES (5, 2051);
-INSERT INTO sys_role_menu VALUES (5, 2052);
-INSERT INTO sys_role_menu VALUES (5, 2053);
-INSERT INTO sys_role_menu VALUES (5, 2054);
-INSERT INTO sys_role_menu VALUES (5, 2104);
-INSERT INTO sys_role_menu VALUES (5, 2123);
-INSERT INTO sys_role_menu VALUES (5, 2124);
-INSERT INTO sys_role_menu VALUES (5, 2125);
-INSERT INTO sys_role_menu VALUES (5, 2126);
-INSERT INTO sys_role_menu VALUES (5, 2127);
-INSERT INTO sys_role_menu VALUES (5, 2128);
-INSERT INTO sys_role_menu VALUES (5, 2129);
-INSERT INTO sys_role_menu VALUES (5, 2130);
-INSERT INTO sys_role_menu VALUES (5, 2131);
-INSERT INTO sys_role_menu VALUES (5, 2132);
-INSERT INTO sys_role_menu VALUES (5, 2133);
-INSERT INTO sys_role_menu VALUES (5, 2134);
-INSERT INTO sys_role_menu VALUES (5, 2136);
-INSERT INTO sys_role_menu VALUES (5, 2137);
-INSERT INTO sys_role_menu VALUES (5, 2138);
-INSERT INTO sys_role_menu VALUES (5, 2139);
-INSERT INTO sys_role_menu VALUES (5, 2140);
-INSERT INTO sys_role_menu VALUES (5, 2141);
-INSERT INTO sys_role_menu VALUES (5, 2147);
-INSERT INTO sys_role_menu VALUES (5, 2148);
-INSERT INTO sys_role_menu VALUES (5, 2149);
-INSERT INTO sys_role_menu VALUES (5, 3007);
-INSERT INTO sys_role_menu VALUES (5, 3008);
-INSERT INTO sys_role_menu VALUES (5, 3009);
-INSERT INTO sys_role_menu VALUES (5, 3010);
-INSERT INTO sys_role_menu VALUES (5, 3011);
-INSERT INTO sys_role_menu VALUES (5, 3012);
-INSERT INTO sys_role_menu VALUES (5, 3031);
-INSERT INTO sys_role_menu VALUES (5, 3032);
-INSERT INTO sys_role_menu VALUES (5, 3033);
-INSERT INTO sys_role_menu VALUES (5, 3034);
-INSERT INTO sys_role_menu VALUES (5, 3035);
-INSERT INTO sys_role_menu VALUES (5, 3036);
-INSERT INTO sys_role_menu VALUES (5, 3037);
-INSERT INTO sys_role_menu VALUES (5, 3038);
-INSERT INTO sys_role_menu VALUES (5, 3047);
+INSERT INTO `sys_role_menu` VALUES (2, 1);
+INSERT INTO `sys_role_menu` VALUES (2, 107);
+INSERT INTO `sys_role_menu` VALUES (2, 1036);
+INSERT INTO `sys_role_menu` VALUES (2, 2000);
+INSERT INTO `sys_role_menu` VALUES (2, 2001);
+INSERT INTO `sys_role_menu` VALUES (2, 2002);
+INSERT INTO `sys_role_menu` VALUES (2, 2003);
+INSERT INTO `sys_role_menu` VALUES (2, 2004);
+INSERT INTO `sys_role_menu` VALUES (2, 2005);
+INSERT INTO `sys_role_menu` VALUES (2, 2006);
+INSERT INTO `sys_role_menu` VALUES (2, 2007);
+INSERT INTO `sys_role_menu` VALUES (2, 2008);
+INSERT INTO `sys_role_menu` VALUES (2, 2009);
+INSERT INTO `sys_role_menu` VALUES (2, 2010);
+INSERT INTO `sys_role_menu` VALUES (2, 2011);
+INSERT INTO `sys_role_menu` VALUES (2, 2012);
+INSERT INTO `sys_role_menu` VALUES (2, 2019);
+INSERT INTO `sys_role_menu` VALUES (2, 2020);
+INSERT INTO `sys_role_menu` VALUES (2, 2021);
+INSERT INTO `sys_role_menu` VALUES (2, 2022);
+INSERT INTO `sys_role_menu` VALUES (2, 2023);
+INSERT INTO `sys_role_menu` VALUES (2, 2024);
+INSERT INTO `sys_role_menu` VALUES (2, 2043);
+INSERT INTO `sys_role_menu` VALUES (2, 2044);
+INSERT INTO `sys_role_menu` VALUES (2, 2045);
+INSERT INTO `sys_role_menu` VALUES (2, 2046);
+INSERT INTO `sys_role_menu` VALUES (2, 2047);
+INSERT INTO `sys_role_menu` VALUES (2, 2048);
+INSERT INTO `sys_role_menu` VALUES (2, 2049);
+INSERT INTO `sys_role_menu` VALUES (2, 2050);
+INSERT INTO `sys_role_menu` VALUES (2, 2051);
+INSERT INTO `sys_role_menu` VALUES (2, 2052);
+INSERT INTO `sys_role_menu` VALUES (2, 2053);
+INSERT INTO `sys_role_menu` VALUES (2, 2054);
+INSERT INTO `sys_role_menu` VALUES (2, 2129);
+INSERT INTO `sys_role_menu` VALUES (2, 2130);
+INSERT INTO `sys_role_menu` VALUES (2, 2136);
+INSERT INTO `sys_role_menu` VALUES (2, 2137);
+INSERT INTO `sys_role_menu` VALUES (2, 2138);
+INSERT INTO `sys_role_menu` VALUES (2, 2139);
+INSERT INTO `sys_role_menu` VALUES (2, 2140);
+INSERT INTO `sys_role_menu` VALUES (2, 2147);
+INSERT INTO `sys_role_menu` VALUES (2, 2148);
+INSERT INTO `sys_role_menu` VALUES (3, 1);
+INSERT INTO `sys_role_menu` VALUES (3, 107);
+INSERT INTO `sys_role_menu` VALUES (3, 1036);
+INSERT INTO `sys_role_menu` VALUES (3, 2000);
+INSERT INTO `sys_role_menu` VALUES (3, 2007);
+INSERT INTO `sys_role_menu` VALUES (3, 2008);
+INSERT INTO `sys_role_menu` VALUES (3, 2009);
+INSERT INTO `sys_role_menu` VALUES (3, 2010);
+INSERT INTO `sys_role_menu` VALUES (3, 2011);
+INSERT INTO `sys_role_menu` VALUES (3, 2012);
+INSERT INTO `sys_role_menu` VALUES (3, 2019);
+INSERT INTO `sys_role_menu` VALUES (3, 2020);
+INSERT INTO `sys_role_menu` VALUES (3, 2021);
+INSERT INTO `sys_role_menu` VALUES (3, 2022);
+INSERT INTO `sys_role_menu` VALUES (3, 2023);
+INSERT INTO `sys_role_menu` VALUES (3, 2024);
+INSERT INTO `sys_role_menu` VALUES (3, 2067);
+INSERT INTO `sys_role_menu` VALUES (3, 2068);
+INSERT INTO `sys_role_menu` VALUES (3, 2085);
+INSERT INTO `sys_role_menu` VALUES (3, 2086);
+INSERT INTO `sys_role_menu` VALUES (3, 2087);
+INSERT INTO `sys_role_menu` VALUES (3, 2088);
+INSERT INTO `sys_role_menu` VALUES (3, 2089);
+INSERT INTO `sys_role_menu` VALUES (3, 2090);
+INSERT INTO `sys_role_menu` VALUES (3, 2129);
+INSERT INTO `sys_role_menu` VALUES (3, 2130);
+INSERT INTO `sys_role_menu` VALUES (3, 2147);
+INSERT INTO `sys_role_menu` VALUES (3, 2148);
+INSERT INTO `sys_role_menu` VALUES (3, 2168);
+INSERT INTO `sys_role_menu` VALUES (3, 2169);
+INSERT INTO `sys_role_menu` VALUES (3, 2170);
+INSERT INTO `sys_role_menu` VALUES (3, 2171);
+INSERT INTO `sys_role_menu` VALUES (3, 2172);
+INSERT INTO `sys_role_menu` VALUES (4, 1);
+INSERT INTO `sys_role_menu` VALUES (4, 2);
+INSERT INTO `sys_role_menu` VALUES (4, 3);
+INSERT INTO `sys_role_menu` VALUES (4, 100);
+INSERT INTO `sys_role_menu` VALUES (4, 101);
+INSERT INTO `sys_role_menu` VALUES (4, 102);
+INSERT INTO `sys_role_menu` VALUES (4, 103);
+INSERT INTO `sys_role_menu` VALUES (4, 104);
+INSERT INTO `sys_role_menu` VALUES (4, 105);
+INSERT INTO `sys_role_menu` VALUES (4, 106);
+INSERT INTO `sys_role_menu` VALUES (4, 107);
+INSERT INTO `sys_role_menu` VALUES (4, 108);
+INSERT INTO `sys_role_menu` VALUES (4, 109);
+INSERT INTO `sys_role_menu` VALUES (4, 110);
+INSERT INTO `sys_role_menu` VALUES (4, 111);
+INSERT INTO `sys_role_menu` VALUES (4, 112);
+INSERT INTO `sys_role_menu` VALUES (4, 113);
+INSERT INTO `sys_role_menu` VALUES (4, 114);
+INSERT INTO `sys_role_menu` VALUES (4, 115);
+INSERT INTO `sys_role_menu` VALUES (4, 116);
+INSERT INTO `sys_role_menu` VALUES (4, 500);
+INSERT INTO `sys_role_menu` VALUES (4, 501);
+INSERT INTO `sys_role_menu` VALUES (4, 1001);
+INSERT INTO `sys_role_menu` VALUES (4, 1008);
+INSERT INTO `sys_role_menu` VALUES (4, 1013);
+INSERT INTO `sys_role_menu` VALUES (4, 1017);
+INSERT INTO `sys_role_menu` VALUES (4, 1021);
+INSERT INTO `sys_role_menu` VALUES (4, 1026);
+INSERT INTO `sys_role_menu` VALUES (4, 1031);
+INSERT INTO `sys_role_menu` VALUES (4, 1036);
+INSERT INTO `sys_role_menu` VALUES (4, 1040);
+INSERT INTO `sys_role_menu` VALUES (4, 1043);
+INSERT INTO `sys_role_menu` VALUES (4, 1046);
+INSERT INTO `sys_role_menu` VALUES (4, 1049);
+INSERT INTO `sys_role_menu` VALUES (4, 1055);
+INSERT INTO `sys_role_menu` VALUES (4, 2000);
+INSERT INTO `sys_role_menu` VALUES (4, 2001);
+INSERT INTO `sys_role_menu` VALUES (4, 2002);
+INSERT INTO `sys_role_menu` VALUES (4, 2003);
+INSERT INTO `sys_role_menu` VALUES (4, 2007);
+INSERT INTO `sys_role_menu` VALUES (4, 2008);
+INSERT INTO `sys_role_menu` VALUES (4, 2009);
+INSERT INTO `sys_role_menu` VALUES (4, 2019);
+INSERT INTO `sys_role_menu` VALUES (4, 2020);
+INSERT INTO `sys_role_menu` VALUES (4, 2021);
+INSERT INTO `sys_role_menu` VALUES (4, 2043);
+INSERT INTO `sys_role_menu` VALUES (4, 2044);
+INSERT INTO `sys_role_menu` VALUES (4, 2045);
+INSERT INTO `sys_role_menu` VALUES (4, 2049);
+INSERT INTO `sys_role_menu` VALUES (4, 2050);
+INSERT INTO `sys_role_menu` VALUES (4, 2051);
+INSERT INTO `sys_role_menu` VALUES (4, 2104);
+INSERT INTO `sys_role_menu` VALUES (4, 2123);
+INSERT INTO `sys_role_menu` VALUES (4, 2124);
+INSERT INTO `sys_role_menu` VALUES (4, 2125);
+INSERT INTO `sys_role_menu` VALUES (4, 2129);
+INSERT INTO `sys_role_menu` VALUES (4, 2130);
+INSERT INTO `sys_role_menu` VALUES (4, 2131);
+INSERT INTO `sys_role_menu` VALUES (4, 2136);
+INSERT INTO `sys_role_menu` VALUES (4, 2137);
+INSERT INTO `sys_role_menu` VALUES (4, 2141);
+INSERT INTO `sys_role_menu` VALUES (4, 2147);
+INSERT INTO `sys_role_menu` VALUES (4, 2148);
+INSERT INTO `sys_role_menu` VALUES (4, 2149);
+INSERT INTO `sys_role_menu` VALUES (4, 3007);
+INSERT INTO `sys_role_menu` VALUES (4, 3008);
+INSERT INTO `sys_role_menu` VALUES (4, 3009);
+INSERT INTO `sys_role_menu` VALUES (4, 3031);
+INSERT INTO `sys_role_menu` VALUES (4, 3032);
+INSERT INTO `sys_role_menu` VALUES (4, 3033);
+INSERT INTO `sys_role_menu` VALUES (4, 3034);
+INSERT INTO `sys_role_menu` VALUES (4, 3035);
+INSERT INTO `sys_role_menu` VALUES (4, 3047);
+INSERT INTO `sys_role_menu` VALUES (5, 1);
+INSERT INTO `sys_role_menu` VALUES (5, 2);
+INSERT INTO `sys_role_menu` VALUES (5, 100);
+INSERT INTO `sys_role_menu` VALUES (5, 101);
+INSERT INTO `sys_role_menu` VALUES (5, 102);
+INSERT INTO `sys_role_menu` VALUES (5, 105);
+INSERT INTO `sys_role_menu` VALUES (5, 107);
+INSERT INTO `sys_role_menu` VALUES (5, 108);
+INSERT INTO `sys_role_menu` VALUES (5, 109);
+INSERT INTO `sys_role_menu` VALUES (5, 110);
+INSERT INTO `sys_role_menu` VALUES (5, 111);
+INSERT INTO `sys_role_menu` VALUES (5, 112);
+INSERT INTO `sys_role_menu` VALUES (5, 113);
+INSERT INTO `sys_role_menu` VALUES (5, 124);
+INSERT INTO `sys_role_menu` VALUES (5, 500);
+INSERT INTO `sys_role_menu` VALUES (5, 501);
+INSERT INTO `sys_role_menu` VALUES (5, 1001);
+INSERT INTO `sys_role_menu` VALUES (5, 1002);
+INSERT INTO `sys_role_menu` VALUES (5, 1003);
+INSERT INTO `sys_role_menu` VALUES (5, 1004);
+INSERT INTO `sys_role_menu` VALUES (5, 1005);
+INSERT INTO `sys_role_menu` VALUES (5, 1006);
+INSERT INTO `sys_role_menu` VALUES (5, 1007);
+INSERT INTO `sys_role_menu` VALUES (5, 1008);
+INSERT INTO `sys_role_menu` VALUES (5, 1009);
+INSERT INTO `sys_role_menu` VALUES (5, 1010);
+INSERT INTO `sys_role_menu` VALUES (5, 1011);
+INSERT INTO `sys_role_menu` VALUES (5, 1012);
+INSERT INTO `sys_role_menu` VALUES (5, 1013);
+INSERT INTO `sys_role_menu` VALUES (5, 1014);
+INSERT INTO `sys_role_menu` VALUES (5, 1015);
+INSERT INTO `sys_role_menu` VALUES (5, 1016);
+INSERT INTO `sys_role_menu` VALUES (5, 1026);
+INSERT INTO `sys_role_menu` VALUES (5, 1027);
+INSERT INTO `sys_role_menu` VALUES (5, 1028);
+INSERT INTO `sys_role_menu` VALUES (5, 1029);
+INSERT INTO `sys_role_menu` VALUES (5, 1030);
+INSERT INTO `sys_role_menu` VALUES (5, 1036);
+INSERT INTO `sys_role_menu` VALUES (5, 1037);
+INSERT INTO `sys_role_menu` VALUES (5, 1038);
+INSERT INTO `sys_role_menu` VALUES (5, 1039);
+INSERT INTO `sys_role_menu` VALUES (5, 1040);
+INSERT INTO `sys_role_menu` VALUES (5, 1041);
+INSERT INTO `sys_role_menu` VALUES (5, 1042);
+INSERT INTO `sys_role_menu` VALUES (5, 1043);
+INSERT INTO `sys_role_menu` VALUES (5, 1044);
+INSERT INTO `sys_role_menu` VALUES (5, 1045);
+INSERT INTO `sys_role_menu` VALUES (5, 1046);
+INSERT INTO `sys_role_menu` VALUES (5, 1047);
+INSERT INTO `sys_role_menu` VALUES (5, 1048);
+INSERT INTO `sys_role_menu` VALUES (5, 1049);
+INSERT INTO `sys_role_menu` VALUES (5, 1050);
+INSERT INTO `sys_role_menu` VALUES (5, 1051);
+INSERT INTO `sys_role_menu` VALUES (5, 1052);
+INSERT INTO `sys_role_menu` VALUES (5, 1053);
+INSERT INTO `sys_role_menu` VALUES (5, 1054);
+INSERT INTO `sys_role_menu` VALUES (5, 1065);
+INSERT INTO `sys_role_menu` VALUES (5, 2000);
+INSERT INTO `sys_role_menu` VALUES (5, 2001);
+INSERT INTO `sys_role_menu` VALUES (5, 2002);
+INSERT INTO `sys_role_menu` VALUES (5, 2003);
+INSERT INTO `sys_role_menu` VALUES (5, 2004);
+INSERT INTO `sys_role_menu` VALUES (5, 2005);
+INSERT INTO `sys_role_menu` VALUES (5, 2006);
+INSERT INTO `sys_role_menu` VALUES (5, 2007);
+INSERT INTO `sys_role_menu` VALUES (5, 2008);
+INSERT INTO `sys_role_menu` VALUES (5, 2009);
+INSERT INTO `sys_role_menu` VALUES (5, 2010);
+INSERT INTO `sys_role_menu` VALUES (5, 2011);
+INSERT INTO `sys_role_menu` VALUES (5, 2012);
+INSERT INTO `sys_role_menu` VALUES (5, 2019);
+INSERT INTO `sys_role_menu` VALUES (5, 2020);
+INSERT INTO `sys_role_menu` VALUES (5, 2021);
+INSERT INTO `sys_role_menu` VALUES (5, 2022);
+INSERT INTO `sys_role_menu` VALUES (5, 2023);
+INSERT INTO `sys_role_menu` VALUES (5, 2024);
+INSERT INTO `sys_role_menu` VALUES (5, 2043);
+INSERT INTO `sys_role_menu` VALUES (5, 2044);
+INSERT INTO `sys_role_menu` VALUES (5, 2045);
+INSERT INTO `sys_role_menu` VALUES (5, 2046);
+INSERT INTO `sys_role_menu` VALUES (5, 2047);
+INSERT INTO `sys_role_menu` VALUES (5, 2048);
+INSERT INTO `sys_role_menu` VALUES (5, 2049);
+INSERT INTO `sys_role_menu` VALUES (5, 2050);
+INSERT INTO `sys_role_menu` VALUES (5, 2051);
+INSERT INTO `sys_role_menu` VALUES (5, 2052);
+INSERT INTO `sys_role_menu` VALUES (5, 2053);
+INSERT INTO `sys_role_menu` VALUES (5, 2054);
+INSERT INTO `sys_role_menu` VALUES (5, 2136);
+INSERT INTO `sys_role_menu` VALUES (5, 2137);
+INSERT INTO `sys_role_menu` VALUES (5, 2138);
+INSERT INTO `sys_role_menu` VALUES (5, 2139);
+INSERT INTO `sys_role_menu` VALUES (5, 2140);
+INSERT INTO `sys_role_menu` VALUES (5, 2147);
+INSERT INTO `sys_role_menu` VALUES (5, 2148);
+INSERT INTO `sys_role_menu` VALUES (5, 3007);
+INSERT INTO `sys_role_menu` VALUES (5, 3008);
+INSERT INTO `sys_role_menu` VALUES (5, 3009);
+INSERT INTO `sys_role_menu` VALUES (5, 3010);
+INSERT INTO `sys_role_menu` VALUES (5, 3011);
+INSERT INTO `sys_role_menu` VALUES (5, 3012);
+INSERT INTO `sys_role_menu` VALUES (5, 3031);
+INSERT INTO `sys_role_menu` VALUES (5, 3032);
+INSERT INTO `sys_role_menu` VALUES (5, 3033);
+INSERT INTO `sys_role_menu` VALUES (5, 3034);
+INSERT INTO `sys_role_menu` VALUES (5, 3035);
+INSERT INTO `sys_role_menu` VALUES (5, 3036);
+INSERT INTO `sys_role_menu` VALUES (5, 3037);
+INSERT INTO `sys_role_menu` VALUES (5, 3038);
+INSERT INTO `sys_role_menu` VALUES (5, 3048);
+INSERT INTO `sys_role_menu` VALUES (6, 2000);
+INSERT INTO `sys_role_menu` VALUES (6, 2007);
+INSERT INTO `sys_role_menu` VALUES (6, 2008);
+INSERT INTO `sys_role_menu` VALUES (6, 2009);
+INSERT INTO `sys_role_menu` VALUES (6, 2010);
+INSERT INTO `sys_role_menu` VALUES (6, 2011);
+INSERT INTO `sys_role_menu` VALUES (6, 2012);
+INSERT INTO `sys_role_menu` VALUES (6, 2043);
+INSERT INTO `sys_role_menu` VALUES (6, 2044);
+INSERT INTO `sys_role_menu` VALUES (6, 2045);
+INSERT INTO `sys_role_menu` VALUES (6, 2046);
+INSERT INTO `sys_role_menu` VALUES (6, 2047);
+INSERT INTO `sys_role_menu` VALUES (6, 2048);
+INSERT INTO `sys_role_menu` VALUES (6, 2049);
+INSERT INTO `sys_role_menu` VALUES (6, 2050);
+INSERT INTO `sys_role_menu` VALUES (6, 2051);
+INSERT INTO `sys_role_menu` VALUES (6, 2052);
+INSERT INTO `sys_role_menu` VALUES (6, 2053);
+INSERT INTO `sys_role_menu` VALUES (6, 2054);
+INSERT INTO `sys_role_menu` VALUES (6, 2136);
+INSERT INTO `sys_role_menu` VALUES (6, 2137);
+INSERT INTO `sys_role_menu` VALUES (6, 2138);
+INSERT INTO `sys_role_menu` VALUES (6, 2139);
+INSERT INTO `sys_role_menu` VALUES (6, 2140);
+INSERT INTO `sys_role_menu` VALUES (6, 2147);
+INSERT INTO `sys_role_menu` VALUES (6, 2148);
+INSERT INTO `sys_role_menu` VALUES (6, 3033);
+INSERT INTO `sys_role_menu` VALUES (6, 3034);
+INSERT INTO `sys_role_menu` VALUES (6, 3035);
+INSERT INTO `sys_role_menu` VALUES (6, 3036);
+INSERT INTO `sys_role_menu` VALUES (6, 3037);
+INSERT INTO `sys_role_menu` VALUES (6, 3038);
 
 -- ----------------------------
 -- Table structure for sys_user
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
+  `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `dept_id` bigint NULL DEFAULT NULL COMMENT '部门ID',
   `user_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户账号',
   `nick_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户昵称',
   `user_type` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '00' COMMENT '用户类型（00系统用户）',
@@ -2313,56 +2556,58 @@ CREATE TABLE `sys_user`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '帐号状态（0正常 1停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
   `login_ip` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '最后登录IP',
-  `login_date` datetime(0) NULL DEFAULT NULL COMMENT '最后登录时间',
+  `login_date` datetime NULL DEFAULT NULL COMMENT '最后登录时间',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '蜂信管理员', '00', '164770707@qq.com', '15888888888', '0', '', '$2a$10$QAow7ybs74fkSWJDJkVTNeogF7mhnihF7STErt78PxDhHiNno4IUu', '0', '0', '120.231.214.134', '2023-09-26 21:22:50', 'admin', '2021-12-15 21:36:18', '', '2023-09-26 21:22:50', '管理员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '蜂信管理员', '00', '164770707@qq.com', '15888888888', '0', '/profile/avatar/2024/06/01/blob_20240601182115A002.png', '$2a$10$kKeZptrTnSlm0fencX4U2eq.QiaukDs.DckiUsMCwVTxh0IS2LRQ.', '0', '0', '127.0.0.1', '2024-06-18 17:19:11', 'admin', '2021-12-15 21:36:18', '', '2024-06-18 17:19:11', '管理员');
 INSERT INTO `sys_user` VALUES (2, 100, 'fastbee-t1', '蜂信租户壹', '00', '', '15888888880', '0', '', '$2a$10$BAWId9C2Nrcwklzl1Ikoau4iqL8XRGvfRjq6Wl.PXWpzwAw0sXMdK', '0', '0', '61.145.97.26', '2023-08-29 14:52:27', 'admin', '2022-04-15 16:21:25', 'admin', '2023-08-29 14:52:26', NULL);
 INSERT INTO `sys_user` VALUES (3, 100, 'fastbee-t2', '蜂信租户贰', '00', '', '15888888881', '0', '', '$2a$10$1zMlbW7hGpzA59gpzWGO/ObeASziQ296evjMjHrYdZnxKBLU4WUum', '0', '0', '127.0.0.1', '2022-06-12 00:54:28', 'admin', '2022-04-15 16:22:08', 'admin', '2022-06-12 00:54:30', NULL);
 INSERT INTO `sys_user` VALUES (4, 100, 'fastbee-u1', '蜂信用户壹', '00', '', '15888888882', '0', '', '$2a$10$691RJMXZ9HM4sgNTExLPfO5Nw6J6cWgCvcoF9V.jKMnPk5o/8c9VS', '0', '0', '127.0.0.1', '2023-04-12 22:26:39', 'admin', '2022-04-15 16:22:37', 'admin', '2023-04-12 22:26:39', NULL);
 INSERT INTO `sys_user` VALUES (5, 100, 'fastbee-u2', '蜂信用户贰', '00', '', '15888888883', '0', '', '$2a$10$x3rM39rewwbi7ayvriGMEOKUHoPCqcL2CYXPLTJRCWYPVvykFIYJq', '0', '0', '127.0.0.1', '2022-06-12 00:55:45', 'admin', '2022-04-15 16:23:13', 'admin', '2022-06-12 00:55:46', NULL);
-INSERT INTO `sys_user` VALUES (6, 100, 'fastbee', '游客账号', '00', '', '15888888884', '0', '', '$2a$10$kKeZptrTnSlm0fencX4U2eq.QiaukDs.DckiUsMCwVTxh0IS2LRQ.', '0', '0', '127.0.0.1', '2023-09-21 18:39:29', 'admin', '2022-03-09 16:49:19', 'admin', '2023-09-21 18:39:28', NULL);
+INSERT INTO `sys_user` VALUES (6, 100, 'fastbee', '游客账号', '00', '', '15888888884', '0', '', '$2a$10$kKeZptrTnSlm0fencX4U2eq.QiaukDs.DckiUsMCwVTxh0IS2LRQ.', '0', '0', '127.0.0.1', '2024-05-31 13:00:35', 'admin', '2022-03-09 16:49:19', 'admin', '2024-05-31 13:00:34', NULL);
 INSERT INTO `sys_user` VALUES (7, NULL, 'shenzehui', 'shenzehui', '00', '', '18257292958', '0', '', '$2a$10$UYKWiQF.VWfVvuksS/DMiO234Mwtz.niU7cM/noFgwLVRl7Jjt5pa', '0', '2', '39.189.61.11', '2023-04-16 14:18:09', '', '2023-04-16 14:17:59', '', '2023-04-16 14:18:08', NULL);
 INSERT INTO `sys_user` VALUES (8, NULL, 'shadow', 'shadow', '00', '165456465465@qq.com', '15752221201', '0', '', '$2a$10$FXSw4fufDjecEhMxYjji3.7PkrpwkliCBoQO.h8nW0Nhk0bPpxS6u', '0', '2', '39.130.41.108', '2023-09-15 17:21:33', '', '2023-08-23 11:34:23', '', '2023-09-15 17:21:32', NULL);
 INSERT INTO `sys_user` VALUES (9, NULL, 'guanshubiao', 'guanshubiao', '00', '', '15217628961', '0', '', '$2a$10$J9kJeP/dzc/SYq8Ev1rFXOigPdN50Kq8MkCX9j56/fQwDXAUkAPYi', '0', '2', '61.145.97.26', '2023-08-29 17:33:16', '', '2023-08-29 14:56:19', '', '2023-08-29 17:33:16', NULL);
 INSERT INTO `sys_user` VALUES (10, NULL, 'jamon', 'jamon', '00', '', '13717112711', '0', '', '$2a$10$LMASUfB9IngDi47fQ9Eh7u003VNNh4DcjdPHMyvAQ4mdLXhQgvnpu', '0', '2', '61.145.97.26', '2023-09-01 09:06:23', '', '2023-08-29 15:06:39', '', '2023-09-01 09:06:23', NULL);
 INSERT INTO `sys_user` VALUES (11, 101, 'fastbee123', 'fastbee123', '00', '', '18231210622', '0', '', '$2a$10$qpLuw5yAIDLV/.UCIaWRROxhtI2nYpJe/.tbIKwSmy2Pxm.vc26Ri', '0', '2', '27.187.242.251', '2023-08-31 16:22:40', 'admin', '2023-08-31 16:22:21', '', '2023-08-31 16:22:40', NULL);
 INSERT INTO `sys_user` VALUES (12, NULL, 'shadow', 'shadow', '00', '', '15752221201', '0', '', '$2a$10$QEYxDoFO6e3wuksc2d7XIOJe0UBzY0EkYR3fKfp8pYfM5bWI4.VO6', '0', '2', '39.130.41.179', '2023-09-19 10:11:00', '', '2023-09-19 10:10:49', '', '2023-09-19 10:11:00', NULL);
+INSERT INTO `sys_user` VALUES (13, 100, 'cyqcw', 'cyqcw', '00', 'cyqcw@foxmail.com', '15518441162', '0', '', '$2a$10$u54Z7WzGyGqZSvkadDn.rO9P5FCMBAdNsSNN3T5dPcn.SYAHiO0Ie', '0', '0', '127.0.0.1', '2024-06-18 19:36:46', 'admin', '2024-06-01 21:52:59', 'admin', '2024-06-18 19:36:45', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_post
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_post`;
 CREATE TABLE `sys_user_post`  (
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `post_id` bigint(20) NOT NULL COMMENT '岗位ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `post_id` bigint NOT NULL COMMENT '岗位ID',
   PRIMARY KEY (`user_id`, `post_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户与岗位关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户与岗位关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_post
 -- ----------------------------
 INSERT INTO `sys_user_post` VALUES (1, 1);
 INSERT INTO `sys_user_post` VALUES (6, 4);
+INSERT INTO `sys_user_post` VALUES (13, 1);
 
 -- ----------------------------
 -- Table structure for sys_user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role`  (
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `role_id` bigint NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户和角色关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户和角色关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -2373,8 +2618,6 @@ INSERT INTO `sys_user_role` VALUES (3, 2);
 INSERT INTO `sys_user_role` VALUES (4, 3);
 INSERT INTO `sys_user_role` VALUES (5, 3);
 INSERT INTO `sys_user_role` VALUES (6, 4);
+INSERT INTO `sys_user_role` VALUES (13, 6);
 
 SET FOREIGN_KEY_CHECKS = 1;
-
--- 优化点：添加网站应用个人中心微信绑定配置
-INSERT INTO `sys_dict_data` (`dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (7, '微信开放平台网站应用个人中心绑定', 'wechat_open_web_bind', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', '2023-10-09 11:28:15', '', NULL, NULL);
