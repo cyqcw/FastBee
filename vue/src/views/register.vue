@@ -68,7 +68,7 @@
     <!--  底部  -->
     <div class="el-register-footer">
       <span>
-        Copyright © 2023
+        Copyright © 2024
         <a target="_blank" href="http://fastbee.cn">智能家居管理平台</a>
         All Rights Reserved.
       </span>

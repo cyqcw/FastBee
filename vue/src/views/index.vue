@@ -139,7 +139,7 @@
 
     <div style="width: 100%; text-align: center; font-size: 14px; color: #666; line-height: 32px; margin-top: 150px">
       <span>
-        Copyright © 2021-2022
+        Copyright © 2024-2025
         <a href="https://fastbee.cn/" target="_blank">智能家居管理平台 </a>
         |
         <a href="https://fastbee.cn/" target="_blank">智能家居管理平台</a>

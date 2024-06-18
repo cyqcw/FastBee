@@ -35,7 +35,7 @@
               </el-row>
             </div>
           </el-form-item>
-          <div style="margin-bottom: 10px; font-size: 14px; font-family: '微软雅黑'; color: #f78e21">管理员账号：admin 123456</div>
+<!--          <div style="margin-bottom: 10px; font-size: 14px; font-family: '微软雅黑'; color: #f78e21">管理员账号：admin 123456</div>-->
           <div style="margin-bottom: 10px; font-size: 14px; font-family: '微软雅黑'; color: #f78e21">演示账号：cyqcw 123456</div>
           <el-form-item prop="username">
             <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
@@ -85,7 +85,7 @@
     <!--  底部  -->
     <div class="el-login-footer">
       <span>
-        Copyright © 2023
+        Copyright © 2024
         <a target="_blank" href="http://fastbee.cn">智能家居管理平台</a>
         All Rights Reserved.
       </span>
