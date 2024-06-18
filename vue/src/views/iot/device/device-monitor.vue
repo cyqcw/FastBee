@@ -29,7 +29,7 @@
         <template v-if="deviceInfo.chartList.length > 0">
           <el-row :gutter="20" style="background-color: #f5f7fa; padding: 20px 10px 20px 10px; border-radius: 15px; margin-right: 5px">
             <!-- 修改这里，确保四个图表能在同一行显示 -->
-            <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" v-for="(item, index) in deviceInfo.chartList.slice(0, 4)" :key="index">
+            <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" v-for="(item, index) in monitorThings" :key="index">
               <el-card shadow="hover" style="border-radius: 30px; margin-bottom: 20px">
                 <div ref="map" style="height: 230px; width: 185px; margin: 0 auto"></div>
               </el-card>
@@ -61,10 +61,12 @@ export default {
       if (this.deviceInfo && this.deviceInfo.deviceId != 0) {
         // 监测数据
         this.monitorThings = this.deviceInfo.monitorList;
+        console.log('监测数据：', this.monitorThings);
+        console.log('设备信息：', this.deviceInfo);
         // 监测数据集合初始化
         this.dataList = [];
         for (let i = 0; i < this.monitorThings.length; i++) {
-          this.dataList.push({
+          this.dataList.push( {
             id: this.monitorThings[i].id,
             name: this.monitorThings[i].name,
             data: [],
@@ -95,6 +97,17 @@ export default {
       chartLoading: false,
       // 设备信息
       deviceInfo: {},
+      // 监测图表
+      monitorChart: [
+        {
+          chart: {},
+          data: {
+            id: '',
+            name: '',
+            value: '',
+          },
+        },
+      ],
     };
   },
   created() {},
@@ -151,6 +164,9 @@ export default {
           console.log('接收到【实时监测】内容：', message);
           // 实时监测
           this.chartLoading = false;
+          // 根据最新的message更新下方表盘数据
+          this.MonitorChart(message);
+
           for (let k = 0; k < message.length; k++) {
             let value = message[k].value;
             let id = message[k].id;
@@ -309,6 +325,88 @@ export default {
       d = d < 10 ? '0' + d : d;
       H = H < 10 ? '0' + H : H;
       return y + '-' + m + '-' + d + ' ' + H + ':' + mm + ':' + s;
+    },
+
+    /* 仪表盘展示 */
+    MonitorChart(message) {
+      for (let i = 0; i < this.monitorThings; i++) {
+        this.monitorChart[i] = {
+          chart: this.$echarts.init(this.$refs.map[i]),
+          data: {
+            id: this.monitorThings[i].id,
+            name: this.monitorThings[i].name,
+            value: this.monitorThings.shadow ? this.monitorThings[i].shadow : this.monitorThings[i].datatype.min,
+          },
+        };
+
+        var option;
+        option = {
+          tooltip: {
+            formatter: ' {b} <br/> {c}' + this.monitorThings[i].datatype.unit,
+          },
+          series: [
+            {
+              name: this.monitorThings[i].datatype.type,
+              type: 'gauge',
+              min: this.monitorThings[i].datatype.min,
+              max: this.monitorThings[i].datatype.max,
+              colorBy: 'data',
+              splitNumber: 10,
+              radius: '100%',
+              // 分割线
+              splitLine: {
+                distance: 4,
+              },
+              axisLabel: {
+                fontSize: 10,
+                distance: 10,
+              },
+              // 刻度线
+              axisTick: {
+                distance: 4,
+              },
+              // 仪表盘轴线
+              axisLine: {
+                lineStyle: {
+                  width: 8,
+                  color: [
+                    [0.2, '#409EFF'], // 0~20%
+                    [0.8, '#12d09f'], // 40~60%
+                    [1, '#F56C6C'], // 80~100%
+                  ],
+                  opacity: 0.3,
+                },
+              },
+              pointer: {
+                icon: 'triangle',
+                length: '60%',
+                width: 7,
+              },
+              progress: {
+                show: true,
+                width: 8,
+              },
+              detail: {
+                valueAnimation: true,
+                formatter: '{value}' + ' ' + this.monitorThings[i].datatype.unit,
+                offsetCenter: [0, '80%'],
+                fontSize: 20,
+              },
+              data: [
+                {
+                  value: this.monitorThings[i].shadow ? this.monitorThings[i].shadow : this.monitorThings[i].datatype.min,
+                  name: this.monitorThings[i].name,
+                },
+              ],
+              title: {
+                offsetCenter: [0, '115%'],
+                fontSize: 16,
+              },
+            },
+          ],
+        };
+        option && this.monitorChart[i].chart.setOption(option);
+      }
     },
   },
 };
